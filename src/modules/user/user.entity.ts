@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { RoleEnum } from '../../shared/enums/role.enum';
-import { GenderEnum } from '../../shared/enums/gender.enum';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { RoleEnum } from "../../shared/enums/role.enum";
+import { GenderEnum } from "../../shared/enums/gender.enum";
 
 @Entity()
 export class User {
@@ -10,7 +10,7 @@ export class User {
   @Column()
   username: string;
 
-  @Column({ unique: true })
+  @Column("text", { unique: true })
   email: string;
 
   @Column()
@@ -19,6 +19,10 @@ export class User {
   @Column()
   gender: GenderEnum;
 
-  @Column()
-  socialLinks: [];
+  @Column({
+    array: true,
+    default: [],
+    nullable: false,
+  })
+  socialLinks: string;
 }

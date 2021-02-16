@@ -1,8 +1,8 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Category } from '../category/category.entity';
-import { GenderEnum } from '../../shared/enums/gender.enum';
-import { User } from '../user/user.entity';
-import { Answer } from '../answer/answer.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Category } from "../category/category.entity";
+import { GenderEnum } from "../../shared/enums/gender.enum";
+import { User } from "../user/user.entity";
+import { Answer } from "../answer/answer.entity";
 
 @Entity()
 export class Question {
@@ -24,7 +24,7 @@ export class Question {
 
   @Column()
   @ManyToOne(() => Category, (category) => category.name)
-  category: Category;
+  category: string;
 
   @Column()
   gender: GenderEnum;
@@ -34,7 +34,8 @@ export class Question {
   authorId: string;
 
   @Column()
-  answer: Answer;
+  @ManyToOne(() => Answer, (answer) => answer.id)
+  answerId: string;
 
   //@Column()
   //youtubeVideos: YoutubeVideos;

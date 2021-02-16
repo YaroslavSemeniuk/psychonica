@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn()
   readonly id: string;
 
-  @Column({ nullable: false })
+  @Column("text", { nullable: false })
   name: string;
 }

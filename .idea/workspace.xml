@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0bfcbbb-d355-4c50-9497-efef2fcfdca5" name="Default Changelist" comment="add answer entity">
-      <change afterPath="$PROJECT_DIR$/ .gitignore" afterDir="false" />
+    <list default="true" id="b0bfcbbb-d355-4c50-9497-efef2fcfdca5" name="Default Changelist" comment="change README.md">
+      <change afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ormconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ .gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ .gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/database.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/user/user.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/user/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/user/user.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/enums/gender.enum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/enums/gender.enum.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/enums/role.enum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/enums/role.enum.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,11 +84,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="baseProject" />
-                    <option name="lastUsedInstant" value="1613495269" />
+                    <option name="lastUsedInstant" value="1613496173" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="development" />
-                    <option name="lastUsedInstant" value="1613495243" />
+                    <option name="lastUsedInstant" value="1613495898" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
@@ -62,6 +102,9 @@
         </option>
       </RecentBranches>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="1oW98l0QbLYpj151akLYH3fQ0JG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -84,7 +127,7 @@
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -110,6 +153,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start:dev" />
+        <item itemvalue="npm.start:dev" />
       </list>
     </recent_temporary>
   </component>
@@ -124,7 +168,10 @@
       <workItem from="1613391323000" duration="25910000" />
       <workItem from="1613466689462" duration="18522000" />
       <workItem from="1613495013630" duration="19000" />
-      <workItem from="1613495052145" duration="735000" />
+      <workItem from="1613495052145" duration="1358000" />
+      <workItem from="1613496423607" duration="1350000" />
+      <workItem from="1613500057134" duration="1813000" />
+      <workItem from="1613505715329" duration="6587000" />
     </task>
     <task id="LOCAL-00001" summary="add answer entity">
       <created>1613493822600</created>
@@ -133,7 +180,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613493822600</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add baseProject">
+      <created>1613495833551</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1613495833551</updated>
+    </task>
+    <task id="LOCAL-00003" summary="change README.md">
+      <created>1613495940592</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1613495940592</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +226,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add answer entity" />
-    <option name="LAST_COMMIT_MESSAGE" value="add answer entity" />
+    <MESSAGE value="add baseProject" />
+    <MESSAGE value="change README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="change README.md" />
   </component>
 </project>

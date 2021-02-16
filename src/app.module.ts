@@ -1,23 +1,23 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
-import { UserModule } from './modules/user/user.module';
-import { UserController } from './modules/user/user.controller';
-import { QuestionService } from './modules/question/question.service';
-import { QuestionController } from './modules/question/question.controller';
-import { AnswerController } from './modules/answer/answer.controller';
-import { AnswerService } from './modules/answer/answer.service';
-import { AnswerModule } from './modules/answer/answer.module';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UserModule } from "./modules/user/user.module";
+import { AnswerModule } from "./modules/answer/answer.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { QuestionModule } from "./modules/question/question.module";
+import { CategoryModule } from "./modules/category/category.module";
+import { ArticleModule } from "./modules/article/article.module";
 
 @Module({
-  imports: [UserModule, DatabaseModule, AnswerModule],
-  controllers: [
-    AppController,
-    UserController,
-    QuestionController,
-    AnswerController,
+  imports: [
+    TypeOrmModule.forRoot(),
+    UserModule,
+    AnswerModule,
+    QuestionModule,
+    CategoryModule,
+    ArticleModule,
   ],
-  providers: [AppService, QuestionService, AnswerService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

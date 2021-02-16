@@ -1,28 +1,28 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { GenderEnum } from '../../shared/enums/gender.enum';
-import { User } from '../user/user.entity';
-import { Category } from '../category/category.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { GenderEnum } from "../../shared/enums/gender.enum";
+import { User } from "../user/user.entity";
+import { Category } from "../category/category.entity";
 
-@Entity()
+@Entity({ name: "article" })
 export class Article {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, nullable: true })
   titleText: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, nullable: true })
   descriptionText: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, nullable: true })
   text: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, nullable: true })
   imgSrc: string;
 
   @Column()
   @ManyToOne(() => Category, (category) => category.name)
-  category: Category;
+  category: string;
 
   @Column()
   gender: GenderEnum;
