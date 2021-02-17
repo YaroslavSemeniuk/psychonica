@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0bfcbbb-d355-4c50-9497-efef2fcfdca5" name="Default Changelist" comment="update entities &amp; connection to DB">
+    <list default="true" id="b0bfcbbb-d355-4c50-9497-efef2fcfdca5" name="Default Changelist" comment="fix starting project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/answer/answer.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/answer/answer.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/article/article.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/article/article.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/category/category.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/category/category.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/question/question.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/question/question.entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/user/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/user.entity.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -154,7 +157,7 @@
       <workItem from="1613505715329" duration="6587000" />
       <workItem from="1613513285961" duration="172000" />
       <workItem from="1613513559627" duration="178000" />
-      <workItem from="1613550508181" duration="3074000" />
+      <workItem from="1613550508181" duration="6637000" />
     </task>
     <task id="LOCAL-00001" summary="add answer entity">
       <created>1613493822600</created>
@@ -184,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613513421343</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix starting project">
+      <created>1613553743537</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1613553743537</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,6 +229,7 @@
     <MESSAGE value="add baseProject" />
     <MESSAGE value="change README.md" />
     <MESSAGE value="update entities &amp; connection to DB" />
-    <option name="LAST_COMMIT_MESSAGE" value="update entities &amp; connection to DB" />
+    <MESSAGE value="fix starting project" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix starting project" />
   </component>
 </project>

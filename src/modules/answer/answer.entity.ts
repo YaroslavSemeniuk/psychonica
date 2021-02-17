@@ -3,22 +3,22 @@ import { Question } from "../question/question.entity";
 
 @Entity()
 export class Answer {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, default: "", nullable: false })
   titleText: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, default: "", nullable: false })
   descriptionText: string;
 
-  @Column()
+  @Column({ type: "varchar", default: "", nullable: false })
   text: string;
 
-  @Column()
+  @Column({ type: "int" })
   countUseful: number;
 
-  @Column()
+  @Column({ type: "int" })
   countUseless: number;
 
   @Column()

@@ -4,13 +4,13 @@ import { GenderEnum } from "../../shared/enums/gender.enum";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, nullable: false })
   username: string;
 
-  @Column("text", { unique: true })
+  @Column({ type: "varchar", length: 300, nullable: true, unique: true })
   email: string;
 
   @Column()
@@ -19,6 +19,6 @@ export class User {
   @Column()
   gender: GenderEnum;
 
-  @Column()
-  socialLinks: string;
+  @Column("simple-array", { default: "" })
+  socialLinks: string[];
 }

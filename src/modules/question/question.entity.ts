@@ -6,20 +6,20 @@ import { Answer } from "../answer/answer.entity";
 
 @Entity()
 export class Question {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   @ManyToOne(() => Answer, (answer) => answer.id)
   readonly id: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, default: "", nullable: false })
   titleText: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 300, default: "", nullable: false })
   descriptionText: string;
 
-  @Column()
+  @Column({ type: "varchar", default: "", nullable: false })
   text: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 700, nullable: true })
   imgSrc: string;
 
   @Column()
