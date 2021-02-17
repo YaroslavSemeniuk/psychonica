@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Article } from "./article.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Article } from '../database/entities/article.entity';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
-    private readonly articleRepository: Repository<Article>
+    private readonly articleRepository: Repository<Article>,
   ) {}
 
   async getAll(): Promise<Article[]> {
@@ -15,11 +15,11 @@ export class ArticleService {
   }
 
   async getById(id: string): Promise<Article> {
-    return await this.articleRepository.findOne(id);
+    return this.articleRepository.findOne(id);
   }
 
   async getArticlesByAuthorId(authorId: string): Promise<Article[]> {
-    return await this.articleRepository.find({
+    return this.articleRepository.find({
       where: { authorId: `${authorId}` },
     });
   }
@@ -32,7 +32,7 @@ export class ArticleService {
 
   async update(id: string, article: Article): Promise<Article> {
     await this.articleRepository.update(id, article);
-    return await this.articleRepository.findOne(id);
+    return this.articleRepository.findOne(id);
   }
 
   async remove(id: string): Promise<Article> {
@@ -44,20 +44,20 @@ export class ArticleService {
   }
 
   async getArticlesByGender(gender: string): Promise<Article[]> {
-    return await this.articleRepository.find({
+    return this.articleRepository.find({
       where: { gender: `${gender}` },
     });
   }
 
-  async getArticlesByCategory(category: string) {
-    return await this.articleRepository.find({
+  async getArticlesByCategory(category: string): Promise<Article[]> {
+    return this.articleRepository.find({
       where: { category: `${category}` },
     });
   }
 
-  async getArticlesByGenderAndCategory(gender: string, category: string) {
-    return await this.articleRepository.find({
-      where: { gender: `${gender}`, category: `${category}` },
+  async getArticlesByGenderAndCategory(gender: string, category: string): Promise<Article[]> {
+    return this.articleRepository.find({
+      where: { gender, category },
     });
   }
 }

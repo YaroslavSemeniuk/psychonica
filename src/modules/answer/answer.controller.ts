@@ -8,11 +8,11 @@ import {
   Param,
   Post,
   Put,
-} from "@nestjs/common";
-import { AnswerService } from "./answer.service";
-import { Answer } from "./answer.entity";
+} from '@nestjs/common';
+import { AnswerService } from './answer.service';
+import { Answer } from '../database/entities/answer.entity';
 
-@Controller("answer")
+@Controller('answer')
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
@@ -21,13 +21,13 @@ export class AnswerController {
     return this.answerService.getAnswers();
   }
 
-  @Get(":id")
-  getAnswerById(@Param("id") id: string): Promise<Answer> {
+  @Get(':id')
+  getAnswerById(@Param('id') id: string): Promise<Answer> {
     return this.answerService.getAnswerById(id);
   }
 
-  @Get(":id")
-  getAnswersByAuthorId(@Param("authorId") authorId: string): Promise<Answer[]> {
+  @Get(':id')
+  getAnswersByAuthorId(@Param('authorId') authorId: string): Promise<Answer[]> {
     return this.answerService.getAnswersByAuthorId(authorId);
   }
 
@@ -37,16 +37,16 @@ export class AnswerController {
     return this.answerService.createAnswer(answer);
   }
 
-  @Put(":id")
+  @Put(':id')
   updateAnswer(
     @Body() answer: Answer,
-    @Param("id") id: string
+    @Param('id') id: string,
   ): Promise<Answer> {
     return this.answerService.updateAnswer(id, answer);
   }
 
-  @Delete(":id")
-  deleteAnswer(@Param("id") id: string): Promise<Answer> {
+  @Delete(':id')
+  deleteAnswer(@Param('id') id: string): Promise<Answer> {
     return this.answerService.removeAnswer(id);
   }
 }

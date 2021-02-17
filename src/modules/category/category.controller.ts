@@ -8,11 +8,11 @@ import {
   Param,
   Post,
   Put,
-} from "@nestjs/common";
-import { Category } from "./category.entity";
-import { CategoryService } from "./category.service";
+} from '@nestjs/common';
+import { Category } from '../database/entities/category.entity';
+import { CategoryService } from './category.service';
 
-@Controller("category")
+@Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -22,7 +22,7 @@ export class CategoryController {
   }
 
   @Get()
-  getCategoryById(@Param("id") id: string): Promise<Category> {
+  getCategoryById(@Param('id') id: string): Promise<Category> {
     return this.categoryService.getCategoryById(id);
   }
 
@@ -32,16 +32,16 @@ export class CategoryController {
     return this.categoryService.createCategory(category);
   }
 
-  @Put(":id")
+  @Put(':id')
   updateCategory(
     @Body() category: Category,
-    @Param("id") id: string
+    @Param('id') id: string,
   ): Promise<Category> {
     return this.categoryService.updateCategory(id, category);
   }
 
-  @Delete(":id")
-  deleteCategory(@Param("id") id: string): Promise<Category> {
+  @Delete(':id')
+  deleteCategory(@Param('id') id: string): Promise<Category> {
     return this.categoryService.removeCategory(id);
   }
 }

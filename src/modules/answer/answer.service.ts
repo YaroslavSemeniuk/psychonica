@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Answer } from "./answer.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Answer } from '../database/entities/answer.entity';
 
 @Injectable()
 export class AnswerService {
   constructor(
     @InjectRepository(Answer)
-    private readonly answerRepository: Repository<Answer>
+    private readonly answerRepository: Repository<Answer>,
   ) {}
 
   async getAnswers(): Promise<Answer[]> {
@@ -15,7 +15,7 @@ export class AnswerService {
   }
 
   async getAnswerById(id: string): Promise<Answer> {
-    return await this.answerRepository.findOne(id);
+    return this.answerRepository.findOne(id);
   }
 
   async createAnswer(answer: Answer): Promise<Answer> {
@@ -26,7 +26,7 @@ export class AnswerService {
 
   async updateAnswer(id: string, answer: Answer): Promise<Answer> {
     await this.answerRepository.update(id, answer);
-    return await this.answerRepository.findOne(id);
+    return this.answerRepository.findOne(id);
   }
 
   async removeAnswer(id: string): Promise<Answer> {
@@ -38,7 +38,7 @@ export class AnswerService {
   }
 
   async getAnswersByAuthorId(authorId: string): Promise<Answer[]> {
-    return await this.answerRepository.find({
+    return this.answerRepository.find({
       where: { authorId: `${authorId}` },
     });
   }

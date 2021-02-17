@@ -7,28 +7,29 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put,
-} from "@nestjs/common";
-import { ArticleService } from "./article.service";
-import { Article } from "./article.entity";
+  Put, Query,
+} from '@nestjs/common';
+import { ArticleService } from './article.service';
+import { Article } from '../database/entities/article.entity';
 
-@Controller("article")
+@Controller('article')
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) {
+  }
 
   @Get()
   getArticles(): Promise<Article[]> {
     return this.articleService.getAll();
   }
 
-  @Get(":id")
-  getArticleById(@Param("id") id: string): Promise<Article> {
+  @Get(':id')
+  getArticleById(@Param('id') id: string): Promise<Article> {
     return this.articleService.getById(id);
   }
 
-  @Get(":id")
+  @Get(':id')
   getArticlesByAuthorId(
-    @Param("authorId") authorId: string
+    @Param('authorId') authorId: string,
   ): Promise<Article[]> {
     return this.articleService.getArticlesByAuthorId(authorId);
   }
@@ -39,35 +40,35 @@ export class ArticleController {
     return this.articleService.createOne(article);
   }
 
-  @Put(":id")
+  @Put(':id')
   updateArticle(
     @Body() article: Article,
-    @Param("id") id: string
+    @Param('id') id: string,
   ): Promise<Article> {
     return this.articleService.update(id, article);
   }
 
-  @Delete(":id")
-  deleteArticle(@Param("id") id: string): Promise<Article> {
+  @Delete(':id')
+  deleteArticle(@Param('id') id: string): Promise<Article> {
     return this.articleService.remove(id);
   }
 
-  @Get(":category")
+  @Get('/getByCategory/:category')
   getArticlesByCategory(
-    @Param("category") category: string
+    @Param('category') category: string,
   ): Promise<Article[]> {
     return this.articleService.getArticlesByCategory(category);
   }
 
-  @Get(":gender")
-  getArticlesByGender(@Param("gender") gender: string): Promise<Article[]> {
+  @Get('/getByGender/:gender')
+  getArticlesByGender(@Param('gender') gender: string): Promise<Article[]> {
     return this.articleService.getArticlesByGender(gender);
   }
 
-  @Get(":category")
+  @Get('/getByGenderAndCategory')
   getArticlesByGenderAndCategory(
-    @Param("gender") gender: string,
-    @Param("category") category: string
+    @Query('gender') gender: string, // или перед методом
+    @Query('category') category: string,
   ): Promise<Article[]> {
     return this.articleService.getArticlesByGenderAndCategory(gender, category);
   }

@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Question } from "./question.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Question } from '../database/entities/question.entity';
 
 @Injectable()
 export class QuestionService {
   constructor(
     @InjectRepository(Question)
-    private readonly questionRepository: Repository<Question>
+    private readonly questionRepository: Repository<Question>,
   ) {}
 
   async getQuestions(): Promise<Question[]> {
@@ -15,7 +15,7 @@ export class QuestionService {
   }
 
   async getQuestionById(id: string): Promise<Question> {
-    return await this.questionRepository.findOne(id);
+    return this.questionRepository.findOne(id);
   }
 
   async createQuestion(question: Question): Promise<Question> {
@@ -26,7 +26,7 @@ export class QuestionService {
 
   async updateQuestion(id: string, question: Question): Promise<Question> {
     await this.questionRepository.update(id, question);
-    return await this.questionRepository.findOne(id);
+    return this.questionRepository.findOne(id);
   }
 
   async removeQuestion(id: string): Promise<Question> {
