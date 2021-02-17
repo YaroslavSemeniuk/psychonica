@@ -19,10 +19,6 @@ export class User {
   @Column()
   gender: GenderEnum;
 
-  @Column({
-    array: true,
-    default: [],
-    nullable: false,
-  })
+  @Column()
   socialLinks: string;
 }
