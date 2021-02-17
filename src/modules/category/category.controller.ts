@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   HttpStatus,
   Param,
   Post,
@@ -11,28 +10,50 @@ import {
 } from '@nestjs/common';
 import { Category } from '../database/entities/category.entity';
 import { CategoryService } from './category.service';
+import { ROUTES } from '../../shared/config/routes';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('category')
+@ApiTags(ROUTES.CATEGORY.MAIN)
+@Controller(ROUTES.CATEGORY.MAIN)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Categories was found',
+    type: Category,
+  })
   getCategories(): Promise<Category[]> {
     return this.categoryService.getCategories();
   }
 
-  @Get()
+  @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Category was found',
+    type: Category,
+  })
   getCategoryById(@Param('id') id: string): Promise<Category> {
     return this.categoryService.getCategoryById(id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Category created',
+    type: Category,
+  })
   createCategory(@Body() category: Category): Promise<Category> {
     return this.categoryService.createCategory(category);
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Category updated',
+    type: Category,
+  })
   updateCategory(
     @Body() category: Category,
     @Param('id') id: string,
@@ -41,6 +62,11 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Category deleted',
+    type: Category,
+  })
   deleteCategory(@Param('id') id: string): Promise<Category> {
     return this.categoryService.removeCategory(id);
   }

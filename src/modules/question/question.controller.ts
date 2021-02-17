@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   HttpStatus,
   Param,
   Post,
@@ -11,29 +10,51 @@ import {
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Question } from '../database/entities/question.entity';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ROUTES } from '../../shared/config/routes';
 
-@Controller('question')
+@ApiTags(ROUTES.QUESTION.MAIN)
+@Controller(ROUTES.QUESTION.MAIN)
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Get()
-  getArticles(): Promise<Question[]> {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Questions was found',
+    type: Question,
+  })
+  getQuestions(): Promise<Question[]> {
     return this.questionService.getQuestions();
   }
 
   @Get(':id')
-  getArticleById(@Param('id') id: string): Promise<Question> {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Question was found',
+    type: Question,
+  })
+  getQuestionById(@Param('id') id: string): Promise<Question> {
     return this.questionService.getQuestionById(id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
-  createArticle(@Body() question: Question): Promise<Question> {
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Question created',
+    type: Question,
+  })
+  createQuestion(@Body() question: Question): Promise<Question> {
     return this.questionService.createQuestion(question);
   }
 
   @Put(':id')
-  updateArticle(
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Question updated',
+    type: Question,
+  })
+  updateQuestion(
     @Body() question: Question,
     @Param('id') id: string,
   ): Promise<Question> {
@@ -41,7 +62,12 @@ export class QuestionController {
   }
 
   @Delete(':id')
-  deleteArticle(@Param('id') id: string): Promise<Question> {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Question deleted',
+    type: Question,
+  })
+  deleteQuestion(@Param('id') id: string): Promise<Question> {
     return this.questionService.removeQuestion(id);
   }
 }
