@@ -6,12 +6,14 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put, Query,
+  Put, Query, UsePipes,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { Article } from '../database/entities/article.entity';
 import { ROUTES } from '../../shared/config/routes';
+import { GetByParamsDto } from './dto/get-by-params.dto';
+import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -102,8 +104,9 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
-  getArticlesByGender(@Param('gender') gender: string): Promise<Article[]> {
-    return this.articleService.getArticlesByGender(gender);
+
+  getArticlesByGender(@Param() params: string): Promise<Article[]> {
+    return this.articleService.getArticlesByGender(params);
   }
 
   @Get('/getByGenderAndCategory')
@@ -112,10 +115,12 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
+  @UsePipes(new ValidationPipe())
   getArticlesByGenderAndCategory(
-    @Query('gender') gender: string, // или перед методом
-    @Query('category') category: string,
+      @Query() query: GetByParamsDto,
+        // @Query('gender') gender: string, // или перед методом
+        // @Query('category') category: string,
   ): Promise<Article[]> {
-    return this.articleService.getArticlesByGenderAndCategory(gender, category);
+    return this.articleService.getArticlesByGenderAndCategory(query.gender, query.category);
   }
 }

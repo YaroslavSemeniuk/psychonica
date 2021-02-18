@@ -27,7 +27,7 @@ export class ValidationPipe implements PipeTransform<any> {
         throw new MessageCodeError('validation:error', '', errors);
       }
     }
-    return value;
+    return object;
   }
 
   private toValidate(metatype): boolean {
