@@ -37,3 +37,5 @@ ormconfig.json
 
 # enviroment
 /env
+#migration
+src/migration/

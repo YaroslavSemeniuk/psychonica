@@ -8,9 +8,9 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from './question.service';
 import { Question } from '../database/entities/question.entity';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ROUTES } from '../../shared/config/routes';
 
 @ApiTags(ROUTES.QUESTION.MAIN)

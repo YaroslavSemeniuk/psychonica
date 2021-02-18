@@ -8,11 +8,10 @@ import {
   Post,
   Put, Query,
 } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { Article } from '../database/entities/article.entity';
 import { ROUTES } from '../../shared/config/routes';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)

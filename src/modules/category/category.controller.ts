@@ -8,10 +8,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Category } from '../database/entities/category.entity';
 import { CategoryService } from './category.service';
 import { ROUTES } from '../../shared/config/routes';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
 @Controller(ROUTES.CATEGORY.MAIN)
