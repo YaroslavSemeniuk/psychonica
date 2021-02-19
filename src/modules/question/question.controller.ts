@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from './question.service';
-import { Question } from '../database/entities/question.entity';
 import { ROUTES } from '../../shared/config/routes';
+import { QuestionDto } from '../database/dto/question.dto';
 
 @ApiTags(ROUTES.QUESTION.MAIN)
 @Controller(ROUTES.QUESTION.MAIN)
@@ -22,9 +22,9 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Questions was found',
-    type: Question,
+    type: QuestionDto,
   })
-  getQuestions(): Promise<Question[]> {
+  getQuestions(): Promise<QuestionDto[]> {
     return this.questionService.getQuestions();
   }
 
@@ -32,9 +32,9 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question was found',
-    type: Question,
+    type: QuestionDto,
   })
-  getQuestionById(@Param('id') id: string): Promise<Question> {
+  getQuestionById(@Param('id') id: string): Promise<QuestionDto> {
     return this.questionService.getQuestionById(id);
   }
 
@@ -42,9 +42,9 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Question created',
-    type: Question,
+    type: QuestionDto,
   })
-  createQuestion(@Body() question: Question): Promise<Question> {
+  createQuestion(@Body() question: QuestionDto): Promise<QuestionDto> {
     return this.questionService.createQuestion(question);
   }
 
@@ -52,12 +52,12 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question updated',
-    type: Question,
+    type: QuestionDto,
   })
   updateQuestion(
-    @Body() question: Question,
+    @Body() question: QuestionDto,
     @Param('id') id: string,
-  ): Promise<Question> {
+  ): Promise<QuestionDto> {
     return this.questionService.updateQuestion(id, question);
   }
 
@@ -65,9 +65,9 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question deleted',
-    type: Question,
+    type: QuestionDto,
   })
-  deleteQuestion(@Param('id') id: string): Promise<Question> {
+  deleteQuestion(@Param('id') id: string): Promise<QuestionDto> {
     return this.questionService.removeQuestion(id);
   }
 }

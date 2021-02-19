@@ -9,9 +9,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Category } from '../database/entities/category.entity';
 import { CategoryService } from './category.service';
 import { ROUTES } from '../../shared/config/routes';
+import { CategoryDto } from '../database/dto/category.dto';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
 @Controller(ROUTES.CATEGORY.MAIN)
@@ -22,9 +22,9 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Categories was found',
-    type: Category,
+    type: CategoryDto,
   })
-  getCategories(): Promise<Category[]> {
+  getCategories(): Promise<CategoryDto[]> {
     return this.categoryService.getCategories();
   }
 
@@ -32,9 +32,9 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category was found',
-    type: Category,
+    type: CategoryDto,
   })
-  getCategoryById(@Param('id') id: string): Promise<Category> {
+  getCategoryById(@Param('id') id: string): Promise<CategoryDto> {
     return this.categoryService.getCategoryById(id);
   }
 
@@ -42,9 +42,9 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Category created',
-    type: Category,
+    type: CategoryDto,
   })
-  createCategory(@Body() category: Category): Promise<Category> {
+  createCategory(@Body() category: CategoryDto): Promise<CategoryDto> {
     return this.categoryService.createCategory(category);
   }
 
@@ -52,12 +52,12 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category updated',
-    type: Category,
+    type: CategoryDto,
   })
   updateCategory(
-    @Body() category: Category,
+    @Body() category: CategoryDto,
     @Param('id') id: string,
-  ): Promise<Category> {
+  ): Promise<CategoryDto> {
     return this.categoryService.updateCategory(id, category);
   }
 
@@ -65,9 +65,9 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category deleted',
-    type: Category,
+    type: CategoryDto,
   })
-  deleteCategory(@Param('id') id: string): Promise<Category> {
+  deleteCategory(@Param('id') id: string): Promise<CategoryDto> {
     return this.categoryService.removeCategory(id);
   }
 }

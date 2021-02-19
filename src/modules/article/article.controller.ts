@@ -1,16 +1,13 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
   Put, Query, UsePipes,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
-import { Article } from '../database/entities/article.entity';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByGenderAndCategoryDto } from './dto/get-by-gender-and-category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
@@ -18,6 +15,7 @@ import { GetByGenderDto } from './dto/get-by-gender.dto';
 import { GetByCategoryDto } from './dto/get-by-category.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleDto } from '../database/dto/article.dto';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -29,10 +27,10 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticles(): Promise<Article[]> {
+  getArticles(): Promise<ArticleDto[]> {
     return this.articleService.getAll();
   }
 
@@ -40,10 +38,10 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticleById(@Query() query: GetByIdDto): Promise<Article> {
+  getArticleById(@Query() query: GetByIdDto): Promise<ArticleDto> {
     return this.articleService.getById(query.id);
   }
 
@@ -51,10 +49,10 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByAuthorId(@Query() query: GetByIdDto): Promise<Article[]> {
+  getArticlesByAuthorId(@Query() query: GetByIdDto): Promise<ArticleDto[]> {
     return this.articleService.getArticlesByAuthorId(query.id);
   }
 
@@ -62,21 +60,21 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Article created',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  createArticle(@Query() query: UpdateArticleDto): Promise<Article> {
-    return this.articleService.createOne(query.idUser, query.article);
+  createArticle(@Query() query: UpdateArticleDto): Promise<ArticleDto> {
+    return this.articleService.createOne(query.article);
   }
 
   @Put(':id')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article updated',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  updateArticle(@Query() query: UpdateArticleDto): Promise<Article> {
+  updateArticle(@Query() query: UpdateArticleDto): Promise<ArticleDto> {
     return this.articleService.update(query.idUser, query.article);
   }
 
@@ -84,10 +82,10 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article deleted',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteArticle(@Query() query: GetByIdDto): Promise<Article> {
+  deleteArticle(@Query() query: GetByIdDto): Promise<ArticleDto> {
     return this.articleService.remove(query.id);
   }
 
@@ -95,21 +93,21 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByCategory(query.category);
+  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<ArticleDto[]> {
+    return this.articleService.getArticlesByCategory(query.name);
   }
 
   @Get('/getByGender/:gender')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGender(@Query() query: GetByGenderDto): Promise<Article[]> {
+  getArticlesByGender(@Query() query: GetByGenderDto): Promise<ArticleDto[]> {
     return this.articleService.getArticlesByGender(query.gender);
   }
 
@@ -117,10 +115,10 @@ export class ArticleController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
-    type: Article,
+    type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
+  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<ArticleDto[]> {
     return this.articleService.getArticlesByGenderAndCategory(query.gender, query.category);
   }
 }

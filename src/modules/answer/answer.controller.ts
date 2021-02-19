@@ -13,8 +13,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AnswerService } from './answer.service';
-import { Answer } from '../database/entities/answer.entity';
 import { ROUTES } from '../../shared/config/routes';
+import { AnswerDto } from '../database/dto/answer.dto';
 
 @ApiTags(ROUTES.ANSWER.MAIN)
 @Controller(ROUTES.ANSWER.MAIN)
@@ -25,9 +25,9 @@ export class AnswerController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answers was found',
-    type: Answer,
+    type: AnswerDto,
   })
-  getAnswers(): Promise<Answer[]> {
+  getAnswers(): Promise<AnswerDto[]> {
     return this.answerService.getAnswers();
   }
 
@@ -35,9 +35,9 @@ export class AnswerController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer was found',
-    type: Answer,
+    type: AnswerDto,
   })
-  getAnswerById(@Param('id') id: string): Promise<Answer> {
+  getAnswerById(@Param('id') id: string): Promise<AnswerDto> {
     return this.answerService.getAnswerById(id);
   }
 
@@ -45,9 +45,9 @@ export class AnswerController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answers was found',
-    type: Answer,
+    type: AnswerDto,
   })
-  getAnswersByAuthorId(@Param('authorId') authorId: string): Promise<Answer[]> {
+  getAnswersByAuthorId(@Param('authorId') authorId: string): Promise<AnswerDto[]> {
     return this.answerService.getAnswersByAuthorId(authorId);
   }
 
@@ -55,9 +55,9 @@ export class AnswerController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Answer created',
-    type: Answer,
+    type: AnswerDto,
   })
-  createAnswer(@Body() answer: Answer): Promise<Answer> {
+  createAnswer(@Body() answer: AnswerDto): Promise<AnswerDto> {
     return this.answerService.createAnswer(answer);
   }
 
@@ -65,21 +65,21 @@ export class AnswerController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer updated',
-    type: Answer,
+    type: AnswerDto,
   })
   updateAnswer(
-    @Body() answer: Answer,
+    @Body() answer: AnswerDto,
     @Param('id') id: string,
-  ): Promise<Answer> {
+  ): Promise<AnswerDto> {
     return this.answerService.updateAnswer(id, answer);
   }
 
   @Delete(':id') @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer deleted',
-    type: Answer,
+    type: AnswerDto,
   })
-  deleteAnswer(@Param('id') id: string): Promise<Answer> {
+  deleteAnswer(@Param('id') id: string): Promise<AnswerDto> {
     return this.answerService.removeAnswer(id);
   }
 }
