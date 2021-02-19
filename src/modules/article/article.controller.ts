@@ -35,7 +35,7 @@ export class ArticleController {
     return this.articleService.getAll();
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article was found',
@@ -46,15 +46,15 @@ export class ArticleController {
     return this.articleService.getById(query.id);
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByAuthorId(@Query() query: GetByIdDto): Promise<ArticleDto[]> {
-    return this.articleService.getArticlesByAuthorId(query.id);
+  getArticlesByUserId(@Query() query: GetByIdDto): Promise<ArticleDto[]> {
+    return this.articleService.getArticlesByUserId(query.id);
   }
 
   @Post()
@@ -68,7 +68,7 @@ export class ArticleController {
     return this.articleService.createOne(query.article);
   }
 
-  @Put(':id')
+  @Put(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article updated',
@@ -79,7 +79,7 @@ export class ArticleController {
     return this.articleService.update(query.articleId, query.article);
   }
 
-  @Delete(':id')
+  @Delete(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article deleted',
@@ -90,7 +90,7 @@ export class ArticleController {
     return this.articleService.remove(query.id);
   }
 
-  @Get('/getByCategory/:category')
+  @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
@@ -101,7 +101,7 @@ export class ArticleController {
     return this.articleService.getArticlesByCategory(query.name);
   }
 
-  @Get('/getByGender/:gender')
+  @Get(ROUTES.ARTICLE.GET_BY_GENDER)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
@@ -112,7 +112,7 @@ export class ArticleController {
     return this.articleService.getArticlesByGender(query.gender);
   }
 
-  @Get('/getByGenderAndCategory')
+  @Get(ROUTES.ARTICLE.GET_BY_GENDER_AND_CATEGORY)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',

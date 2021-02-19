@@ -37,7 +37,7 @@ export class Question {
 
   @Column()
   @ManyToOne(() => User, (user) => user.id) // проверить работоспос.
-  authorId: string;
+  userId: string;
 
   @Column()
   @ManyToOne(() => Answer, (answer) => answer.id)

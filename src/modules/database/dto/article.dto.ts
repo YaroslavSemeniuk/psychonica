@@ -25,5 +25,5 @@ export class ArticleDto {
     gender: GenderEnum;
 
     @ApiProperty({ description: 'author id', example: uuidv4() })
-    authorId: string;
+    userId: string;
 }

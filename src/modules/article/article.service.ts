@@ -19,9 +19,9 @@ export class ArticleService {
     return this.articleRepository.findOne(id);
   }
 
-  async getArticlesByAuthorId(authorId: string): Promise<ArticleDto[]> {
+  async getArticlesByUserId(userId: string): Promise<ArticleDto[]> {
     return this.articleRepository.find({
-      where: { authorId: `${authorId}` },
+      where: { userId: `${userId}` },
     });
   }
 

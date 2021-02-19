@@ -30,7 +30,7 @@ export class UserController {
     return this.userService.getUsers();
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User was found',
@@ -52,7 +52,7 @@ export class UserController {
     return this.userService.createUser(query.user);
   }
 
-  @Put(':id')
+  @Put(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User updated',
@@ -63,7 +63,7 @@ export class UserController {
     return this.userService.updateUser(query.userId, query.user);
   }
 
-  @Delete(':id')
+  @Delete(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User deleted',

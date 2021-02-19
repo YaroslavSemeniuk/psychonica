@@ -38,9 +38,9 @@ export class AnswerService {
     }
   }
 
-  async getAnswersByAuthorId(authorId: string): Promise<AnswerDto[]> {
+  async getAnswersByUserId(userId: string): Promise<AnswerDto[]> {
     return this.answerRepository.find({
-      where: { authorId: `${authorId}` },
+      where: { userId: `${userId}` },
     });
   }
 }

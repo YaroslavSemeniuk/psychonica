@@ -34,7 +34,7 @@ export class AnswerController {
     return this.answerService.getAnswers();
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer was found',
@@ -45,15 +45,15 @@ export class AnswerController {
     return this.answerService.getAnswerById(query.id);
   }
 
-  @Get('/getByAuthorId/:id')
+  @Get(ROUTES.ANSWER.GET_BY_USER_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answers was found',
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  getAnswersByAuthorId(@Query() query: GetByIdDto): Promise<AnswerDto[]> {
-    return this.answerService.getAnswersByAuthorId(query.id);
+  getAnswersByUserId(@Query() query: GetByIdDto): Promise<AnswerDto[]> {
+    return this.answerService.getAnswersByUserId(query.id);
   }
 
   @Post()
@@ -67,7 +67,7 @@ export class AnswerController {
     return this.answerService.createAnswer(query.answer);
   }
 
-  @Put(':id')
+  @Put(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer updated',
@@ -78,7 +78,7 @@ export class AnswerController {
     return this.answerService.updateAnswer(query.answerId, query.answer);
   }
 
-  @Delete(':id') @ApiResponse({
+  @Delete(ROUTES.ID.DYNAMIC_ID) @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer deleted',
     type: AnswerDto,

@@ -25,7 +25,7 @@ export class QuestionDto {
     gender: GenderEnum;
 
     @ApiProperty({ description: 'author id', example: uuidv4() })
-    authorId: string;
+    userId: string;
 
     @ApiProperty({ description: 'answer id', example: uuidv4() })
     answerId: string;

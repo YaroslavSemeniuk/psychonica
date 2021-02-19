@@ -35,5 +35,5 @@ export class Article {
 
   @Column()
   @ManyToOne(() => User, (user) => user.id) // проверить работоспос.
-  authorId: string;
+  userId: string;
 }

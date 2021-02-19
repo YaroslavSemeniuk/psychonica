@@ -31,7 +31,7 @@ export class QuestionController {
     return this.questionService.getQuestions();
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question was found',
@@ -53,7 +53,7 @@ export class QuestionController {
     return this.questionService.createQuestion(query.question);
   }
 
-  @Put(':id')
+  @Put(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question updated',
@@ -64,7 +64,7 @@ export class QuestionController {
     return this.questionService.updateQuestion(query.questionId, query.question);
   }
 
-  @Delete(':id')
+  @Delete(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question deleted',

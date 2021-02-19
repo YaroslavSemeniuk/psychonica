@@ -31,7 +31,7 @@ export class CategoryController {
     return this.categoryService.getCategories();
   }
 
-  @Get(':id')
+  @Get(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category was found',
@@ -53,7 +53,7 @@ export class CategoryController {
     return this.categoryService.createCategory(query.category);
   }
 
-  @Put(':id')
+  @Put(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category updated',
@@ -64,7 +64,7 @@ export class CategoryController {
     return this.categoryService.updateCategory(query.categoryId, query.category);
   }
 
-  @Delete(':id')
+  @Delete(ROUTES.ID.DYNAMIC_ID)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category deleted',
