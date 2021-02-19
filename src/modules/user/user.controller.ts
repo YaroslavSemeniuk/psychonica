@@ -6,12 +6,13 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put,
+  Put, Query, UsePipes, ValidationPipe,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from '../database/entities/user.entity';
 import { ROUTES } from '../../shared/config/routes';
+import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
 @Controller(ROUTES.USER.MAIN)
@@ -34,8 +35,9 @@ export class UserController {
     description: 'User was found',
     type: User,
   })
-  getUserById(@Param('id') id: string): Promise<User> {
-    return this.userService.getUserById(id);
+  @UsePipes(new ValidationPipe())
+  getUserById(@Query() query: GetByIdDto): Promise<User> {
+    return this.userService.getUserById(query.id);
   }
 
   @Post()

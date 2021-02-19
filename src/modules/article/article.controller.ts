@@ -12,8 +12,12 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { Article } from '../database/entities/article.entity';
 import { ROUTES } from '../../shared/config/routes';
-import { GetByParamsDto } from './dto/get-by-params.dto';
+import { GetByGenderAndCategoryDto } from './dto/get-by-gender-and-category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
+import { GetByGenderDto } from './dto/get-by-gender.dto';
+import { GetByCategoryDto } from './dto/get-by-category.dto';
+import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -27,6 +31,7 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
+  @UsePipes(new ValidationPipe())
   getArticles(): Promise<Article[]> {
     return this.articleService.getAll();
   }
@@ -37,8 +42,9 @@ export class ArticleController {
     description: 'Article was found',
     type: Article,
   })
-  getArticleById(@Param('id') id: string): Promise<Article> {
-    return this.articleService.getById(id);
+  @UsePipes(new ValidationPipe())
+  getArticleById(@Query() query: GetByIdDto): Promise<Article> {
+    return this.articleService.getById(query.id);
   }
 
   @Get(':id')
@@ -47,10 +53,9 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
-  getArticlesByAuthorId(
-    @Param('authorId') authorId: string,
-  ): Promise<Article[]> {
-    return this.articleService.getArticlesByAuthorId(authorId);
+  @UsePipes(new ValidationPipe())
+  getArticlesByAuthorId(@Query() query: GetByIdDto): Promise<Article[]> {
+    return this.articleService.getArticlesByAuthorId(query.id);
   }
 
   @Post()
@@ -59,8 +64,9 @@ export class ArticleController {
     description: 'Article created',
     type: Article,
   })
-  createArticle(@Body() article: Article): Promise<Article> {
-    return this.articleService.createOne(article);
+  @UsePipes(new ValidationPipe())
+  createArticle(@Query() query: UpdateArticleDto): Promise<Article> {
+    return this.articleService.createOne(query.idUser, query.article);
   }
 
   @Put(':id')
@@ -69,11 +75,9 @@ export class ArticleController {
     description: 'Article updated',
     type: Article,
   })
-  updateArticle(
-    @Body() article: Article,
-    @Param('id') id: string,
-  ): Promise<Article> {
-    return this.articleService.update(id, article);
+  @UsePipes(new ValidationPipe())
+  updateArticle(@Query() query: UpdateArticleDto): Promise<Article> {
+    return this.articleService.update(query.idUser, query.article);
   }
 
   @Delete(':id')
@@ -82,8 +86,9 @@ export class ArticleController {
     description: 'Article deleted',
     type: Article,
   })
-  deleteArticle(@Param('id') id: string): Promise<Article> {
-    return this.articleService.remove(id);
+  @UsePipes(new ValidationPipe())
+  deleteArticle(@Query() query: GetByIdDto): Promise<Article> {
+    return this.articleService.remove(query.id);
   }
 
   @Get('/getByCategory/:category')
@@ -92,10 +97,9 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
-  getArticlesByCategory(
-    @Param('category') category: string,
-  ): Promise<Article[]> {
-    return this.articleService.getArticlesByCategory(category);
+  @UsePipes(new ValidationPipe())
+  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<Article[]> {
+    return this.articleService.getArticlesByCategory(query.category);
   }
 
   @Get('/getByGender/:gender')
@@ -104,9 +108,9 @@ export class ArticleController {
     description: 'Articles was found',
     type: Article,
   })
-
-  getArticlesByGender(@Param() params: string): Promise<Article[]> {
-    return this.articleService.getArticlesByGender(params);
+  @UsePipes(new ValidationPipe())
+  getArticlesByGender(@Query() query: GetByGenderDto): Promise<Article[]> {
+    return this.articleService.getArticlesByGender(query.gender);
   }
 
   @Get('/getByGenderAndCategory')
@@ -116,11 +120,7 @@ export class ArticleController {
     type: Article,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGenderAndCategory(
-      @Query() query: GetByParamsDto,
-        // @Query('gender') gender: string, // или перед методом
-        // @Query('category') category: string,
-  ): Promise<Article[]> {
+  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
     return this.articleService.getArticlesByGenderAndCategory(query.gender, query.category);
   }
 }

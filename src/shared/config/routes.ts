@@ -1,17 +1,17 @@
 export const ROUTES = {
   USER: {
-    MAIN: '/user',
+    MAIN: '/users',
   },
   ANSWER: {
-    MAIN: '/answer',
+    MAIN: '/answers',
   },
   QUESTION: {
-    MAIN: '/question',
+    MAIN: '/questions',
   },
   CATEGORY: {
-    MAIN: '/category',
+    MAIN: '/categories',
   },
   ARTICLE: {
-    MAIN: '/article',
+    MAIN: '/articles',
   },
 };
