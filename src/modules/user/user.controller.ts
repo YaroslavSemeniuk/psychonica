@@ -1,10 +1,8 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
   Put, Query, UsePipes, ValidationPipe,
 } from '@nestjs/common';
@@ -13,6 +11,8 @@ import { UserService } from './user.service';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UserDto } from '../database/dto/user.dto';
+import { CreateUserDto } from './dto/received/create-user.dto';
+import { UpdateUserDto } from './dto/received/update-user.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
 @Controller(ROUTES.USER.MAIN)
@@ -25,6 +25,7 @@ export class UserController {
     description: 'Users was found',
     type: UserDto,
   })
+  @UsePipes(new ValidationPipe())
   getUsers(): Promise<UserDto[]> {
     return this.userService.getUsers();
   }
@@ -46,8 +47,9 @@ export class UserController {
     description: 'User created',
     type: UserDto,
   })
-  createUser(@Body() user: UserDto): Promise<UserDto> {
-    return this.userService.createUser(user);
+  @UsePipes(new ValidationPipe())
+  createUser(@Query() query: CreateUserDto): Promise<UserDto> {
+    return this.userService.createUser(query.user);
   }
 
   @Put(':id')
@@ -56,8 +58,9 @@ export class UserController {
     description: 'User updated',
     type: UserDto,
   })
-  updateUser(@Body() user: UserDto, @Param('id') id: string): Promise<UserDto> {
-    return this.userService.updateUser(id, user);
+  @UsePipes(new ValidationPipe())
+  updateUser(@Query() query: UpdateUserDto): Promise<UserDto> {
+    return this.userService.updateUser(query.userId, query.user);
   }
 
   @Delete(':id')
@@ -66,7 +69,8 @@ export class UserController {
     description: 'User deleted',
     type: UserDto,
   })
-  deleteUser(@Param('id') id: string): Promise<UserDto> {
-    return this.userService.removeUser(id);
+  @UsePipes(new ValidationPipe())
+  deleteUser(@Query() query: GetByIdDto): Promise<UserDto> {
+    return this.userService.removeUser(query.id);
   }
 }

@@ -1,12 +1,10 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
-  Put,
+  Put, Query, UsePipes,
 } from '@nestjs/common';
 import {
   ApiResponse,
@@ -15,6 +13,10 @@ import {
 import { AnswerService } from './answer.service';
 import { ROUTES } from '../../shared/config/routes';
 import { AnswerDto } from '../database/dto/answer.dto';
+import { ValidationPipe } from '../../shared/pipes/validation.pipe';
+import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
+import { UpdateAnswerDto } from './dto/received/update-answer.dto';
+import { CreateAnswerDto } from './dto/received/create-answer.dto';
 
 @ApiTags(ROUTES.ANSWER.MAIN)
 @Controller(ROUTES.ANSWER.MAIN)
@@ -27,6 +29,7 @@ export class AnswerController {
     description: 'Answers was found',
     type: AnswerDto,
   })
+  @UsePipes(new ValidationPipe())
   getAnswers(): Promise<AnswerDto[]> {
     return this.answerService.getAnswers();
   }
@@ -37,8 +40,9 @@ export class AnswerController {
     description: 'Answer was found',
     type: AnswerDto,
   })
-  getAnswerById(@Param('id') id: string): Promise<AnswerDto> {
-    return this.answerService.getAnswerById(id);
+  @UsePipes(new ValidationPipe())
+  getAnswerById(@Query() query: GetByIdDto): Promise<AnswerDto> {
+    return this.answerService.getAnswerById(query.id);
   }
 
   @Get('/getByAuthorId/:id')
@@ -47,8 +51,9 @@ export class AnswerController {
     description: 'Answers was found',
     type: AnswerDto,
   })
-  getAnswersByAuthorId(@Param('authorId') authorId: string): Promise<AnswerDto[]> {
-    return this.answerService.getAnswersByAuthorId(authorId);
+  @UsePipes(new ValidationPipe())
+  getAnswersByAuthorId(@Query() query: GetByIdDto): Promise<AnswerDto[]> {
+    return this.answerService.getAnswersByAuthorId(query.id);
   }
 
   @Post()
@@ -57,8 +62,9 @@ export class AnswerController {
     description: 'Answer created',
     type: AnswerDto,
   })
-  createAnswer(@Body() answer: AnswerDto): Promise<AnswerDto> {
-    return this.answerService.createAnswer(answer);
+  @UsePipes(new ValidationPipe())
+  createAnswer(@Query() query: CreateAnswerDto): Promise<AnswerDto> {
+    return this.answerService.createAnswer(query.answer);
   }
 
   @Put(':id')
@@ -67,11 +73,9 @@ export class AnswerController {
     description: 'Answer updated',
     type: AnswerDto,
   })
-  updateAnswer(
-    @Body() answer: AnswerDto,
-    @Param('id') id: string,
-  ): Promise<AnswerDto> {
-    return this.answerService.updateAnswer(id, answer);
+  @UsePipes(new ValidationPipe())
+  updateAnswer(@Query() query: UpdateAnswerDto): Promise<AnswerDto> {
+    return this.answerService.updateAnswer(query.answerId, query.answer);
   }
 
   @Delete(':id') @ApiResponse({
@@ -79,7 +83,8 @@ export class AnswerController {
     description: 'Answer deleted',
     type: AnswerDto,
   })
-  deleteAnswer(@Param('id') id: string): Promise<AnswerDto> {
-    return this.answerService.removeAnswer(id);
+  @UsePipes(new ValidationPipe())
+  deleteAnswer(@Query() query: GetByIdDto): Promise<AnswerDto> {
+    return this.answerService.removeAnswer(query.id);
   }
 }

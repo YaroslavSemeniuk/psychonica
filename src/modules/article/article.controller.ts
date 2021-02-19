@@ -9,13 +9,14 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { ROUTES } from '../../shared/config/routes';
-import { GetByGenderAndCategoryDto } from './dto/get-by-gender-and-category.dto';
+import { GetByGenderAndCategoryDto } from './dto/received/get-by-gender-and-category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
-import { GetByGenderDto } from './dto/get-by-gender.dto';
-import { GetByCategoryDto } from './dto/get-by-category.dto';
+import { GetByGenderDto } from './dto/received/get-by-gender.dto';
+import { GetByCategoryDto } from './dto/received/get-by-category.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { CreateArticleDto } from './dto/received/create-article.dto';
 import { ArticleDto } from '../database/dto/article.dto';
+import { UpdateArticleDto } from './dto/received/update-article.dto';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -63,7 +64,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  createArticle(@Query() query: UpdateArticleDto): Promise<ArticleDto> {
+  createArticle(@Query() query: CreateArticleDto): Promise<ArticleDto> {
     return this.articleService.createOne(query.article);
   }
 
@@ -75,7 +76,7 @@ export class ArticleController {
   })
   @UsePipes(new ValidationPipe())
   updateArticle(@Query() query: UpdateArticleDto): Promise<ArticleDto> {
-    return this.articleService.update(query.idUser, query.article);
+    return this.articleService.update(query.articleId, query.article);
   }
 
   @Delete(':id')

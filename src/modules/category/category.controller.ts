@@ -1,17 +1,19 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
-  Put,
+  Put, Query, UsePipes,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { ROUTES } from '../../shared/config/routes';
 import { CategoryDto } from '../database/dto/category.dto';
+import { ValidationPipe } from '../../shared/pipes/validation.pipe';
+import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
+import { CreateCategoryDto } from './dto/received/create-category.dto';
+import { UpdateCategoryDto } from './dto/received/update-category.dto';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
 @Controller(ROUTES.CATEGORY.MAIN)
@@ -24,6 +26,7 @@ export class CategoryController {
     description: 'Categories was found',
     type: CategoryDto,
   })
+  @UsePipes(new ValidationPipe())
   getCategories(): Promise<CategoryDto[]> {
     return this.categoryService.getCategories();
   }
@@ -34,8 +37,9 @@ export class CategoryController {
     description: 'Category was found',
     type: CategoryDto,
   })
-  getCategoryById(@Param('id') id: string): Promise<CategoryDto> {
-    return this.categoryService.getCategoryById(id);
+  @UsePipes(new ValidationPipe())
+  getCategoryById(@Query() query: GetByIdDto): Promise<CategoryDto> {
+    return this.categoryService.getCategoryById(query.id);
   }
 
   @Post()
@@ -44,8 +48,9 @@ export class CategoryController {
     description: 'Category created',
     type: CategoryDto,
   })
-  createCategory(@Body() category: CategoryDto): Promise<CategoryDto> {
-    return this.categoryService.createCategory(category);
+  @UsePipes(new ValidationPipe())
+  createCategory(@Query() query: CreateCategoryDto): Promise<CategoryDto> {
+    return this.categoryService.createCategory(query.category);
   }
 
   @Put(':id')
@@ -54,11 +59,9 @@ export class CategoryController {
     description: 'Category updated',
     type: CategoryDto,
   })
-  updateCategory(
-    @Body() category: CategoryDto,
-    @Param('id') id: string,
-  ): Promise<CategoryDto> {
-    return this.categoryService.updateCategory(id, category);
+  @UsePipes(new ValidationPipe())
+  updateCategory(@Query() query: UpdateCategoryDto): Promise<CategoryDto> {
+    return this.categoryService.updateCategory(query.categoryId, query.category);
   }
 
   @Delete(':id')
@@ -67,7 +70,8 @@ export class CategoryController {
     description: 'Category deleted',
     type: CategoryDto,
   })
-  deleteCategory(@Param('id') id: string): Promise<CategoryDto> {
-    return this.categoryService.removeCategory(id);
+  @UsePipes(new ValidationPipe())
+  deleteCategory(@Query() query: GetByIdDto): Promise<CategoryDto> {
+    return this.categoryService.removeCategory(query.id);
   }
 }

@@ -1,17 +1,19 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
-  Put,
+  Put, Query, UsePipes,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from './question.service';
 import { ROUTES } from '../../shared/config/routes';
 import { QuestionDto } from '../database/dto/question.dto';
+import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
+import { ValidationPipe } from '../../shared/pipes/validation.pipe';
+import { CreateQuestionDto } from './dto/received/create-question.dto';
+import { UpdateQuestionDto } from './dto/received/update-question.dto';
 
 @ApiTags(ROUTES.QUESTION.MAIN)
 @Controller(ROUTES.QUESTION.MAIN)
@@ -24,6 +26,7 @@ export class QuestionController {
     description: 'Questions was found',
     type: QuestionDto,
   })
+  @UsePipes(new ValidationPipe())
   getQuestions(): Promise<QuestionDto[]> {
     return this.questionService.getQuestions();
   }
@@ -34,8 +37,9 @@ export class QuestionController {
     description: 'Question was found',
     type: QuestionDto,
   })
-  getQuestionById(@Param('id') id: string): Promise<QuestionDto> {
-    return this.questionService.getQuestionById(id);
+  @UsePipes(new ValidationPipe())
+  getQuestionById(@Query() query: GetByIdDto): Promise<QuestionDto> {
+    return this.questionService.getQuestionById(query.id);
   }
 
   @Post()
@@ -44,8 +48,9 @@ export class QuestionController {
     description: 'Question created',
     type: QuestionDto,
   })
-  createQuestion(@Body() question: QuestionDto): Promise<QuestionDto> {
-    return this.questionService.createQuestion(question);
+  @UsePipes(new ValidationPipe())
+  createQuestion(@Query() query: CreateQuestionDto): Promise<QuestionDto> {
+    return this.questionService.createQuestion(query.question);
   }
 
   @Put(':id')
@@ -54,11 +59,9 @@ export class QuestionController {
     description: 'Question updated',
     type: QuestionDto,
   })
-  updateQuestion(
-    @Body() question: QuestionDto,
-    @Param('id') id: string,
-  ): Promise<QuestionDto> {
-    return this.questionService.updateQuestion(id, question);
+  @UsePipes(new ValidationPipe())
+  updateQuestion(@Query() query: UpdateQuestionDto): Promise<QuestionDto> {
+    return this.questionService.updateQuestion(query.questionId, query.question);
   }
 
   @Delete(':id')
@@ -67,7 +70,8 @@ export class QuestionController {
     description: 'Question deleted',
     type: QuestionDto,
   })
-  deleteQuestion(@Param('id') id: string): Promise<QuestionDto> {
-    return this.questionService.removeQuestion(id);
+  @UsePipes(new ValidationPipe())
+  deleteQuestion(@Query() query: GetByIdDto): Promise<QuestionDto> {
+    return this.questionService.removeQuestion(query.id);
   }
 }

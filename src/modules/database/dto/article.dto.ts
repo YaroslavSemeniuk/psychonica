@@ -21,7 +21,7 @@ export class ArticleDto {
     @ApiProperty({ description: 'category by article', example: 'the category which this article belongs' })
     category: string;
 
-    @ApiProperty({ description: 'gender by article', example: GenderEnum })
+    @ApiProperty({ description: 'gender by article', example: GenderEnum.MALE })
     gender: GenderEnum;
 
     @ApiProperty({ description: 'author id', example: uuidv4() })
