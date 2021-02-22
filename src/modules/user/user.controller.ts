@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -25,7 +26,6 @@ export class UserController {
     description: 'Users was found',
     type: UserDto,
   })
-  @UsePipes(new ValidationPipe())
   getUsers(): Promise<UserDto[]> {
     return this.userService.getUsers();
   }
@@ -48,19 +48,19 @@ export class UserController {
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  createUser(@Query() query: CreateUserDto): Promise<UserDto> {
-    return this.userService.createUser(query.user);
+  createUser(@Body() data: CreateUserDto): Promise<UserDto> {
+    return this.userService.createUser(data.user);
   }
 
-  @Put(ROUTES.ID.DYNAMIC_ID)
+  @Put()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User updated',
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  updateUser(@Query() query: UpdateUserDto): Promise<UserDto> {
-    return this.userService.updateUser(query.userId, query.user);
+  updateUser(@Body() data: UpdateUserDto): Promise<UserDto> {
+    return this.userService.updateUser(data.userId, data.user);
   }
 
   @Delete(ROUTES.ID.DYNAMIC_ID)
@@ -70,7 +70,7 @@ export class UserController {
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteUser(@Query() query: GetByIdDto): Promise<UserDto> {
+  deleteUser(@Query() query: GetByIdDto): Promise<boolean> {
     return this.userService.removeUser(query.id);
   }
 }

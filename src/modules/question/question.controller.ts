@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -26,7 +27,6 @@ export class QuestionController {
     description: 'Questions was found',
     type: QuestionDto,
   })
-  @UsePipes(new ValidationPipe())
   getQuestions(): Promise<QuestionDto[]> {
     return this.questionService.getQuestions();
   }
@@ -49,19 +49,19 @@ export class QuestionController {
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  createQuestion(@Query() query: CreateQuestionDto): Promise<QuestionDto> {
-    return this.questionService.createQuestion(query.question);
+  createQuestion(@Body() data: CreateQuestionDto): Promise<QuestionDto> {
+    return this.questionService.createQuestion(data.question);
   }
 
-  @Put(ROUTES.ID.DYNAMIC_ID)
+  @Put()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question updated',
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  updateQuestion(@Query() query: UpdateQuestionDto): Promise<QuestionDto> {
-    return this.questionService.updateQuestion(query.questionId, query.question);
+  updateQuestion(@Body() data: UpdateQuestionDto): Promise<QuestionDto> {
+    return this.questionService.updateQuestion(data.questionId, data.question);
   }
 
   @Delete(ROUTES.ID.DYNAMIC_ID)
@@ -71,7 +71,7 @@ export class QuestionController {
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteQuestion(@Query() query: GetByIdDto): Promise<QuestionDto> {
+  deleteQuestion(@Query() query: GetByIdDto): Promise<boolean> {
     return this.questionService.removeQuestion(query.id);
   }
 }

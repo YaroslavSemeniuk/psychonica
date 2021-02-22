@@ -8,16 +8,16 @@ export class UserDto {
     id?:string;
 
     @ApiProperty({ description: 'user name', example: 'Sam' })
-    username: string;
+    name: string;
 
     @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
     email: string;
 
-    @ApiProperty({ description: 'role user in application', example: RoleEnum.USER })
-    role: RoleEnum;
+    @ApiProperty({ description: 'role user in application', example: RoleEnum.USER, enum: Object.values(RoleEnum) })
+    role: string;
 
-    @ApiProperty({ description: 'gender user', example: GenderEnum.FEMALE })
-    gender: GenderEnum;
+    @ApiProperty({ description: 'gender user', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) })
+    gender: string;
 
     @ApiProperty({ description: 'link to the user\'s instagram', example: 'https://www.instagram.com/' })
     instagram: string;

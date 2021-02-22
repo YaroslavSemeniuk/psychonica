@@ -26,15 +26,16 @@ export class QuestionService {
   }
 
   async updateQuestion(id: string, question: QuestionDto): Promise<QuestionDto> {
-    await this.questionRepository.update(id, question);
-    return this.questionRepository.findOne(id);
+    return this.questionRepository.save({ id, question });
   }
 
-  async removeQuestion(id: string): Promise<QuestionDto> {
+  async removeQuestion(id: string): Promise<boolean> {
+    let deletedResult = false;
     const question = await this.questionRepository.findOne(id);
     const deleteResponse = await this.questionRepository.delete(question);
     if (deleteResponse.affected) {
-      return question;
+      deletedResult = true;
     }
+    return deletedResult;
   }
 }

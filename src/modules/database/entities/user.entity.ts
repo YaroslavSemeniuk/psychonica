@@ -8,18 +8,18 @@ export class User {
   readonly id: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
-  username: string;
+  name: string;
 
   @Column({
     type: 'varchar', length: 300, nullable: true, unique: true,
   })
   email: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  role: RoleEnum;
+  @Column({ type: 'enum', enum: RoleEnum })
+  role: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  gender: GenderEnum;
+  @Column({ type: 'enum', enum: GenderEnum })
+  gender: string;
 
   @Column({ type: 'varchar', length: 300, nullable: true })
   instagram: string;

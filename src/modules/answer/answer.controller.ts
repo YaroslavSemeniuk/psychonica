@@ -1,9 +1,9 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
-  HttpStatus,
-  Post,
+  HttpStatus, Post,
   Put, Query, UsePipes,
 } from '@nestjs/common';
 import {
@@ -29,7 +29,6 @@ export class AnswerController {
     description: 'Answers was found',
     type: AnswerDto,
   })
-  @UsePipes(new ValidationPipe())
   getAnswers(): Promise<AnswerDto[]> {
     return this.answerService.getAnswers();
   }
@@ -63,28 +62,29 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  createAnswer(@Query() query: CreateAnswerDto): Promise<AnswerDto> {
-    return this.answerService.createAnswer(query.answer);
+  createAnswer(@Body() data: CreateAnswerDto): Promise<AnswerDto> {
+    return this.answerService.createAnswer(data.answer);
   }
 
-  @Put(ROUTES.ID.DYNAMIC_ID)
+  @Put()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer updated',
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  updateAnswer(@Query() query: UpdateAnswerDto): Promise<AnswerDto> {
-    return this.answerService.updateAnswer(query.answerId, query.answer);
+  updateAnswer(@Body() data: UpdateAnswerDto): Promise<AnswerDto> {
+    return this.answerService.updateAnswer(data.answerId, data.answer);
   }
 
-  @Delete(ROUTES.ID.DYNAMIC_ID) @ApiResponse({
+  @Delete(ROUTES.ID.DYNAMIC_ID)
+  @ApiResponse({
     status: HttpStatus.OK,
     description: 'Answer deleted',
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteAnswer(@Query() query: GetByIdDto): Promise<AnswerDto> {
+  deleteAnswer(@Query() query: GetByIdDto): Promise<boolean> {
     return this.answerService.removeAnswer(query.id);
   }
 }

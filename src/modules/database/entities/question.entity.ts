@@ -15,12 +15,12 @@ export class Question {
   @Column({
     type: 'varchar', length: 300, default: '', nullable: false,
   })
-  titleText: string;
+  title: string;
 
   @Column({
     type: 'varchar', length: 300, default: '', nullable: false,
   })
-  descriptionText: string;
+  description: string;
 
   @Column({ type: 'varchar', default: '', nullable: false })
   text: string;
@@ -28,21 +28,15 @@ export class Question {
   @Column({ type: 'varchar', length: 700, nullable: true })
   imgSrc: string;
 
-  @Column()
   @ManyToOne(() => Category, (category) => category.name)
   category: string;
 
-  @Column()
-  gender: GenderEnum;
+  @Column({ type: 'enum', enum: GenderEnum })
+  gender: string;
 
-  @Column()
-  @ManyToOne(() => User, (user) => user.id) // проверить работоспос.
+  @ManyToOne(() => User, (user) => user.id)
   userId: string;
 
-  @Column()
   @ManyToOne(() => Answer, (answer) => answer.id)
   answerId: string;
-
-  // @Column()
-  // youtubeVideos: YoutubeVideos;
 }

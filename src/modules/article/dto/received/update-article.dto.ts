@@ -1,9 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsArray, IsNotEmpty, IsString, IsUUID,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { ArticleDto } from '../../../database/dto/article.dto';
 
 export class UpdateArticleDto {
@@ -13,9 +10,7 @@ export class UpdateArticleDto {
     @IsUUID('4')
     articleId: string
 
-    @ApiProperty({ description: 'updated article entity', example: ArticleDto })
+    @ApiProperty({ description: 'updated article entity', type: () => ArticleDto })
     @IsNotEmpty()
-    @IsArray()
-    @Type(() => ArticleDto)
     article: ArticleDto
 }

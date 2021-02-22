@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsArray, IsNotEmpty, IsString, IsUUID,
+  IsNotEmpty, IsString, IsUUID,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { QuestionDto } from '../../../database/dto/question.dto';
 
 export class UpdateQuestionDto {
@@ -13,9 +12,7 @@ export class UpdateQuestionDto {
     @IsUUID('4')
     questionId: string
 
-    @ApiProperty({ description: 'updated question entity', example: QuestionDto })
+    @ApiProperty({ description: 'updated question entity', type: () => QuestionDto })
     @IsNotEmpty()
-    @IsArray()
-    @Type(() => QuestionDto)
     question: QuestionDto
 }

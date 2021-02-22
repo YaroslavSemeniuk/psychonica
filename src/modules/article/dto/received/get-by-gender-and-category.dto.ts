@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
@@ -6,9 +6,10 @@ export class GetByGenderAndCategoryDto {
     @ApiProperty({ description: 'user gender', example: GenderEnum.MALE })
     @IsString()
     @IsNotEmpty()
-    gender: GenderEnum;
+    @IsEnum(GenderEnum)
+    gender: string;
 
-    @ApiProperty({ description: 'category name', example: 'one of the names of the categories' })
+    @ApiProperty({ description: 'category name', example: 'Love and relationships' })
     @IsString()
     @IsNotEmpty()
     category: string;

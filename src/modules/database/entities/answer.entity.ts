@@ -11,12 +11,12 @@ export class Answer {
   @Column({
     type: 'varchar', length: 300, default: '', nullable: false,
   })
-  titleText: string;
+  title: string;
 
   @Column({
     type: 'varchar', length: 300, default: '', nullable: false,
   })
-  descriptionText: string;
+  description: string;
 
   @Column({ type: 'varchar', default: '', nullable: false })
   text: string;
@@ -27,7 +27,6 @@ export class Answer {
   @Column({ type: 'int' })
   countUseless: number;
 
-  @Column()
   @OneToMany(() => Question, (question) => question.id)
   questionId: string;
 }

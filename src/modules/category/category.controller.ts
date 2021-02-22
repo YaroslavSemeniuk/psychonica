@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -26,7 +27,6 @@ export class CategoryController {
     description: 'Categories was found',
     type: CategoryDto,
   })
-  @UsePipes(new ValidationPipe())
   getCategories(): Promise<CategoryDto[]> {
     return this.categoryService.getCategories();
   }
@@ -49,8 +49,8 @@ export class CategoryController {
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  createCategory(@Query() query: CreateCategoryDto): Promise<CategoryDto> {
-    return this.categoryService.createCategory(query.category);
+  createCategory(@Body() data: CreateCategoryDto): Promise<CategoryDto> {
+    return this.categoryService.createCategory(data.category);
   }
 
   @Put(ROUTES.ID.DYNAMIC_ID)
@@ -60,8 +60,8 @@ export class CategoryController {
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  updateCategory(@Query() query: UpdateCategoryDto): Promise<CategoryDto> {
-    return this.categoryService.updateCategory(query.categoryId, query.category);
+  updateCategory(@Body() data: UpdateCategoryDto): Promise<CategoryDto> {
+    return this.categoryService.updateCategory(data.categoryId, data.category);
   }
 
   @Delete(ROUTES.ID.DYNAMIC_ID)
@@ -71,7 +71,7 @@ export class CategoryController {
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteCategory(@Query() query: GetByIdDto): Promise<CategoryDto> {
+  deleteCategory(@Query() query: GetByIdDto): Promise<boolean> {
     return this.categoryService.removeCategory(query.id);
   }
 }

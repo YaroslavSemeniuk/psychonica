@@ -21,7 +21,7 @@ export class ArticleService {
 
   async getArticlesByUserId(userId: string): Promise<ArticleDto[]> {
     return this.articleRepository.find({
-      where: { userId: `${userId}` },
+      where: { userId },
     });
   }
 
@@ -32,27 +32,28 @@ export class ArticleService {
   }
 
   async update(id: string, article: ArticleDto): Promise<ArticleDto> {
-    await this.articleRepository.update(id, article);
-    return this.articleRepository.findOne(id);
+    return this.articleRepository.save({ id, article });
   }
 
-  async remove(id: string): Promise<ArticleDto> {
+  async remove(id: string): Promise<boolean> {
+    let deletedResult = false;
     const article = await this.articleRepository.findOne(id);
     const deleteResponse = await this.articleRepository.delete(article);
     if (deleteResponse.affected) {
-      return article;
+      deletedResult = true;
     }
+    return deletedResult;
   }
 
   async getArticlesByGender(gender: string): Promise<ArticleDto[]> {
     return this.articleRepository.find({
-      where: { gender: `${gender}` },
+      where: { gender },
     });
   }
 
   async getArticlesByCategory(category: string): Promise<ArticleDto[]> {
     return this.articleRepository.find({
-      where: { category: `${category}` },
+      where: { category },
     });
   }
 

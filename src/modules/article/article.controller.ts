@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -30,7 +31,6 @@ export class ArticleController {
     description: 'Articles was found',
     type: ArticleDto,
   })
-  @UsePipes(new ValidationPipe())
   getArticles(): Promise<ArticleDto[]> {
     return this.articleService.getAll();
   }
@@ -64,19 +64,19 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  createArticle(@Query() query: CreateArticleDto): Promise<ArticleDto> {
-    return this.articleService.createOne(query.article);
+  createArticle(@Body() data: CreateArticleDto): Promise<ArticleDto> {
+    return this.articleService.createOne(data.article);
   }
 
-  @Put(ROUTES.ID.DYNAMIC_ID)
+  @Put()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Article updated',
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  updateArticle(@Query() query: UpdateArticleDto): Promise<ArticleDto> {
-    return this.articleService.update(query.articleId, query.article);
+  updateArticle(@Body() data: UpdateArticleDto): Promise<ArticleDto> {
+    return this.articleService.update(data.articleId, data.article);
   }
 
   @Delete(ROUTES.ID.DYNAMIC_ID)
@@ -86,7 +86,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  deleteArticle(@Query() query: GetByIdDto): Promise<ArticleDto> {
+  deleteArticle(@Query() query: GetByIdDto): Promise<boolean> {
     return this.articleService.remove(query.id);
   }
 

@@ -1,12 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty } from 'class-validator';
 import { ArticleDto } from '../../../database/dto/article.dto';
 
 export class CreateArticleDto {
-  @ApiProperty({ description: 'new article entity', example: ArticleDto })
+  @ApiProperty({ description: 'new article entity', type: () => ArticleDto })
   @IsNotEmpty()
-  @IsArray()
-  @Type(() => ArticleDto)
   article: ArticleDto
 }

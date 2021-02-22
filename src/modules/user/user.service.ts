@@ -26,15 +26,16 @@ export class UserService {
   }
 
   async updateUser(id: string, user: UserDto): Promise<UserDto> {
-    await this.userRepository.update(id, user);
-    return this.userRepository.findOne(id);
+    return this.userRepository.save({ id, user });
   }
 
-  async removeUser(id: string): Promise<UserDto> {
+  async removeUser(id: string): Promise<boolean> {
+    let deletedResult = false;
     const user = await this.userRepository.findOne(id);
     const deleteResponse = await this.userRepository.delete(user);
     if (deleteResponse.affected) {
-      return user;
+      deletedResult = true;
     }
+    return deletedResult;
   }
 }

@@ -5,19 +5,19 @@ export class AnswerDto {
     @ApiProperty({ description: 'answer id', example: uuidv4() })
     id?:string;
 
-    @ApiProperty({ description: 'title text', example: 'title for answer' })
-    titleText: string;
+    @ApiProperty({ description: 'title text', example: 'Love and relationships' })
+    title: string;
 
-    @ApiProperty({ description: 'description text', example: 'description for answer' })
-    descriptionText: string;
+    @ApiProperty({ description: 'description text', example: 'Ways to improve relationships' })
+    description: string;
 
-    @ApiProperty({ description: 'main text', example: 'main text in answer' })
+    @ApiProperty({ description: 'main text', example: 'One of the best ways to improve your relationship is to play sports together' })
     text: string;
 
-    @ApiProperty({ description: 'counter dislikes by users', example: '10' })
+    @ApiProperty({ description: 'counter dislikes by users', example: 10 })
     countUseful: number;
 
-    @ApiProperty({ description: 'counter dislikes by users', example: '6' })
+    @ApiProperty({ description: 'counter dislikes by users', example: 6 })
     countUseless: number;
 
     @ApiProperty({ description: 'question id', example: uuidv4() })

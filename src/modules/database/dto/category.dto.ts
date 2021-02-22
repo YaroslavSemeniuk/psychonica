@@ -5,6 +5,6 @@ export class CategoryDto {
     @ApiProperty({ description: 'category id', example: uuidv4() })
     id?:string;
 
-    @ApiProperty({ description: 'category name', example: 'one of the names of the categories' })
+    @ApiProperty({ description: 'category name', example: 'Relationships' })
     name: string;
 }

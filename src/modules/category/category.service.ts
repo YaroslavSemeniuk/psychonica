@@ -26,15 +26,16 @@ export class CategoryService {
   }
 
   async updateCategory(id: string, category: CategoryDto): Promise<CategoryDto> {
-    await this.categoryRepository.update(id, category);
-    return this.categoryRepository.findOne(id);
+    return this.categoryRepository.save({ id, category });
   }
 
-  async removeCategory(id: string): Promise<CategoryDto> {
+  async removeCategory(id: string): Promise<boolean> {
+    let deletedResult = false;
     const category = await this.categoryRepository.findOne(id);
     const deleteResponse = await this.categoryRepository.delete(category);
     if (deleteResponse.affected) {
-      return category;
+      deletedResult = true;
     }
+    return deletedResult;
   }
 }
