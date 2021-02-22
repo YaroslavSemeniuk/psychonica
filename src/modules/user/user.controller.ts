@@ -7,12 +7,11 @@ import {
   Post,
   Put, Query, UsePipes, ValidationPipe,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UserDto } from '../database/dto/user.dto';
-import { CreateUserDto } from './dto/received/create-user.dto';
 import { UpdateUserDto } from './dto/received/update-user.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
@@ -20,7 +19,8 @@ import { UpdateUserDto } from './dto/received/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get(ROUTES.USER.GET_ALL)
+  @ApiOperation({ summary: 'Return all users', description: 'Return all users' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Users was found',
@@ -30,7 +30,8 @@ export class UserController {
     return this.userService.getUsers();
   }
 
-  @Get(ROUTES.ID.DYNAMIC_ID)
+  @Get(ROUTES.USER.GET_BY_ID)
+  @ApiOperation({ summary: 'Return user by id', description: 'Return user by input id' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User was found',
@@ -42,17 +43,19 @@ export class UserController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create user', description: 'Create user and return it' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User created',
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  createUser(@Body() data: CreateUserDto): Promise<UserDto> {
-    return this.userService.createUser(data.user);
+  createUser(@Body() user: UserDto): Promise<UserDto> {
+    return this.userService.createUser(user);
   }
 
   @Put()
+  @ApiOperation({ summary: 'Update user', description: 'Update user and return it' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User updated',
@@ -63,11 +66,15 @@ export class UserController {
     return this.userService.updateUser(data.userId, data.user);
   }
 
-  @Delete(ROUTES.ID.DYNAMIC_ID)
+  @Delete()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User deleted',
     type: UserDto,
+  })
+  @ApiOperation({
+    summary: 'Delete user',
+    description: 'Delete user by id and return true on successful deletion',
   })
   @UsePipes(new ValidationPipe())
   deleteUser(@Query() query: GetByIdDto): Promise<boolean> {

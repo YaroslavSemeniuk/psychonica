@@ -7,13 +7,12 @@ import {
   Post,
   Put, Query, UsePipes,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { ROUTES } from '../../shared/config/routes';
 import { CategoryDto } from '../database/dto/category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
-import { CreateCategoryDto } from './dto/received/create-category.dto';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
@@ -21,7 +20,8 @@ import { UpdateCategoryDto } from './dto/received/update-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @Get()
+  @Get(ROUTES.CATEGORY.GET_ALL)
+  @ApiOperation({ summary: 'Return all categories', description: 'Return all categories' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Categories was found',
@@ -31,7 +31,8 @@ export class CategoryController {
     return this.categoryService.getCategories();
   }
 
-  @Get(ROUTES.ID.DYNAMIC_ID)
+  @Get(ROUTES.CATEGORY.GET_BY_ID)
+  @ApiOperation({ summary: 'Return category by id', description: 'Return category by input id' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category was found',
@@ -43,17 +44,19 @@ export class CategoryController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create category', description: 'Create category and return it' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Category created',
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  createCategory(@Body() data: CreateCategoryDto): Promise<CategoryDto> {
-    return this.categoryService.createCategory(data.category);
+  createCategory(@Body() category: CategoryDto): Promise<CategoryDto> {
+    return this.categoryService.createCategory(category);
   }
 
-  @Put(ROUTES.ID.DYNAMIC_ID)
+  @Put()
+  @ApiOperation({ summary: 'Update category', description: 'Update category and return it' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category updated',
@@ -64,7 +67,11 @@ export class CategoryController {
     return this.categoryService.updateCategory(data.categoryId, data.category);
   }
 
-  @Delete(ROUTES.ID.DYNAMIC_ID)
+  @Delete()
+  @ApiOperation({
+    summary: 'Delete category',
+    description: 'Delete category by id and return true on successful deletion',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category deleted',

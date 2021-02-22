@@ -7,13 +7,12 @@ import {
   Post,
   Put, Query, UsePipes,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from './question.service';
 import { ROUTES } from '../../shared/config/routes';
 import { QuestionDto } from '../database/dto/question.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
-import { CreateQuestionDto } from './dto/received/create-question.dto';
 import { UpdateQuestionDto } from './dto/received/update-question.dto';
 
 @ApiTags(ROUTES.QUESTION.MAIN)
@@ -21,7 +20,8 @@ import { UpdateQuestionDto } from './dto/received/update-question.dto';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
-  @Get()
+  @Get(ROUTES.QUESTION.GET_ALL)
+  @ApiOperation({ summary: 'Return all questions', description: 'Return all questions' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Questions was found',
@@ -31,7 +31,8 @@ export class QuestionController {
     return this.questionService.getQuestions();
   }
 
-  @Get(ROUTES.ID.DYNAMIC_ID)
+  @Get(ROUTES.QUESTION.GET_BY_ID)
+  @ApiOperation({ summary: 'Return question by id', description: 'Return question by input id' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question was found',
@@ -43,17 +44,19 @@ export class QuestionController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create question', description: 'Create question and return it' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Question created',
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  createQuestion(@Body() data: CreateQuestionDto): Promise<QuestionDto> {
-    return this.questionService.createQuestion(data.question);
+  createQuestion(@Body() question: QuestionDto): Promise<QuestionDto> {
+    return this.questionService.createQuestion(question);
   }
 
   @Put()
+  @ApiOperation({ summary: 'Update question', description: 'Update question and return it' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question updated',
@@ -64,7 +67,11 @@ export class QuestionController {
     return this.questionService.updateQuestion(data.questionId, data.question);
   }
 
-  @Delete(ROUTES.ID.DYNAMIC_ID)
+  @Delete()
+  @ApiOperation({
+    summary: 'Delete question',
+    description: 'Delete question by id and return true on successful deletion',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question deleted',

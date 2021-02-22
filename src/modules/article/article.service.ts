@@ -36,13 +36,8 @@ export class ArticleService {
   }
 
   async remove(id: string): Promise<boolean> {
-    let deletedResult = false;
-    const article = await this.articleRepository.findOne(id);
-    const deleteResponse = await this.articleRepository.delete(article);
-    if (deleteResponse.affected) {
-      deletedResult = true;
-    }
-    return deletedResult;
+    const deleteResponse = await this.articleRepository.delete(id);
+    return !!deleteResponse.affected;
   }
 
   async getArticlesByGender(gender: string): Promise<ArticleDto[]> {

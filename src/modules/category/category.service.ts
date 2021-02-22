@@ -7,9 +7,10 @@ import { Category } from '../database/entities/category.entity';
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
-  ) {}
+      @InjectRepository(Category)
+      private readonly categoryRepository: Repository<Category>,
+  ) {
+  }
 
   async getCategories(): Promise<CategoryDto[]> {
     return this.categoryRepository.find();
@@ -30,12 +31,7 @@ export class CategoryService {
   }
 
   async removeCategory(id: string): Promise<boolean> {
-    let deletedResult = false;
-    const category = await this.categoryRepository.findOne(id);
-    const deleteResponse = await this.categoryRepository.delete(category);
-    if (deleteResponse.affected) {
-      deletedResult = true;
-    }
-    return deletedResult;
+    const deleteResponse = await this.categoryRepository.delete(id);
+    return !!deleteResponse.affected;
   }
 }

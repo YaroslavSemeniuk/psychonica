@@ -30,12 +30,7 @@ export class UserService {
   }
 
   async removeUser(id: string): Promise<boolean> {
-    let deletedResult = false;
-    const user = await this.userRepository.findOne(id);
-    const deleteResponse = await this.userRepository.delete(user);
-    if (deleteResponse.affected) {
-      deletedResult = true;
-    }
-    return deletedResult;
+    const deleteResponse = await this.userRepository.delete(id);
+    return !!deleteResponse.affected;
   }
 }

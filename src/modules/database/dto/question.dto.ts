@@ -12,7 +12,10 @@ export class QuestionDto {
     @ApiProperty({ description: 'description text', example: 'How to improve the relationship?' })
     description: string;
 
-    @ApiProperty({ description: 'main text', example: 'Our feelings disappear for each other. How to fix it?' })
+    @ApiProperty({
+      description: 'main text',
+      example: 'Our feelings disappear for each other. How to fix it?',
+    })
     text: string;
 
     @ApiProperty({ description: 'path to the question image', example: 'C:\\temp\\image.jpg' })

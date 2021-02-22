@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
 export class GetByGenderAndCategoryDto {
-    @ApiProperty({ description: 'user gender', example: GenderEnum.MALE })
+    @ApiProperty({ description: 'user gender', example: GenderEnum.MALE, enum: Object.values(GenderEnum) })
     @IsString()
     @IsNotEmpty()
     @IsEnum(GenderEnum)

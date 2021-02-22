@@ -20,7 +20,7 @@ export class QuestionService {
   }
 
   async createQuestion(question: QuestionDto): Promise<QuestionDto> {
-    const newQuestion = await this.questionRepository.create(question); // crypto in Node
+    const newQuestion = await this.questionRepository.create(question);
     await this.questionRepository.save(newQuestion);
     return newQuestion;
   }
@@ -30,12 +30,7 @@ export class QuestionService {
   }
 
   async removeQuestion(id: string): Promise<boolean> {
-    let deletedResult = false;
-    const question = await this.questionRepository.findOne(id);
-    const deleteResponse = await this.questionRepository.delete(question);
-    if (deleteResponse.affected) {
-      deletedResult = true;
-    }
-    return deletedResult;
+    const deleteResponse = await this.questionRepository.delete(id);
+    return !!deleteResponse.affected;
   }
 }

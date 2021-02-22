@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { MessageCodeError } from '../errors/message-code-error';
 
 dotenv.config({ path: `env/${process.env.NODE_ENV || 'development'}.env` });
 
@@ -9,7 +10,7 @@ class ConfigService {
   private getValue(key: string, throwOnMissing = true): string {
     const value = this.env[key];
     if (!value && throwOnMissing) {
-      throw new Error(`config error - missing env.${key}`);
+      throw new MessageCodeError(`config error - missing env.${key}`);
     }
     return value;
   }

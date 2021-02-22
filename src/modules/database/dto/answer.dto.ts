@@ -11,7 +11,10 @@ export class AnswerDto {
     @ApiProperty({ description: 'description text', example: 'Ways to improve relationships' })
     description: string;
 
-    @ApiProperty({ description: 'main text', example: 'One of the best ways to improve your relationship is to play sports together' })
+    @ApiProperty({
+      description: 'main text',
+      example: 'One of the best ways to improve your relationship is to play sports together',
+    })
     text: string;
 
     @ApiProperty({ description: 'counter dislikes by users', example: 10 })

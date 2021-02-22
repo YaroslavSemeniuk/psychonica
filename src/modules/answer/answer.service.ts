@@ -11,8 +11,8 @@ export class AnswerService {
     private readonly answerRepository: Repository<Answer>,
   ) {}
 
-  async getAnswers(): Promise<AnswerDto[]> {
-    return this.answerRepository.find();
+  async getAnswersByQuestionId(questionId: string): Promise<AnswerDto[]> {
+    return this.answerRepository.find({ where: { questionId } });
   }
 
   async getAnswerById(id: string): Promise<AnswerDto> {
@@ -30,13 +30,8 @@ export class AnswerService {
   }
 
   async removeAnswer(id: string): Promise<boolean> {
-    let deletedResult = false;
-    const answer = await this.answerRepository.findOne(id);
-    const deleteResponse = await this.answerRepository.delete(answer);
-    if (deleteResponse.affected) {
-      deletedResult = true;
-    }
-    return deletedResult;
+    const deleteResponse = await this.answerRepository.delete(id);
+    return !!deleteResponse.affected;
   }
 
   async getAnswersByUserId(userId: string): Promise<AnswerDto[]> {
