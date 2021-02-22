@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsUrl } from 'class-validator';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
 
 export class UserDto {
-    @ApiProperty({ description: 'user id', example: uuidv4() })
+    @ApiPropertyOptional({ description: 'user id', example: uuidv4() })
     id?:string;
 
     @ApiProperty({ description: 'user name', example: 'Sam' })
@@ -13,21 +14,35 @@ export class UserDto {
     @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
     email: string;
 
-    @ApiProperty({ description: 'role user in application', example: RoleEnum.USER, enum: Object.values(RoleEnum) })
+    @ApiProperty({
+      description: 'role user in application',
+      example: RoleEnum.USER,
+      enum: Object.values(RoleEnum),
+    })
     role: string;
 
     @ApiProperty({ description: 'gender user', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) })
     gender: string;
 
-    @ApiProperty({ description: 'link to the user\'s instagram', example: 'https://www.instagram.com/' })
-    instagram: string;
+    @ApiPropertyOptional({
+      description: 'link to the user\'s instagram',
+      example: 'https://www.instagram.com/',
+    })
+    @IsUrl()
+    instagram?: string;
 
-    @ApiProperty({ description: 'link to the user\'s telegram', example: 'https://web.telegram.org/' })
-    telegram: string;
+    @ApiPropertyOptional({
+      description: 'link to the user\'s telegram',
+      example: 'https://web.telegram.org/',
+    })
+    telegram?: string;
 
-    @ApiProperty({ description: 'link to the user\'s vk', example: 'https://www.vk.com/' })
-    vk: string;
+    @ApiPropertyOptional({ description: 'link to the user\'s vk', example: 'https://www.vk.com/' })
+    vk?: string;
 
-    @ApiProperty({ description: 'link to the user\'s facebook', example: 'https://www.facebook.com/' })
-    facebook: string;
+    @ApiPropertyOptional({
+      description: 'link to the user\'s facebook',
+      example: 'https://www.facebook.com/',
+    })
+    facebook?: string;
 }
