@@ -11,7 +11,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
-import { UserDto } from '../database/dto/user.dto';
+import { UserDto, ValidateUserSchema } from '../database/dto/user.dto';
 import { UpdateUserDto } from './dto/received/update-user.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
@@ -49,8 +49,7 @@ export class UserController {
     description: 'User created',
     type: UserDto,
   })
-  @UsePipes(new ValidationPipe())
-  createUser(@Body() user: UserDto): Promise<UserDto> {
+  createUser(@Body(new ValidationPipe(ValidateUserSchema)) user: UserDto): Promise<UserDto> {
     return this.userService.createUser(user);
   }
 

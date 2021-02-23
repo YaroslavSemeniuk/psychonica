@@ -21,10 +21,10 @@ export class Answer {
   @Column({ type: 'varchar', default: '', nullable: false })
   text: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   countUseful: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   countUseless: number;
 
   @ManyToOne(() => Question, (question) => question.answers)
