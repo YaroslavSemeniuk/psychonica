@@ -1,5 +1,5 @@
 import {
-  Column, Entity, ManyToOne, PrimaryGeneratedColumn,
+  Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
@@ -28,15 +28,15 @@ export class Question {
   @Column({ type: 'varchar', length: 700, nullable: true })
   imgSrc: string;
 
-  @ManyToOne(() => Category, (category) => category.name)
-  category: string;
-
   @Column({ type: 'enum', enum: GenderEnum })
   gender: string;
 
-  @ManyToOne(() => User, (user) => user.id)
-  userId: string;
+  @ManyToOne(() => User, (user) => user.questions)
+  user: User
 
-  @ManyToOne(() => Answer, (answer) => answer.id)
-  answerId: string;
+  @ManyToOne(() => Category, (category) => category.articles)
+  category: Category
+
+  @OneToMany(() => Answer, (answer) => answer.question)
+  answers: Answer[]
 }

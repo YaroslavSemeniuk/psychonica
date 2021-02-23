@@ -1,5 +1,5 @@
 import {
-  Column, Entity, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, ManyToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Question } from './question.entity';
 
@@ -27,6 +27,6 @@ export class Answer {
   @Column({ type: 'int' })
   countUseless: number;
 
-  @OneToMany(() => Question, (question) => question.id)
-  questionId: string;
+  @ManyToOne(() => Question, (question) => question.answers)
+  question: Question
 }

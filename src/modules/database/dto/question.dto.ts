@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty } from '@nestjs/swagger';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
+import { AnswerDto } from './answer.dto';
+import { UserDto } from './user.dto';
+import { CategoryDto } from './category.dto';
 
 export class QuestionDto {
     @ApiProperty({ description: 'question id', example: uuidv4() })
@@ -21,15 +24,15 @@ export class QuestionDto {
     @ApiProperty({ description: 'path to the question image', example: 'C:\\temp\\image.jpg' })
     imgSrc: string;
 
-    @ApiProperty({ description: 'category by question', example: 'Relationships' })
-    category: string;
-
     @ApiProperty({ description: 'gender by question', example: GenderEnum, enum: Object.values(GenderEnum) })
     gender: string;
 
-    @ApiProperty({ description: 'author id', example: uuidv4() })
-    userId: string;
+    @ApiProperty({ description: 'question author', type: () => UserDto })
+    user?: UserDto;
 
-    @ApiProperty({ description: 'answer id', example: uuidv4() })
-    answerId: string;
+    @ApiProperty({ description: 'category by question', type: () => CategoryDto })
+    category?: CategoryDto;
+
+    @ApiProperty({ description: 'answers related to this question', type: () => [AnswerDto] })
+    answers?: AnswerDto[];
 }

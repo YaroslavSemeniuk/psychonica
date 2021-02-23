@@ -11,21 +11,21 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
   ) {}
 
-  async getQuestions(): Promise<QuestionDto[]> {
+  async getQuestions(): Promise<Question[]> {
     return this.questionRepository.find();
   }
 
-  async getQuestionById(id: string): Promise<QuestionDto> {
+  async getQuestionById(id: string): Promise<Question> {
     return this.questionRepository.findOne(id);
   }
 
-  async createQuestion(question: QuestionDto): Promise<QuestionDto> {
+  async createQuestion(question: QuestionDto): Promise<Question> {
     const newQuestion = await this.questionRepository.create(question);
     await this.questionRepository.save(newQuestion);
     return newQuestion;
   }
 
-  async updateQuestion(id: string, question: QuestionDto): Promise<QuestionDto> {
+  async updateQuestion(id: string, question: QuestionDto): Promise<Question> {
     return this.questionRepository.save({ id, question });
   }
 

@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty } from '@nestjs/swagger';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
+import { UserDto } from './user.dto';
+import { CategoryDto } from './category.dto';
 
 export class ArticleDto {
     @ApiProperty({ description: 'article id', example: uuidv4() })
@@ -21,9 +23,6 @@ export class ArticleDto {
     @ApiProperty({ description: 'path to the article image', example: 'image.jpg' })
     imgSrc: string;
 
-    @ApiProperty({ description: 'category by article', example: 'Relationships' })
-    category: string;
-
     @ApiProperty({
       description: 'gender by article',
       example: GenderEnum.MALE,
@@ -31,6 +30,9 @@ export class ArticleDto {
     })
     gender: string;
 
-    @ApiProperty({ description: 'author id', example: uuidv4() })
-    userId: string;
+    @ApiProperty({ description: 'article author', type: () => UserDto })
+    user?: UserDto;
+
+    @ApiProperty({ description: 'category by article', type: () => CategoryDto })
+    category?: CategoryDto;
 }

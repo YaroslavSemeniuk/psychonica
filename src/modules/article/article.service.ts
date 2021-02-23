@@ -11,27 +11,27 @@ export class ArticleService {
     private readonly articleRepository: Repository<Article>,
   ) {}
 
-  async getAll(): Promise<ArticleDto[]> {
+  async getAll(): Promise<Article[]> {
     return this.articleRepository.find();
   }
 
-  async getById(id: string): Promise<ArticleDto> {
+  async getById(id: string): Promise<Article> {
     return this.articleRepository.findOne(id);
   }
 
-  async getArticlesByUserId(userId: string): Promise<ArticleDto[]> {
+  async getArticlesByUserId(userId: string): Promise<Article[]> {
     return this.articleRepository.find({
       where: { userId },
     });
   }
 
-  async createOne(article: ArticleDto): Promise<ArticleDto> {
+  async createOne(article: ArticleDto): Promise<Article> {
     const newArticle = await this.articleRepository.create(article); // crypto in Node
     await this.articleRepository.save(newArticle);
     return newArticle;
   }
 
-  async update(id: string, article: ArticleDto): Promise<ArticleDto> {
+  async update(id: string, article: ArticleDto): Promise<Article> {
     return this.articleRepository.save({ id, article });
   }
 
@@ -40,19 +40,19 @@ export class ArticleService {
     return !!deleteResponse.affected;
   }
 
-  async getArticlesByGender(gender: string): Promise<ArticleDto[]> {
+  async getArticlesByGender(gender: string): Promise<Article[]> {
     return this.articleRepository.find({
       where: { gender },
     });
   }
 
-  async getArticlesByCategory(category: string): Promise<ArticleDto[]> {
+  async getArticlesByCategory(category: string): Promise<Article[]> {
     return this.articleRepository.find({
       where: { category },
     });
   }
 
-  async getArticlesByGenderAndCategory(gender: string, category: string): Promise<ArticleDto[]> {
+  async getArticlesByGenderAndCategory(gender: string, category: string): Promise<Article[]> {
     return this.articleRepository.find({
       where: { gender, category },
     });

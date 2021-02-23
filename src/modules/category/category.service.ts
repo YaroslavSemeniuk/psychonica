@@ -12,21 +12,21 @@ export class CategoryService {
   ) {
   }
 
-  async getCategories(): Promise<CategoryDto[]> {
+  async getCategories(): Promise<Category[]> {
     return this.categoryRepository.find();
   }
 
-  async getCategoryById(id: string): Promise<CategoryDto> {
+  async getCategoryById(id: string): Promise<Category> {
     return this.categoryRepository.findOne(id);
   }
 
-  async createCategory(category: CategoryDto): Promise<CategoryDto> {
+  async createCategory(category: CategoryDto): Promise<Category> {
     const newCategory = await this.categoryRepository.create(category);
     await this.categoryRepository.save(newCategory);
     return newCategory;
   }
 
-  async updateCategory(id: string, category: CategoryDto): Promise<CategoryDto> {
+  async updateCategory(id: string, category: CategoryDto): Promise<Category> {
     return this.categoryRepository.save({ id, category });
   }
 

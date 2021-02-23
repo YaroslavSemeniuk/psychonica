@@ -3,6 +3,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsUrl } from 'class-validator';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
+import { ArticleDto } from './article.dto';
+import { QuestionDto } from './question.dto';
 
 export class UserDto {
     @ApiPropertyOptional({ description: 'user id', example: uuidv4() })
@@ -45,4 +47,10 @@ export class UserDto {
       example: 'https://www.facebook.com/',
     })
     facebook?: string;
+
+    @ApiProperty({ description: 'articles created by this user', type: () => [ArticleDto] })
+    articles?: ArticleDto[];
+
+    @ApiProperty({ description: 'questions created by this user', type: () => [QuestionDto] })
+    questions?: QuestionDto[];
 }

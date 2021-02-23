@@ -26,13 +26,12 @@ export class Article {
   @Column({ type: 'varchar', length: 700, nullable: true })
   imgSrc: string;
 
-  @Column()
-  @ManyToOne(() => Category, (category) => category.name)
-  category: string;
-
   @Column({ type: 'enum', enum: GenderEnum })
   gender: string;
 
-  @ManyToOne(() => User, (user) => user.id)
-  userId: string;
+  @ManyToOne(() => User, (user) => user.articles)
+  user: User;
+
+  @ManyToOne(() => Category, (category) => category.articles)
+  category: Category;
 }

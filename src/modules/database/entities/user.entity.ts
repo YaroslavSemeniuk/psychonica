@@ -1,6 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column, Entity, OneToMany, PrimaryGeneratedColumn,
+} from 'typeorm';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
+import { Question } from './question.entity';
+import { Article } from './article.entity';
 
 @Entity({ name: 'user' })
 export class User {
@@ -32,4 +36,10 @@ export class User {
 
   @Column({ type: 'varchar', length: 300, nullable: true })
   facebook: string;
+
+  @OneToMany(() => Article, (article) => article.user)
+  articles: Article[]
+
+  @OneToMany(() => Question, (question) => question.user)
+  questions: Question[]
 }
