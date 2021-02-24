@@ -14,6 +14,7 @@ import { QuestionDto } from '../database/dto/question.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { UpdateQuestionDto } from './dto/received/update-question.dto';
+import { CreateQuestionDto } from './dto/received/create-question.dto';
 
 @ApiTags(ROUTES.QUESTION.MAIN)
 @Controller(ROUTES.QUESTION.MAIN)
@@ -51,8 +52,8 @@ export class QuestionController {
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  createQuestion(@Body() question: QuestionDto): Promise<QuestionDto> {
-    return this.questionService.createQuestion(question);
+  createQuestion(@Body() data: CreateQuestionDto): Promise<QuestionDto> {
+    return this.questionService.createQuestion(data);
   }
 
   @Put()
@@ -64,7 +65,7 @@ export class QuestionController {
   })
   @UsePipes(new ValidationPipe())
   updateQuestion(@Body() data: UpdateQuestionDto): Promise<QuestionDto> {
-    return this.questionService.updateQuestion(data.questionId, data.question);
+    return this.questionService.updateQuestion(data);
   }
 
   @Delete()

@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
+} from 'class-validator';
 import { ArticleDto } from '../../../database/dto/article.dto';
+import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
 export class UpdateArticleDto {
     @ApiProperty({ description: 'article id to update', example: uuidv4() })
@@ -10,7 +13,42 @@ export class UpdateArticleDto {
     @IsUUID('4')
     articleId: string
 
-    @ApiProperty({ description: 'updated article entity', type: () => ArticleDto })
-    @IsNotEmpty()
-    article: ArticleDto
+    @ApiPropertyOptional({ description: 'title text', example: 'Love and relationships' })
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @ApiPropertyOptional({ description: 'description text', example: 'Ways to improve relationships' })
+    @IsOptional()
+    @IsString()
+    description?: string;
+
+    @ApiPropertyOptional({
+      description: 'main text',
+      example: 'In this article, we will look at some ways to improve relationships',
+    })
+    @IsOptional()
+    @IsString()
+    text?: string;
+
+    @ApiPropertyOptional({
+      description: 'gender by article',
+      example: GenderEnum.MALE,
+      enum: Object.values(GenderEnum),
+    })
+    @IsOptional()
+    @IsEnum(GenderEnum)
+    gender?: string;
+
+    @ApiPropertyOptional({ description: 'path to the article image', example: 'image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
+
+    @ApiPropertyOptional({ description: 'article author' })
+    @IsOptional()
+    userId?: string;
+
+    @ApiPropertyOptional({ description: 'category by article' })
+    @IsOptional()
+    categoryId?: string;
 }

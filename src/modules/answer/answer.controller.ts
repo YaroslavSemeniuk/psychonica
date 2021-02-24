@@ -17,6 +17,7 @@ import { AnswerDto } from '../database/dto/answer.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateAnswerDto } from './dto/received/update-answer.dto';
+import { CreateAnswerDto } from './dto/received/create-answer.dto';
 
 @ApiTags(ROUTES.ANSWER.MAIN)
 @Controller(ROUTES.ANSWER.MAIN)
@@ -66,8 +67,8 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  createAnswer(@Body() answer: AnswerDto): Promise<AnswerDto> {
-    return this.answerService.createAnswer(answer);
+  createAnswer(@Body() params: CreateAnswerDto): Promise<AnswerDto> {
+    return this.answerService.createAnswer(params);
   }
 
   @Put()
@@ -79,7 +80,7 @@ export class AnswerController {
   })
   @UsePipes(new ValidationPipe())
   updateAnswer(@Body() data: UpdateAnswerDto): Promise<AnswerDto> {
-    return this.answerService.updateAnswer(data.answerId, data.answer);
+    return this.answerService.updateAnswer(data);
   }
 
   @Delete()

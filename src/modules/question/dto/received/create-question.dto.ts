@@ -1,14 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
-import { GenderEnum } from '../../../shared/enums/gender.enum';
-import { AnswerDto } from './answer.dto';
-import { UserDto } from './user.dto';
-import { CategoryDto } from './category.dto';
+import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
-export class QuestionDto {
+export class CreateQuestionDto {
     @ApiProperty({ description: 'title text', example: 'Family relationship' })
     @IsNotEmpty()
     @IsString()
@@ -27,25 +23,25 @@ export class QuestionDto {
     @IsString()
     text: string;
 
-    @ApiProperty({ description: 'path to the question image', example: 'temp\\image.jpg' })
-    @IsNotEmpty()
-    imgSrc: string;
-
     @ApiProperty({ description: 'gender by question', example: GenderEnum, enum: Object.values(GenderEnum) })
     @IsNotEmpty()
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'question author', type: () => UserDto })
+    @ApiProperty({ description: 'question author' })
     @IsNotEmpty()
-    user: UserDto;
+    userId: string;
 
-    @ApiPropertyOptional({ description: 'category by question', type: () => CategoryDto })
+    @ApiPropertyOptional({ description: 'category by question' })
     @IsNotEmpty()
-    category: CategoryDto;
+    category: string;
 
-    @ApiPropertyOptional({ description: 'answers related to this question', type: () => [AnswerDto] })
+    @ApiPropertyOptional({ description: 'answers related to this question' })
     @IsOptional()
     @IsNotEmpty()
-    answers?: AnswerDto[];
+    answersIds?: string[];
+
+    @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
 }

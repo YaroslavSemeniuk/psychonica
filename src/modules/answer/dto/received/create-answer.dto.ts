@@ -2,9 +2,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsInt, IsNotEmpty, IsString, Min,
 } from 'class-validator';
-import { QuestionDto } from './question.dto';
 
-export class AnswerDto {
+export class CreateAnswerDto {
     @ApiProperty({ description: 'title text', example: 'Love and relationships' })
     @IsNotEmpty()
     @IsString()
@@ -23,6 +22,13 @@ export class AnswerDto {
     @IsString()
     text: string;
 
+    @ApiProperty({
+      description: 'the question to which we give the answer',
+      example: (question) => question.id,
+    })
+    @IsNotEmpty()
+    questionId: string;
+
     @ApiPropertyOptional({ description: 'counter dislikes by users', example: 10 })
     @IsInt()
     @Min(0)
@@ -32,8 +38,4 @@ export class AnswerDto {
     @IsInt()
     @Min(0)
     countUseless?: number;
-
-    @ApiProperty({ description: 'the question to which we give the answer', type: () => QuestionDto })
-    @IsNotEmpty()
-    question: QuestionDto;
 }

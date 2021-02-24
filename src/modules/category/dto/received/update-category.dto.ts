@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
-import { CategoryDto } from '../../../database/dto/category.dto';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsNotEmpty, IsOptional, IsString, IsUUID,
+} from 'class-validator';
 
 export class UpdateCategoryDto {
     @ApiProperty({ description: 'category id to update', example: uuidv4() })
@@ -10,7 +11,16 @@ export class UpdateCategoryDto {
     @IsUUID('4')
     categoryId: string
 
-    @ApiProperty({ description: 'updated category entity', type: () => CategoryDto })
-    @IsNotEmpty()
-    category: CategoryDto
+    @ApiPropertyOptional({ description: 'category name', example: 'Relationships' })
+    @IsOptional()
+    @IsString()
+    name?: string;
+
+    @ApiPropertyOptional({ description: 'articles related to this category ' })
+    @IsOptional()
+    articlesIds?: string[];
+
+    @ApiPropertyOptional({ description: 'questions related to this category' })
+    @IsOptional()
+    questionsIds?: string[];
 }

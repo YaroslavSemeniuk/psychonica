@@ -1,19 +1,21 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsUrl } from 'class-validator';
+import {
+  Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl,
+} from 'class-validator';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { ArticleDto } from './article.dto';
 import { QuestionDto } from './question.dto';
 
 export class UserDto {
-    @ApiPropertyOptional({ description: 'user id', example: uuidv4() })
-    id?:string;
-
     @ApiProperty({ description: 'user name', example: 'Sam' })
+    @IsNotEmpty()
+    @IsString()
     name: string;
 
     @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
+    @IsNotEmpty()
+    @IsEmail()
     email: string;
 
     @ApiProperty({
@@ -21,36 +23,53 @@ export class UserDto {
       example: RoleEnum.USER,
       enum: Object.values(RoleEnum),
     })
+    @IsNotEmpty()
+    @IsEnum(RoleEnum)
     role: string;
 
     @ApiProperty({ description: 'gender user', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) })
+    @IsNotEmpty()
+    @IsEnum(GenderEnum)
     gender: string;
 
     @ApiPropertyOptional({
       description: 'link to the user\'s instagram',
       example: 'https://www.instagram.com/',
     })
+    @IsOptional()
     @IsUrl()
+    @Contains('instagram.com')
     instagram?: string;
 
     @ApiPropertyOptional({
       description: 'link to the user\'s telegram',
       example: 'https://web.telegram.org/',
     })
+    @IsOptional()
+    @IsUrl()
+    @Contains('web.telegram.org')
     telegram?: string;
 
     @ApiPropertyOptional({ description: 'link to the user\'s vk', example: 'https://www.vk.com/' })
+    @IsOptional()
+    @IsUrl()
+    @Contains('vk.com')
     vk?: string;
 
     @ApiPropertyOptional({
       description: 'link to the user\'s facebook',
       example: 'https://www.facebook.com/',
     })
+    @IsOptional()
+    @IsUrl()
+    @Contains('facebook.com')
     facebook?: string;
 
-    @ApiProperty({ description: 'articles created by this user', type: () => [ArticleDto] })
+    @ApiPropertyOptional({ description: 'articles created by this user', type: () => [ArticleDto] })
+    @IsOptional()
     articles?: ArticleDto[];
 
-    @ApiProperty({ description: 'questions created by this user', type: () => [QuestionDto] })
+    @ApiPropertyOptional({ description: 'questions created by this user', type: () => [QuestionDto] })
+    @IsOptional()
     questions?: QuestionDto[];
 }

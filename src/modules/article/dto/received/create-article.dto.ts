@@ -2,11 +2,9 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
-import { GenderEnum } from '../../../shared/enums/gender.enum';
-import { UserDto } from './user.dto';
-import { CategoryDto } from './category.dto';
+import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
-export class ArticleDto {
+export class CreateArticleDto {
     @ApiProperty({ description: 'title text', example: 'Love and relationships' })
     @IsNotEmpty()
     @IsString()
@@ -25,10 +23,6 @@ export class ArticleDto {
     @IsString()
     text: string;
 
-    @ApiPropertyOptional({ description: 'path to the article image', example: 'image.jpg' })
-    @IsOptional()
-    imgSrc?: string;
-
     @ApiProperty({
       description: 'gender by article',
       example: GenderEnum.MALE,
@@ -38,9 +32,13 @@ export class ArticleDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'article author', type: () => UserDto })
-    user: UserDto;
+    @ApiProperty({ description: 'article author' })
+    userId: string;
 
-    @ApiProperty({ description: 'category by article', type: () => CategoryDto })
-    category: CategoryDto;
+    @ApiProperty({ description: 'category by article' })
+    categoryId: string;
+
+    @ApiPropertyOptional({ description: 'path to the article image', example: 'image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
 }
