@@ -1,45 +1,34 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID,
+  Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl,
 } from 'class-validator';
 import { RoleEnum } from '../../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
-export class UpdateUserDto {
-    @ApiProperty({ description: 'user id to update', example: uuidv4() })
+export class CreateUserDto {
+    @ApiProperty({ description: 'user name', example: 'Sam' })
     @IsNotEmpty()
     @IsString()
-    @IsUUID('4')
-    userId: string
+    name: string;
 
-    @ApiPropertyOptional({ description: 'user name', example: 'Sam' })
-    @IsOptional()
-    @IsString()
-    name?: string;
-
-    @ApiPropertyOptional({ description: 'user email', example: 'Sam@gmail.com' })
-    @IsOptional()
+    @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
+    @IsNotEmpty()
     @IsEmail()
-    email?: string;
+    email: string;
 
-    @ApiPropertyOptional({
+    @ApiProperty({
       description: 'role user in application',
       example: RoleEnum.USER,
       enum: Object.values(RoleEnum),
     })
-    @IsOptional()
+    @IsNotEmpty()
     @IsEnum(RoleEnum)
-    role?: string;
+    role: string;
 
-    @ApiPropertyOptional({
-      description: 'gender user',
-      example: GenderEnum.FEMALE,
-      enum: Object.values(GenderEnum),
-    })
-    @IsOptional()
+    @ApiProperty({ description: 'gender user', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) })
+    @IsNotEmpty()
     @IsEnum(GenderEnum)
-    gender?: string;
+    gender: string;
 
     @ApiPropertyOptional({
       description: 'link to the user\'s instagram',
@@ -76,9 +65,9 @@ export class UpdateUserDto {
 
     @ApiPropertyOptional({ description: 'articles created by this user' })
     @IsOptional()
-    articlesIds?: string[];
+    articleIds?: string[];
 
     @ApiPropertyOptional({ description: 'questions created by this user' })
     @IsOptional()
-    questionsIds?: string[];
+    questionIds?: string[];
 }

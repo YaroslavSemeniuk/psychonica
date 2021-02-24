@@ -17,6 +17,7 @@ import { GetByCategoryDto } from './dto/received/get-by-category.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ArticleDto } from '../database/dto/article.dto';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
+import { CreateArticleDto } from './dto/received/create-article.dto';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -105,7 +106,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  createArticle(@Body() article: ArticleDto): Promise<ArticleDto> {
+  createArticle(@Body() article: CreateArticleDto): Promise<ArticleDto> {
     return this.articleService.createOne(article);
   }
 
@@ -118,7 +119,7 @@ export class ArticleController {
   })
   @UsePipes(new ValidationPipe())
   updateArticle(@Body() data: UpdateArticleDto): Promise<ArticleDto> {
-    return this.articleService.update(data.articleId, data.article);
+    return this.articleService.update(data);
   }
 
   @Delete()

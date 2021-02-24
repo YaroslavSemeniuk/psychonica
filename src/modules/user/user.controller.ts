@@ -5,14 +5,15 @@ import {
   Get,
   HttpStatus,
   Post,
-  Put, Query, UsePipes, ValidationPipe,
+  Put, Query, UsePipes,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
-import { UserDto, ValidateUserSchema } from '../database/dto/user.dto';
+import { UserDto } from '../database/dto/user.dto';
 import { UpdateUserDto } from './dto/received/update-user.dto';
+import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 
 @ApiTags(ROUTES.USER.MAIN)
 @Controller(ROUTES.USER.MAIN)
@@ -49,7 +50,8 @@ export class UserController {
     description: 'User created',
     type: UserDto,
   })
-  createUser(@Body(new ValidationPipe(ValidateUserSchema)) user: UserDto): Promise<UserDto> {
+  @UsePipes(new ValidationPipe())
+  createUser(@Body() user: UserDto): Promise<UserDto> {
     return this.userService.createUser(user);
   }
 
@@ -62,7 +64,7 @@ export class UserController {
   })
   @UsePipes(new ValidationPipe())
   updateUser(@Body() data: UpdateUserDto): Promise<UserDto> {
-    return this.userService.updateUser(data.userId, data.user);
+    return this.userService.updateUser(data);
   }
 
   @Delete()

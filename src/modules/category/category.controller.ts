@@ -64,7 +64,7 @@ export class CategoryController {
   })
   @UsePipes(new ValidationPipe())
   updateCategory(@Body() data: UpdateCategoryDto): Promise<CategoryDto> {
-    return this.categoryService.updateCategory(data.categoryId, data.category);
+    return this.categoryService.updateCategory(data);
   }
 
   @Delete()

@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../database/entities/user.entity';
-import { UserDto } from '../database/dto/user.dto';
+import { CreateUserDto } from './dto/received/create-user.dto';
+import { MessageCodeError } from '../../shared/errors/message-code-error';
+import { UpdateUserDto } from './dto/received/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -19,14 +21,17 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async createUser(data: UserDto): Promise<User> {
-    const user = await this.userRepository.create(data);
-    await this.userRepository.save(user);
-    return user;
+  async createUser(data: CreateUserDto): Promise<User> {
+    const existUser = await this.userRepository.findOne({ email: data.email });
+    if (existUser) throw new MessageCodeError('user:exist');
+
+    return this.userRepository.create(data);
   }
 
-  async updateUser(id: string, user: UserDto): Promise<User> {
-    return this.userRepository.save({ id, user });
+  async updateUser(data: UpdateUserDto): Promise<User> {
+    // console.log({ user });
+    // console.log({ ...user });
+    return this.userRepository.save({ id: data.userId, ...data });
   }
 
   async removeUser(id: string): Promise<boolean> {

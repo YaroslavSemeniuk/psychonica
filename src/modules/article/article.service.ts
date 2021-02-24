@@ -1,14 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { isEmpty } from 'class-validator';
 import { Article } from '../database/entities/article.entity';
-import { ArticleDto } from '../database/dto/article.dto';
+import { CreateArticleDto } from './dto/received/create-article.dto';
+import { UserService } from '../user/user.service';
+import { MessageCodeError } from '../../shared/errors/message-code-error';
+import { UpdateArticleDto } from './dto/received/update-article.dto';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
+    private readonly userService: UserService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   async getAll(): Promise<Article[]> {
@@ -25,14 +32,19 @@ export class ArticleService {
     });
   }
 
-  async createOne(article: ArticleDto): Promise<Article> {
-    const newArticle = await this.articleRepository.create(article); // crypto in Node
+  async createOne(data: CreateArticleDto): Promise<Article> {
+    const user = await this.userService.getUserById(data.userId);
+    if (isEmpty(user)) throw new MessageCodeError('user:does not exist');
+    const newArticle = await this.articleRepository.create(data);
+    newArticle.user = user;
     await this.articleRepository.save(newArticle);
     return newArticle;
   }
 
-  async update(id: string, article: ArticleDto): Promise<Article> {
-    return this.articleRepository.save({ id, article });
+  async update(data: UpdateArticleDto): Promise<Article> {
+    // const user = this.userService.getUserById(data.userId);
+    // const category = this.categoryService.getCategoryById(data.categoryId);
+    return this.articleRepository.save({ id: data.articleId, data });
   }
 
   async remove(id: string): Promise<boolean> {

@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-import * as Joi from '@hapi/joi';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl,
@@ -9,14 +7,7 @@ import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { ArticleDto } from './article.dto';
 import { QuestionDto } from './question.dto';
 
-export const ValidateUserSchema = Joi.object().keys({
-  name: Joi.string().required(),
-}).options({ allowUnknown: false });
-
 export class UserDto {
-  // @ApiPropertyOptional({ description: 'user id', example: uuidv4() })
-  // id?: string;
-
     @ApiProperty({ description: 'user name', example: 'Sam' })
     @IsNotEmpty()
     @IsString()
@@ -76,11 +67,9 @@ export class UserDto {
 
     @ApiPropertyOptional({ description: 'articles created by this user', type: () => [ArticleDto] })
     @IsOptional()
-    @IsNotEmpty()
     articles?: ArticleDto[];
 
     @ApiPropertyOptional({ description: 'questions created by this user', type: () => [QuestionDto] })
     @IsOptional()
-    @IsNotEmpty()
     questions?: QuestionDto[];
 }
