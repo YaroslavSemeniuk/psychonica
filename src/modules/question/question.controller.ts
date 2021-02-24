@@ -15,6 +15,7 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { UpdateQuestionDto } from './dto/received/update-question.dto';
 import { CreateQuestionDto } from './dto/received/create-question.dto';
+import {QuestionEntity} from "../database/entities/question.entity";
 
 @ApiTags(ROUTES.QUESTION.MAIN)
 @Controller(ROUTES.QUESTION.MAIN)
@@ -28,7 +29,7 @@ export class QuestionController {
     description: 'Questions was found',
     type: QuestionDto,
   })
-  getQuestions(): Promise<QuestionDto[]> {
+  getQuestions(): Promise<QuestionEntity[]> {
     return this.questionService.getQuestions();
   }
 
@@ -40,7 +41,7 @@ export class QuestionController {
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  getQuestionById(@Query() query: GetByIdDto): Promise<QuestionDto> {
+  getQuestionById(@Query() query: GetByIdDto): Promise<QuestionEntity> {
     return this.questionService.getQuestionById(query.id);
   }
 
@@ -49,10 +50,10 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Question created',
-    type: QuestionDto,
+    type: CreateQuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  createQuestion(@Body() data: CreateQuestionDto): Promise<QuestionDto> {
+  createQuestion(@Body() data: CreateQuestionDto): Promise<QuestionEntity> {
     return this.questionService.createQuestion(data);
   }
 
@@ -64,7 +65,7 @@ export class QuestionController {
     type: QuestionDto,
   })
   @UsePipes(new ValidationPipe())
-  updateQuestion(@Body() data: UpdateQuestionDto): Promise<QuestionDto> {
+  updateQuestion(@Body() data: UpdateQuestionDto): Promise<QuestionEntity> {
     return this.questionService.updateQuestion(data);
   }
 

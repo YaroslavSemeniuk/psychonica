@@ -18,6 +18,7 @@ import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateAnswerDto } from './dto/received/update-answer.dto';
 import { CreateAnswerDto } from './dto/received/create-answer.dto';
+import {Answer} from "../database/entities/answer.entity";
 
 @ApiTags(ROUTES.ANSWER.MAIN)
 @Controller(ROUTES.ANSWER.MAIN)
@@ -32,7 +33,7 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  getAnswerById(@Query() query: GetByIdDto): Promise<AnswerDto> {
+  getAnswerById(@Query() query: GetByIdDto): Promise<Answer> {
     return this.answerService.getAnswerById(query.id);
   }
 
@@ -43,7 +44,7 @@ export class AnswerController {
     description: 'Answers was found',
     type: AnswerDto,
   })
-  getAnswersByQuestionId(@Query() query: GetByIdDto): Promise<AnswerDto[]> {
+  getAnswersByQuestionId(@Query() query: GetByIdDto): Promise<Answer[]> {
     return this.answerService.getAnswersByQuestionId(query.id);
   }
 
@@ -55,7 +56,7 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  getAnswersByUserId(@Query() query: GetByIdDto): Promise<AnswerDto[]> {
+  getAnswersByUserId(@Query() query: GetByIdDto): Promise<Answer[]> {
     return this.answerService.getAnswersByUserId(query.id);
   }
 
@@ -67,7 +68,7 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  createAnswer(@Body() params: CreateAnswerDto): Promise<AnswerDto> {
+  createAnswer(@Body() params: CreateAnswerDto): Promise<Answer> {
     return this.answerService.createAnswer(params);
   }
 
@@ -79,7 +80,7 @@ export class AnswerController {
     type: AnswerDto,
   })
   @UsePipes(new ValidationPipe())
-  updateAnswer(@Body() data: UpdateAnswerDto): Promise<AnswerDto> {
+  updateAnswer(@Body() data: UpdateAnswerDto): Promise<Answer> {
     return this.answerService.updateAnswer(data);
   }
 

@@ -62,12 +62,4 @@ export class CreateUserDto {
     @IsUrl()
     @Contains('facebook.com')
     facebook?: string;
-
-    @ApiPropertyOptional({ description: 'articles created by this user' })
-    @IsOptional()
-    articleIds?: string[];
-
-    @ApiPropertyOptional({ description: 'questions created by this user' })
-    @IsOptional()
-    questionIds?: string[];
 }

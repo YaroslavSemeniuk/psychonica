@@ -7,7 +7,6 @@ import { CreateArticleDto } from './dto/received/create-article.dto';
 import { UserService } from '../user/user.service';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
-import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class ArticleService {
@@ -15,7 +14,6 @@ export class ArticleService {
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
     private readonly userService: UserService,
-    private readonly categoryService: CategoryService,
   ) {}
 
   async getAll(): Promise<Article[]> {

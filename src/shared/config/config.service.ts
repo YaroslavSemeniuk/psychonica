@@ -42,6 +42,7 @@ class ConfigService {
   }
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
+    console.log(__dirname)
     return {
       type: 'postgres',
 

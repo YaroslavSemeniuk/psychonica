@@ -7,6 +7,7 @@ import { CreateAnswerDto } from './dto/received/create-answer.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { QuestionService } from '../question/question.service';
 import { UpdateAnswerDto } from './dto/received/update-answer.dto';
+import { AnswerDto } from '../database/dto/answer.dto';
 
 @Injectable()
 export class AnswerService {

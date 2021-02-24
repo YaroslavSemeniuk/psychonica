@@ -14,6 +14,8 @@ import { CategoryDto } from '../database/dto/category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
+import { Category } from '../database/entities/category.entity';
+import { CreateCategoryDto } from './dto/received/create-category.dto';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
 @Controller(ROUTES.CATEGORY.MAIN)
@@ -27,7 +29,7 @@ export class CategoryController {
     description: 'Categories was found',
     type: CategoryDto,
   })
-  getCategories(): Promise<CategoryDto[]> {
+  getCategories(): Promise<Category[]> {
     return this.categoryService.getCategories();
   }
 
@@ -39,7 +41,7 @@ export class CategoryController {
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  getCategoryById(@Query() query: GetByIdDto): Promise<CategoryDto> {
+  getCategoryById(@Query() query: GetByIdDto): Promise<Category> {
     return this.categoryService.getCategoryById(query.id);
   }
 
@@ -48,10 +50,10 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Category created',
-    type: CategoryDto,
+    type: CreateCategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  createCategory(@Body() category: CategoryDto): Promise<CategoryDto> {
+  createCategory(@Body() category: CreateCategoryDto): Promise<Category> {
     return this.categoryService.createCategory(category);
   }
 
@@ -63,7 +65,7 @@ export class CategoryController {
     type: CategoryDto,
   })
   @UsePipes(new ValidationPipe())
-  updateCategory(@Body() data: UpdateCategoryDto): Promise<CategoryDto> {
+  updateCategory(@Body() data: UpdateCategoryDto): Promise<Category> {
     return this.categoryService.updateCategory(data);
   }
 

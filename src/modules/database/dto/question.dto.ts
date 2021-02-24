@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString,
@@ -36,9 +35,17 @@ export class QuestionDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'question author', type: () => UserDto })
+    @ApiProperty({ description: 'question author' })
+    @IsNotEmpty()
+    userId: string;
+
+    @ApiPropertyOptional({ description: 'question author', type: () => UserDto })
     @IsNotEmpty()
     user: UserDto;
+
+    @ApiProperty({ description: 'category id by question' })
+    @IsNotEmpty()
+    categoryId: string;
 
     @ApiPropertyOptional({ description: 'category by question', type: () => CategoryDto })
     @IsNotEmpty()

@@ -1,52 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { isEmpty } from 'class-validator';
-import { Question } from '../database/entities/question.entity';
-import { MessageCodeError } from '../../shared/errors/message-code-error';
+import { QuestionEntity } from '../database/entities/question.entity';
 import { CreateQuestionDto } from './dto/received/create-question.dto';
-import { UserService } from '../user/user.service';
-import { CategoryService } from '../category/category.service';
 import { UpdateQuestionDto } from './dto/received/update-question.dto';
-import { AnswerService } from '../answer/answer.service';
+import { User } from '../database/entities/user.entity';
+import { Category } from '../database/entities/category.entity';
+import { MessageCodeError } from '../../shared/errors/message-code-error';
 
 @Injectable()
 export class QuestionService {
   constructor(
-    @InjectRepository(Question)
-    private readonly questionRepository: Repository<Question>,
-    private readonly userService: UserService,
-    private readonly categoryService: CategoryService,
-    private readonly answerService: AnswerService,
+    @InjectRepository(QuestionEntity)
+    private readonly questionRepository: Repository<QuestionEntity>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async getQuestions(): Promise<Question[]> {
+  async getQuestions(): Promise<QuestionEntity[]> {
     return this.questionRepository.find();
   }
 
-  async getQuestionById(id: string): Promise<Question> {
+  async getQuestionById(id: string): Promise<QuestionEntity> {
     return this.questionRepository.findOne(id);
   }
 
-  async createQuestion(data: CreateQuestionDto): Promise<Question> {
-    // const newQuestion = await this.questionRepository.create(question);
-    // await this.questionRepository.save(newQuestion);
-    // return newQuestion;
+  async createQuestion(data:CreateQuestionDto): Promise<QuestionEntity> {
+    const user = await this.userRepository.findOne(data.userId);
+    if (!user) throw new MessageCodeError('user:does not exist');
 
-    const user = await this.userService.getUserById(data.userId);
-    if (isEmpty(user)) throw new MessageCodeError('user:does not exist');
+    const category = await this.categoryRepository.findOne(data.categoryId);
+    if (!category) throw new MessageCodeError('category:does not exist');
 
-    const category = await this.categoryService.getCategoryById(data.category);
-    if (isEmpty(category)) throw new MessageCodeError('category:does not exist');
-
-    const newQuestion = await this.questionRepository.create(data);
+    const newQuestion = this.questionRepository.create(data);
     newQuestion.user = user;
     newQuestion.category = category;
-    await this.questionRepository.save(newQuestion);
-    return newQuestion;
+
+    return this.questionRepository.save(newQuestion);
   }
 
-  async updateQuestion(data: UpdateQuestionDto): Promise<Question> {
+  async updateQuestion(data: UpdateQuestionDto): Promise<QuestionEntity> {
     // const user = this.userService.getUserById(data.userId);
     // const category = this.categoryService.getCategoryById(data.categoryId);
     // const answers = this.answerService.getAnswersByQuestionId(data.questionId);

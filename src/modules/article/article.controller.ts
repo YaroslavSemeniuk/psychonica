@@ -18,6 +18,7 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ArticleDto } from '../database/dto/article.dto';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
 import { CreateArticleDto } from './dto/received/create-article.dto';
+import {Article} from "../database/entities/article.entity";
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -32,7 +33,7 @@ export class ArticleController {
     description: 'Articles was found',
     type: ArticleDto,
   })
-  getArticles(): Promise<ArticleDto[]> {
+  getArticles(): Promise<Article[]> {
     return this.articleService.getAll();
   }
 
@@ -44,7 +45,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticleById(@Query() query: GetByIdDto): Promise<ArticleDto> {
+  getArticleById(@Query() query: GetByIdDto): Promise<Article> {
     return this.articleService.getById(query.id);
   }
 
@@ -56,7 +57,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByUserId(@Query() query: GetByIdDto): Promise<ArticleDto[]> {
+  getArticlesByUserId(@Query() query: GetByIdDto): Promise<Article[]> {
     return this.articleService.getArticlesByUserId(query.id);
   }
   @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
@@ -67,7 +68,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<ArticleDto[]> {
+  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<Article[]> {
     return this.articleService.getArticlesByCategory(query.category);
   }
 
@@ -79,7 +80,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGender(@Query() query: GetByGenderDto): Promise<ArticleDto[]> {
+  getArticlesByGender(@Query() query: GetByGenderDto): Promise<Article[]> {
     return this.articleService.getArticlesByGender(query.gender);
   }
 
@@ -94,7 +95,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<ArticleDto[]> {
+  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
     return this.articleService.getArticlesByGenderAndCategory(query.gender, query.category);
   }
 
@@ -106,7 +107,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  createArticle(@Body() article: CreateArticleDto): Promise<ArticleDto> {
+  createArticle(@Body() article: CreateArticleDto): Promise<Article> {
     return this.articleService.createOne(article);
   }
 
@@ -118,7 +119,7 @@ export class ArticleController {
     type: ArticleDto,
   })
   @UsePipes(new ValidationPipe())
-  updateArticle(@Body() data: UpdateArticleDto): Promise<ArticleDto> {
+  updateArticle(@Body() data: UpdateArticleDto): Promise<Article> {
     return this.articleService.update(data);
   }
 

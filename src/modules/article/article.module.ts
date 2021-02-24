@@ -5,9 +5,11 @@ import { ArticleController } from './article.controller';
 import { Article } from '../database/entities/article.entity';
 import { UserService } from '../user/user.service';
 import { CategoryService } from '../category/category.service';
+import { UserModule } from '../user/user.module';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article]), UserService, CategoryService],
+  imports: [DatabaseModule, UserModule],
   providers: [ArticleService],
   controllers: [ArticleController],
   exports: [ArticleService],

@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnswerController } from './answer.controller';
 import { AnswerService } from './answer.service';
 import { Answer } from '../database/entities/answer.entity';
-import { QuestionService } from '../question/question.service';
+import { QuestionModule } from '../question/question.module';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Answer]), QuestionService],
+  imports: [DatabaseModule, QuestionModule],
   providers: [AnswerService],
   controllers: [AnswerController],
   exports: [AnswerService],

@@ -7,9 +7,8 @@ import { User } from './user.entity';
 import { Answer } from './answer.entity';
 
 @Entity({ name: 'question' })
-export class Question {
+export class QuestionEntity {
   @PrimaryGeneratedColumn('uuid')
-  @ManyToOne(() => Answer, (answer) => answer.id)
   readonly id: string;
 
   @Column({

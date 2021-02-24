@@ -23,7 +23,9 @@ export class CreateQuestionDto {
     @IsString()
     text: string;
 
-    @ApiProperty({ description: 'gender by question', example: GenderEnum, enum: Object.values(GenderEnum) })
+    @ApiProperty(
+      { description: 'gender by question', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) },
+    )
     @IsNotEmpty()
     @IsEnum(GenderEnum)
     gender: string;
@@ -32,14 +34,9 @@ export class CreateQuestionDto {
     @IsNotEmpty()
     userId: string;
 
-    @ApiPropertyOptional({ description: 'category by question' })
+    @ApiProperty({ description: 'category by question' })
     @IsNotEmpty()
-    category: string;
-
-    @ApiPropertyOptional({ description: 'answers related to this question' })
-    @IsOptional()
-    @IsNotEmpty()
-    answersIds?: string[];
+    categoryId: string;
 
     @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
     @IsOptional()

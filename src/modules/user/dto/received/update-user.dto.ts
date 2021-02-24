@@ -11,7 +11,7 @@ export class UpdateUserDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID('4')
-    userId: string
+    id: string
 
     @ApiPropertyOptional({ description: 'user name', example: 'Sam' })
     @IsOptional()

@@ -5,7 +5,7 @@ import {
   Get,
   HttpStatus,
   Post,
-  Put, Query, UsePipes,
+  Put, Query, UseInterceptors, UsePipes,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -14,8 +14,12 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UserDto } from '../database/dto/user.dto';
 import { UpdateUserDto } from './dto/received/update-user.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
+import { User } from '../database/entities/user.entity';
+import { CreateUserDto } from './dto/received/create-user.dto';
+import { TransformInterceptor } from '../../shared/interceprots/transform.interceptor';
 
 @ApiTags(ROUTES.USER.MAIN)
+// @UseInterceptors(TransformInterceptor)
 @Controller(ROUTES.USER.MAIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -27,7 +31,7 @@ export class UserController {
     description: 'Users was found',
     type: UserDto,
   })
-  getUsers(): Promise<UserDto[]> {
+  getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
@@ -39,7 +43,7 @@ export class UserController {
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  getUserById(@Query() query: GetByIdDto): Promise<UserDto> {
+  getUserById(@Query() query: GetByIdDto): Promise<User> {
     return this.userService.getUserById(query.id);
   }
 
@@ -48,10 +52,10 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User created',
-    type: UserDto,
+    type: CreateUserDto,
   })
   @UsePipes(new ValidationPipe())
-  createUser(@Body() user: UserDto): Promise<UserDto> {
+  createUser(@Body() user: CreateUserDto): Promise<User> {
     return this.userService.createUser(user);
   }
 
@@ -63,7 +67,7 @@ export class UserController {
     type: UserDto,
   })
   @UsePipes(new ValidationPipe())
-  updateUser(@Body() data: UpdateUserDto): Promise<UserDto> {
+  updateUser(@Body() data: UpdateUserDto): Promise<User> {
     return this.userService.updateUser(data);
   }
 

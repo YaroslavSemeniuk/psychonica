@@ -1,9 +1,10 @@
 import {
   Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
+import { classToPlain, Exclude } from 'class-transformer';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
-import { Question } from './question.entity';
+import { QuestionEntity } from './question.entity';
 import { Article } from './article.entity';
 
 @Entity({ name: 'user' })
@@ -12,6 +13,7 @@ export class User {
   readonly id: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
+  @Exclude({ toPlainOnly: true })
   name: string;
 
   @Column({
@@ -40,6 +42,10 @@ export class User {
   @OneToMany(() => Article, (article) => article.user)
   articles: Article[]
 
-  @OneToMany(() => Question, (question) => question.user)
-  questions: Question[]
+  @OneToMany(() => QuestionEntity, (question) => question.user)
+  questions: QuestionEntity[]
+
+  toJSON() {
+    return classToPlain(this);
+  }
 }

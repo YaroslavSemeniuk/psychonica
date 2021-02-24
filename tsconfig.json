@@ -5,11 +5,27 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
-  }
+    "incremental": true,
+    "esModuleInterop":true,
+    "jsx": "react"
+  },
+  "include": [
+    "src/main.ts",
+    "src/shared/config/**/*.ts",
+    "src/shared/filters/**/*.ts",
+    "src/shared/errors/**/*.ts",
+    "src/shared/middlewares/**/*.ts",
+    "db/migrations/**/*.ts",
+    "src/modules/common/models/**/*.ts",
+    "src/modules/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "assets"
+  ]
 }
