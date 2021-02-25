@@ -38,6 +38,12 @@ export const errorMessagesConfig: {
     errorMessage: 'article not found',
     userMessage: 'article not found',
   },
+  'article:exist': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant create article, category with same title already exist',
+    userMessage: 'Cant create article, category with same title already exist',
+  },
   /** -----------------------CATEGORY ERRORS-----------------------*/
   'category:notFound': {
     type: 'NotFound',
@@ -58,11 +64,23 @@ export const errorMessagesConfig: {
     errorMessage: 'question not found',
     userMessage: 'question not found',
   },
+  'question:exist': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant create question, question with same title and description already exist',
+    userMessage: 'Cant create question, question with same title and description already exist',
+  },
   /** -----------------------ANSWER ERRORS-----------------------*/
   'answer:notFound': {
     type: 'NotFound',
     httpStatus: HttpStatus.NOT_FOUND,
     errorMessage: 'answer not found',
     userMessage: 'answer not found',
+  },
+  'answer:exist': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant create answer, answer with same title and description already exist',
+    userMessage: 'Cant create answer, answer with same title and description already exist',
   },
 };

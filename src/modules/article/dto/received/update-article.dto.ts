@@ -3,7 +3,6 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
-import { ArticleDto } from '../../../database/dto/article.dto';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
 export class UpdateArticleDto {
@@ -11,7 +10,7 @@ export class UpdateArticleDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID('4')
-    articleId: string
+    id: string
 
     @ApiPropertyOptional({ description: 'title text', example: 'Love and relationships' })
     @IsOptional()

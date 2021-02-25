@@ -9,7 +9,7 @@ export class UpdateAnswerDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID('4')
-    answerId: string
+    id: string
 
     @ApiPropertyOptional({ description: 'title text', example: 'Love and relationships' })
     @IsOptional()

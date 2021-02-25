@@ -4,7 +4,6 @@ import {
   IsEnum,
   IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
-import { QuestionDto } from '../../../database/dto/question.dto';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
 export class UpdateQuestionDto {
@@ -12,7 +11,7 @@ export class UpdateQuestionDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID('4')
-    questionId: string
+    id: string
 
     @ApiPropertyOptional({ description: 'title text', example: 'Family relationship' })
     @IsOptional()

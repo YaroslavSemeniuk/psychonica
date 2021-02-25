@@ -7,7 +7,7 @@ import { User } from './user.entity';
 import { Answer } from './answer.entity';
 
 @Entity({ name: 'question' })
-export class QuestionEntity {
+export class Question {
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
 

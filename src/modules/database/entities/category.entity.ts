@@ -2,7 +2,7 @@ import {
   Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Article } from './article.entity';
-import { QuestionEntity } from './question.entity';
+import { Question } from './question.entity';
 
 @Entity({ name: 'category' })
 export class Category {
@@ -17,6 +17,6 @@ export class Category {
   @OneToMany(() => Article, (article) => article.category)
   articles: Article[]
 
-  @OneToMany(() => QuestionEntity, (question) => question.category)
-  questions: QuestionEntity[]
+  @OneToMany(() => Question, (question) => question.category)
+  questions: Question[]
 }

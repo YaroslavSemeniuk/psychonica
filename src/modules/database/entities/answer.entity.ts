@@ -1,8 +1,8 @@
 import {
   Column, Entity, ManyToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
-import { QuestionEntity } from './question.entity';
+import { Question } from './question.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'answer' })
 export class Answer {
@@ -28,6 +28,9 @@ export class Answer {
   @Column({ type: 'int', default: 0 })
   countUseless: number;
 
-  @ManyToOne(() => QuestionEntity, (question) => question.answers)
-  question: QuestionEntity
+  @ManyToOne(() => Question, (question) => question.answers)
+  question: Question
+
+  @ManyToOne(() => User, (user) => user.answers)
+  user: User;
 }

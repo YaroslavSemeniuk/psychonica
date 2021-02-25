@@ -18,7 +18,7 @@ import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateAnswerDto } from './dto/received/update-answer.dto';
 import { CreateAnswerDto } from './dto/received/create-answer.dto';
-import {Answer} from "../database/entities/answer.entity";
+import { Answer } from '../database/entities/answer.entity';
 
 @ApiTags(ROUTES.ANSWER.MAIN)
 @Controller(ROUTES.ANSWER.MAIN)

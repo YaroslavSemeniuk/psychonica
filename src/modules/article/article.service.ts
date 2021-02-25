@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { isEmpty } from 'class-validator';
 import { Article } from '../database/entities/article.entity';
 import { CreateArticleDto } from './dto/received/create-article.dto';
-import { UserService } from '../user/user.service';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
+import { User } from '../database/entities/user.entity';
+import { Category } from '../database/entities/category.entity';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
-    private readonly userService: UserService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async getAll(): Promise<Article[]> {
@@ -31,18 +34,26 @@ export class ArticleService {
   }
 
   async createOne(data: CreateArticleDto): Promise<Article> {
-    const user = await this.userService.getUserById(data.userId);
-    if (isEmpty(user)) throw new MessageCodeError('user:does not exist');
-    const newArticle = await this.articleRepository.create(data);
-    newArticle.user = user;
-    await this.articleRepository.save(newArticle);
+    const existArticle = await this.articleRepository.findOne({ title: data.title });
+    if (existArticle) throw new MessageCodeError('article:exist');
+
+    const existUser = await this.userRepository.findOne({ id: data.userId });
+    if (!existUser) throw new MessageCodeError('user:notFound');
+
+    const existCategory = await this.categoryRepository.findOne({ id: data.categoryId });
+    if (!existCategory) throw new MessageCodeError('category:notFound');
+
+    const newArticle = this.articleRepository.create(data);
+    await this.articleRepository.save(data);
     return newArticle;
   }
 
   async update(data: UpdateArticleDto): Promise<Article> {
-    // const user = this.userService.getUserById(data.userId);
-    // const category = this.categoryService.getCategoryById(data.categoryId);
-    return this.articleRepository.save({ id: data.articleId, data });
+    const article = await this.articleRepository.findOne(data.id);
+    if (!article) throw new MessageCodeError('article:notFound');
+    Object.assign(article, data);
+    await this.articleRepository.save(article);
+    return article;
   }
 
   async remove(id: string): Promise<boolean> {

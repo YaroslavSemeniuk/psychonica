@@ -18,7 +18,7 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ArticleDto } from '../database/dto/article.dto';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
 import { CreateArticleDto } from './dto/received/create-article.dto';
-import {Article} from "../database/entities/article.entity";
+import { Article } from '../database/entities/article.entity';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)

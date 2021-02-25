@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,15 +24,17 @@ export class UserService {
   async createUser(data: CreateUserDto): Promise<User> {
     const existUser = await this.userRepository.findOne({ email: data.email });
     if (existUser) throw new MessageCodeError('user:exist');
-
-    return this.userRepository.save(data);
+    const newUser = this.userRepository.create(data);
+    await this.userRepository.save(data);
+    return newUser;
   }
 
   async updateUser(data: UpdateUserDto): Promise<User> {
     const user = await this.userRepository.findOne(data.id);
     if (!user) throw new MessageCodeError('user:notFound');
-    const bla = await this.userRepository.save({ ...user, ...data });
-    return _.omit(bla, 'name');
+    Object.assign(user, data);
+    await this.userRepository.save(user);
+    return user;
   }
 
   async removeUser(id: string): Promise<boolean> {

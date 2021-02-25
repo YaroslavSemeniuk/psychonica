@@ -11,7 +11,7 @@ export class Article {
   readonly id: string;
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false,
+    type: 'varchar', length: 300, default: '', nullable: false, unique: true,
   })
   title: string;
 

@@ -29,6 +29,13 @@ export class CreateAnswerDto {
     @IsNotEmpty()
     questionId: string;
 
+    @ApiProperty({
+      description: 'user who give the answer',
+      example: (question) => question.id,
+    })
+    @IsNotEmpty()
+    userId: string;
+
     @ApiPropertyOptional({ description: 'counter dislikes by users', example: 10 })
     @IsInt()
     @Min(0)

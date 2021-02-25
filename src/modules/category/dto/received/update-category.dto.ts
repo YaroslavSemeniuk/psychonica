@@ -9,7 +9,7 @@ export class UpdateCategoryDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID('4')
-    categoryId: string
+    id: string
 
     @ApiPropertyOptional({ description: 'category name', example: 'Relationships' })
     @IsOptional()
