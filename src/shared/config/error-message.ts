@@ -4,6 +4,8 @@ import { IErrorMessages } from './interfaces/error-message.interface';
 export const errorMessagesConfig: {
   [messageCode: string]: IErrorMessages;
 } = {
+
+
   'request:unauthorized': {
     type: 'unauthorized',
     httpStatus: HttpStatus.UNAUTHORIZED,

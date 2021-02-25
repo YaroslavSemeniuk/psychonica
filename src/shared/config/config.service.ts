@@ -10,7 +10,7 @@ class ConfigService {
   private getValue(key: string, throwOnMissing = true): string {
     const value = this.env[key];
     if (!value && throwOnMissing) {
-      throw new MessageCodeError(`config error - missing env.${key}`);
+      throw new MessageCodeError('validation:error', `config error - missing env.${key}`);
     }
     return value;
   }
