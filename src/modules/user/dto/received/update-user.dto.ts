@@ -74,11 +74,13 @@ export class UpdateUserDto {
     @Contains('facebook.com')
     facebook?: string;
 
-    @ApiPropertyOptional({ description: 'articles created by this user' })
+    @ApiPropertyOptional({ description: 'articles created by this user', example: [uuidv4()] })
     @IsOptional()
+    @IsUUID('4')
     articlesIds?: string[];
 
-    @ApiPropertyOptional({ description: 'questions created by this user' })
+    @ApiPropertyOptional({ description: 'questions created by this user', example: [uuidv4()] })
     @IsOptional()
+    @IsUUID('4')
     questionsIds?: string[];
 }

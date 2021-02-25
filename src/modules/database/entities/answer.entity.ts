@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsInt, IsNotEmpty, IsString, Min,
+  IsInt, IsNotEmpty, IsOptional, IsString, Min,
 } from 'class-validator';
 import { Question } from './question.entity';
 import { User } from './user.entity';
@@ -42,12 +42,14 @@ export class Answer {
 
   @Column({ type: 'int', default: 0 })
   @ApiPropertyOptional({ description: 'counter dislikes by users', example: 10 })
+  @IsOptional()
   @IsInt()
   @Min(0)
   countUseful: number;
 
   @Column({ type: 'int', default: 0 })
   @ApiPropertyOptional({ description: 'counter dislikes by users', example: 6 })
+  @IsOptional()
   @IsInt()
   @Min(0)
   countUseless: number;

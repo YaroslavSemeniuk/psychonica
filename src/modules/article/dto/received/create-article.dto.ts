@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsEnum, IsNotEmpty, IsOptional, IsString,
+  IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
@@ -34,9 +34,15 @@ export class CreateArticleDto {
     gender: string;
 
     @ApiProperty({ description: 'article author', example: uuidv4() })
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
     userId: string;
 
     @ApiProperty({ description: 'category by article', example: uuidv4() })
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
     categoryId: string;
 
     @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
