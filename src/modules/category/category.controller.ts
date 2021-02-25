@@ -10,7 +10,6 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { ROUTES } from '../../shared/config/routes';
-import { CategoryDto } from '../database/dto/category.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
@@ -27,7 +26,7 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Categories was found',
-    type: CategoryDto,
+    type: Category,
   })
   getCategories(): Promise<Category[]> {
     return this.categoryService.getCategories();
@@ -38,7 +37,7 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category was found',
-    type: CategoryDto,
+    type: Category,
   })
   @UsePipes(new ValidationPipe())
   getCategoryById(@Query() query: GetByIdDto): Promise<Category> {
@@ -50,7 +49,7 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Category created',
-    type: CreateCategoryDto,
+    type: Category,
   })
   @UsePipes(new ValidationPipe())
   createCategory(@Body() category: CreateCategoryDto): Promise<Category> {
@@ -62,7 +61,7 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category updated',
-    type: CategoryDto,
+    type: Category,
   })
   @UsePipes(new ValidationPipe())
   updateCategory(@Body() data: UpdateCategoryDto): Promise<Category> {
@@ -77,7 +76,7 @@ export class CategoryController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Category deleted',
-    type: CategoryDto,
+    type: Boolean,
   })
   @UsePipes(new ValidationPipe())
   deleteCategory(@Query() query: GetByIdDto): Promise<boolean> {

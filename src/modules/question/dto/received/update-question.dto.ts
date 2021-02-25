@@ -40,18 +40,13 @@ export class UpdateQuestionDto {
     @IsEnum(GenderEnum)
     gender?: string;
 
-    @ApiPropertyOptional({ description: 'question author' })
+    @ApiPropertyOptional({ description: 'question author', example: uuidv4() })
     @IsOptional()
     userId?: string;
 
-    @ApiPropertyOptional({ description: 'category by question' })
+    @ApiPropertyOptional({ description: 'category by question', example: uuidv4() })
     @IsOptional()
     categoryId?: string;
-
-    @ApiPropertyOptional({ description: 'answers related to this question' })
-    @IsOptional()
-    @IsNotEmpty()
-    answers?: string[];
 
     @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
     @IsOptional()

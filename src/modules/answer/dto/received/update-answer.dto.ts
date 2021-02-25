@@ -41,7 +41,7 @@ export class UpdateAnswerDto {
     @Min(0)
     countUseless?: number;
 
-    @ApiPropertyOptional({ description: 'the question to which we give the answer' })
+    @ApiPropertyOptional({ description: 'the question to which we give the answer', example: uuidv4() })
     @IsOptional()
-    question?: string;
+    questionId?: string;
 }

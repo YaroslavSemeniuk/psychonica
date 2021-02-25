@@ -10,7 +10,6 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from './question.service';
 import { ROUTES } from '../../shared/config/routes';
-import { QuestionDto } from '../database/dto/question.dto';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { UpdateQuestionDto } from './dto/received/update-question.dto';
@@ -27,7 +26,7 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Questions was found',
-    type: QuestionDto,
+    type: Question,
   })
   getQuestions(): Promise<Question[]> {
     return this.questionService.getQuestions();
@@ -38,7 +37,7 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question was found',
-    type: QuestionDto,
+    type: Question,
   })
   @UsePipes(new ValidationPipe())
   getQuestionById(@Query() query: GetByIdDto): Promise<Question> {
@@ -50,7 +49,7 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Question created',
-    type: CreateQuestionDto,
+    type: Question,
   })
   @UsePipes(new ValidationPipe())
   createQuestion(@Body() data: CreateQuestionDto): Promise<Question> {
@@ -62,7 +61,7 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question updated',
-    type: QuestionDto,
+    type: Question,
   })
   @UsePipes(new ValidationPipe())
   updateQuestion(@Body() data: UpdateQuestionDto): Promise<Question> {
@@ -77,7 +76,7 @@ export class QuestionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Question deleted',
-    type: QuestionDto,
+    type: Boolean,
   })
   @UsePipes(new ValidationPipe())
   deleteQuestion(@Query() query: GetByIdDto): Promise<boolean> {

@@ -39,15 +39,15 @@ export class UpdateArticleDto {
     @IsEnum(GenderEnum)
     gender?: string;
 
-    @ApiPropertyOptional({ description: 'path to the article image', example: 'image.jpg' })
+    @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
     @IsOptional()
     imgSrc?: string;
 
-    @ApiPropertyOptional({ description: 'article author' })
+    @ApiPropertyOptional({ description: 'article author', example: uuidv4() })
     @IsOptional()
     userId?: string;
 
-    @ApiPropertyOptional({ description: 'category by article' })
+    @ApiPropertyOptional({ description: 'category by article', example: uuidv4() })
     @IsOptional()
     categoryId?: string;
 }

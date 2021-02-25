@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString,
@@ -32,13 +33,13 @@ export class CreateArticleDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'article author' })
+    @ApiProperty({ description: 'article author', example: uuidv4() })
     userId: string;
 
-    @ApiProperty({ description: 'category by article' })
+    @ApiProperty({ description: 'category by article', example: uuidv4() })
     categoryId: string;
 
-    @ApiPropertyOptional({ description: 'path to the article image', example: 'image.jpg' })
+    @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
     @IsOptional()
     imgSrc?: string;
 }

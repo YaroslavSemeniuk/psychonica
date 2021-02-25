@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
 export class CreateQuestionDto {
@@ -30,11 +31,11 @@ export class CreateQuestionDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'question author' })
+    @ApiProperty({ description: 'question author', example: uuidv4() })
     @IsNotEmpty()
     userId: string;
 
-    @ApiProperty({ description: 'category by question' })
+    @ApiProperty({ description: 'category by question', example: uuidv4() })
     @IsNotEmpty()
     categoryId: string;
 

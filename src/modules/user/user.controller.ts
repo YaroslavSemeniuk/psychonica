@@ -1,5 +1,5 @@
 import {
-  Body,
+  Body, ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,15 +11,13 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { ROUTES } from '../../shared/config/routes';
 import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
-import { UserDto } from '../database/dto/user.dto';
 import { UpdateUserDto } from './dto/received/update-user.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { User } from '../database/entities/user.entity';
 import { CreateUserDto } from './dto/received/create-user.dto';
-import { TransformInterceptor } from '../../shared/interceprots/transform.interceptor';
 
 @ApiTags(ROUTES.USER.MAIN)
-// @UseInterceptors(TransformInterceptor)
+// @UseInterceptors(ClassSerializerInterceptor)
 @Controller(ROUTES.USER.MAIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -29,7 +27,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Users was found',
-    type: UserDto,
+    type: User,
   })
   getUsers(): Promise<User[]> {
     return this.userService.getUsers();
@@ -40,7 +38,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User was found',
-    type: UserDto,
+    type: User,
   })
   @UsePipes(new ValidationPipe())
   getUserById(@Query() query: GetByIdDto): Promise<User> {
@@ -52,7 +50,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User created',
-    type: CreateUserDto,
+    type: User,
   })
   @UsePipes(new ValidationPipe())
   createUser(@Body() user: CreateUserDto): Promise<User> {
@@ -64,7 +62,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User updated',
-    type: UserDto,
+    type: User,
   })
   @UsePipes(new ValidationPipe())
   updateUser(@Body() data: UpdateUserDto): Promise<User> {
@@ -75,7 +73,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User deleted',
-    type: UserDto,
+    type: Boolean,
   })
   @ApiOperation({
     summary: 'Delete user',

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsInt, IsNotEmpty, IsString, Min,
@@ -24,15 +25,12 @@ export class CreateAnswerDto {
 
     @ApiProperty({
       description: 'the question to which we give the answer',
-      example: (question) => question.id,
+      example: uuidv4(),
     })
     @IsNotEmpty()
     questionId: string;
 
-    @ApiProperty({
-      description: 'user who give the answer',
-      example: (question) => question.id,
-    })
+    @ApiProperty({ description: 'user who give the answer', example: uuidv4() })
     @IsNotEmpty()
     userId: string;
 

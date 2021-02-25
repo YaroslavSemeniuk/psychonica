@@ -16,11 +16,11 @@ export class UpdateCategoryDto {
     @IsString()
     name?: string;
 
-    @ApiPropertyOptional({ description: 'articles related to this category ' })
+    @ApiPropertyOptional({ description: 'articles related to this category ', example: [uuidv4()] })
     @IsOptional()
     articlesIds?: string[];
 
-    @ApiPropertyOptional({ description: 'questions related to this category' })
+    @ApiPropertyOptional({ description: 'questions related to this category', example: [uuidv4()] })
     @IsOptional()
     questionsIds?: string[];
 }
