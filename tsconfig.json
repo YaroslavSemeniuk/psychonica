@@ -13,6 +13,16 @@
     "esModuleInterop":true,
     "jsx": "react"
   },
+  "include": [
+    "src/main.ts",
+    "src/shared/config/**/*.ts",
+    "src/shared/filters/**/*.ts",
+    "src/shared/errors/**/*.ts",
+    "src/shared/enums/**/*.ts",
+    "src/migration/**/*.ts",
+    "src/modules/**/*.ts",
+    "tests/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "assets"

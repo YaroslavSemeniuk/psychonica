@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsInt, IsNotEmpty, IsString, Min,
+  IsInt, IsNotEmpty, IsString, IsUUID, Min,
 } from 'class-validator';
 
 export class CreateAnswerDto {
@@ -23,17 +23,6 @@ export class CreateAnswerDto {
     @IsString()
     text: string;
 
-    @ApiProperty({
-      description: 'the question to which we give the answer',
-      example: uuidv4(),
-    })
-    @IsNotEmpty()
-    questionId: string;
-
-    @ApiProperty({ description: 'user who give the answer', example: uuidv4() })
-    @IsNotEmpty()
-    userId: string;
-
     @ApiPropertyOptional({ description: 'counter dislikes by users', example: 10 })
     @IsInt()
     @Min(0)
@@ -43,4 +32,19 @@ export class CreateAnswerDto {
     @IsInt()
     @Min(0)
     countUseless?: number;
+
+    @ApiProperty({ description: 'user who give the answer', example: uuidv4() })
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
+    userId: string;
+
+    @ApiProperty({
+      description: 'the question to which we give the answer',
+      example: uuidv4(),
+    })
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
+    questionId: string;
 }

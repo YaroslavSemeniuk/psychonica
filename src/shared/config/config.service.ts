@@ -56,7 +56,7 @@ class ConfigService {
       synchronize: false,
       migrationsTableName: 'migration',
 
-      migrations: ['dist/src/migration/*.js'],
+      migrations: ['dist/migration/*.js'],
 
       cli: {
         migrationsDir: 'src/migration',

@@ -67,15 +67,15 @@ export class ArticleService {
     });
   }
 
-  async getArticlesByCategory(category: string): Promise<Article[]> {
+  async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
     return this.articleRepository.find({
-      where: { category },
+      where: { categoryId },
     });
   }
 
-  async getArticlesByGenderAndCategory(gender: string, category: string): Promise<Article[]> {
+  async getArticlesByGenderAndCategory(gender: string, categoryId: string): Promise<Article[]> {
     return this.articleRepository.find({
-      where: { gender, category },
+      where: { gender, categoryId },
     });
   }
 }

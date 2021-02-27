@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsEnum, IsNotEmpty, IsOptional, IsString,
+  IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
@@ -24,6 +24,10 @@ export class CreateQuestionDto {
     @IsString()
     text: string;
 
+    @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
+
     @ApiProperty(
       { description: 'gender by question', example: GenderEnum.FEMALE, enum: Object.values(GenderEnum) },
     )
@@ -31,15 +35,15 @@ export class CreateQuestionDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'question author', example: uuidv4() })
+    @ApiProperty({ description: 'question author id', example: uuidv4() })
     @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
     userId: string;
 
-    @ApiProperty({ description: 'category by question', example: uuidv4() })
+    @ApiProperty({ description: 'category id by question', example: uuidv4() })
     @IsNotEmpty()
+    @IsString()
+    @IsUUID('4')
     categoryId: string;
-
-    @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
-    @IsOptional()
-    imgSrc?: string;
 }

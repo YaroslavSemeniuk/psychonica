@@ -31,9 +31,13 @@ export class UpdateQuestionDto {
     @IsString()
     text?: string;
 
+    @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
+
     @ApiPropertyOptional({
       description: 'gender by question',
-      example: GenderEnum,
+      example: GenderEnum.MALE,
       enum: Object.values(GenderEnum),
     })
     @IsOptional()
@@ -47,8 +51,4 @@ export class UpdateQuestionDto {
     @ApiPropertyOptional({ description: 'category by question', example: uuidv4() })
     @IsOptional()
     categoryId?: string;
-
-    @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
-    @IsOptional()
-    imgSrc?: string;
 }

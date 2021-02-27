@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsInt, IsNotEmpty, IsOptional, IsString, Min,
+  IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min,
 } from 'class-validator';
 import { Question } from './question.entity';
 import { User } from './user.entity';
@@ -53,6 +53,20 @@ export class Answer {
   @IsInt()
   @Min(0)
   countUseless: number;
+
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'author id by answer', example: uuidv4() })
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID('4')
+  userId: string
+
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'question id to which the answer belongs', example: uuidv4() })
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID('4')
+  questionId: string
 
   @ManyToOne(() => Question, (question) => question.answers)
   question: Question

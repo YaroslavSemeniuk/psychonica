@@ -24,6 +24,10 @@ export class CreateArticleDto {
     @IsString()
     text: string;
 
+    @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
+    @IsOptional()
+    imgSrc?: string;
+
     @ApiProperty({
       description: 'gender by article',
       example: GenderEnum.MALE,
@@ -44,8 +48,4 @@ export class CreateArticleDto {
     @IsString()
     @IsUUID('4')
     categoryId: string;
-
-    @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
-    @IsOptional()
-    imgSrc?: string;
 }

@@ -2,8 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
+} from 'class-validator';
 import { Category } from './category.entity';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { User } from './user.entity';
@@ -41,23 +43,33 @@ export class Question {
   text: string;
 
   @Column({ type: 'varchar', length: 700, nullable: true })
-  @ApiProperty({ description: 'path to the question image', example: 'temp\\image.jpg' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ description: 'path to the question image', example: 'temp\\image.jpg' })
+  @IsOptional()
   imgSrc: string;
 
   @Column({ type: 'enum', enum: GenderEnum })
-  @ApiProperty({ description: 'gender by question', example: GenderEnum, enum: Object.values(GenderEnum) })
+  @ApiProperty({
+    description: 'gender by question',
+    example: GenderEnum.MALE,
+    enum: Object.values(GenderEnum),
+  })
   @IsNotEmpty()
   @IsEnum(GenderEnum)
   gender: string;
 
-  @ApiProperty({ description: 'question author' })
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'author id by question', example: uuidv4() })
   @IsNotEmpty()
-  userId: string;
+  @IsString()
+  @IsUUID('4')
+  userId: string
 
-  @ApiProperty({ description: 'category id by question' })
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'category id by question', example: uuidv4() })
   @IsNotEmpty()
-  categoryId: string;
+  @IsString()
+  @IsUUID('4')
+  categoryId: string
 
   @ManyToOne(() => User, (user) => user.questions)
   user: User

@@ -41,7 +41,7 @@ export class QuestionService {
     if (!existCategory) throw new MessageCodeError('category:notFound');
 
     const newQuestion = this.questionRepository.create(data);
-    await this.userRepository.save(data);
+    await this.questionRepository.save(data);
     return newQuestion;
   }
 
