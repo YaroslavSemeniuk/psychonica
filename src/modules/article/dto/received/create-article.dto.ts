@@ -16,13 +16,13 @@ export class CreateArticleDto {
     @IsString()
     description: string;
 
-    @ApiProperty({
-      description: 'main text',
-      example: 'In this article, we will look at some ways to improve relationships',
+    @ApiPropertyOptional({
+      description: 'description text in HTML format',
+      example: '<\h1>Improving relationships and mutual understanding</h1>',
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    text: string;
+    descriptionHtml: string;
 
     @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
     @IsOptional()

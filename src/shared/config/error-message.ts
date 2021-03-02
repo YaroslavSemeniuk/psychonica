@@ -5,7 +5,6 @@ export const errorMessagesConfig: {
   [messageCode: string]: IErrorMessages;
 } = {
 
-
   'request:unauthorized': {
     type: 'unauthorized',
     httpStatus: HttpStatus.UNAUTHORIZED,
@@ -30,8 +29,8 @@ export const errorMessagesConfig: {
   'user:exist': {
     type: 'Conflict',
     httpStatus: HttpStatus.CONFLICT,
-    errorMessage: 'Cant create user, user with same email already exist',
-    userMessage: 'Cant create user, user with same email already exist',
+    errorMessage: 'Cant create user, user with same name already exist',
+    userMessage: 'Cant create user, user with same name already exist',
   },
   /** -----------------------ARTICLE ERRORS-----------------------*/
   'article:notFound': {

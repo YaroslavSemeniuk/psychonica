@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { slugify } from 'transliteration';
 import { Article } from '../database/entities/article.entity';
 import { CreateArticleDto } from './dto/received/create-article.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
@@ -44,8 +45,8 @@ export class ArticleService {
     if (!existCategory) throw new MessageCodeError('category:notFound');
 
     const newArticle = this.articleRepository.create(data);
-    await this.articleRepository.save(data);
-    return newArticle;
+    newArticle.seoId = slugify(data.title);
+    return this.articleRepository.save(newArticle);
   }
 
   async update(data: UpdateArticleDto): Promise<Article> {

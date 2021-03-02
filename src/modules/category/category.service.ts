@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { slugify } from 'transliteration';
 import { Category } from '../database/entities/category.entity';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
 import { CreateCategoryDto } from './dto/received/create-category.dto';
@@ -23,11 +24,11 @@ export class CategoryService {
   }
 
   async createCategory(data: CreateCategoryDto): Promise<Category> {
-    const existCategory = await this.categoryRepository.findOne({ name: data.name });
+    const existCategory = await this.categoryRepository.findOne({ title: data.title });
     if (existCategory) throw new MessageCodeError('category:exist');
     const newCategory = this.categoryRepository.create(data);
-    await this.categoryRepository.save(data);
-    return newCategory;
+    newCategory.seoId = slugify(data.title);
+    return this.categoryRepository.save(newCategory);
   }
 
   async updateCategory(data: UpdateCategoryDto): Promise<Category> {

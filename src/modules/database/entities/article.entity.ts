@@ -17,9 +17,18 @@ export class Article {
   readonly id: string;
 
   @Column({
+    type: 'varchar', length: 300, nullable: false, unique: true,
+  })
+  @ApiProperty({
+    description: 'article id (article title transliteration) for SEO',
+    example: 'good-relations-and-mutual-understanding',
+  })
+  seoId: string
+
+  @Column({
     type: 'varchar', length: 300, default: '', nullable: false, unique: true,
   })
-  @ApiProperty({ description: 'title text', example: 'Love and relationships' })
+  @ApiProperty({ description: 'title text', example: 'Good relations and mutual understanding' })
   @IsNotEmpty()
   @IsString()
   title: string;
@@ -27,19 +36,24 @@ export class Article {
   @Column({
     type: 'varchar', length: 300, default: '', nullable: false,
   })
-  @ApiProperty({ description: 'description text', example: 'Ways to improve relationships' })
+  @ApiProperty({
+    description: 'description text',
+    example: 'Improving relationships and mutual understanding',
+  })
   @IsNotEmpty()
   @IsString()
   description: string;
 
-  @Column({ type: 'varchar', default: '', nullable: false })
-  @ApiProperty({
-    description: 'main text',
-    example: 'In this article, we will look at some ways to improve relationships',
+  @Column({
+    type: 'varchar', length: 700, nullable: true,
   })
-  @IsNotEmpty()
+  @ApiPropertyOptional({
+    description: 'description text in HTML format',
+    example: '<\h1>Improving relationships and mutual understanding</h1>',
+  })
+  @IsOptional()
   @IsString()
-  text: string;
+  descriptionHtml: string;
 
   @Column({ type: 'varchar', length: 700, nullable: true })
   @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })

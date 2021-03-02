@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { slugify } from 'transliteration';
 import { User } from '../database/entities/user.entity';
 import { CreateUserDto } from './dto/received/create-user.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
@@ -22,11 +23,12 @@ export class UserService {
   }
 
   async createUser(data: CreateUserDto): Promise<User> {
-    const existUser = await this.userRepository.findOne({ email: data.email });
+    const existUser = await this.userRepository.findOne({ name: data.name });
     if (existUser) throw new MessageCodeError('user:exist');
+
     const newUser = this.userRepository.create(data);
-    await this.userRepository.save(data);
-    return newUser;
+    newUser.seoId = slugify(data.name);
+    return this.userRepository.save(newUser);
   }
 
   async updateUser(data: UpdateUserDto): Promise<User> {
