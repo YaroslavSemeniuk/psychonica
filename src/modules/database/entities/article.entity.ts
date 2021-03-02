@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsEnum, IsNotEmpty, IsOptional, IsString,
+  IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { User } from './user.entity';
@@ -55,6 +55,20 @@ export class Article {
   @IsNotEmpty()
   @IsEnum(GenderEnum)
   gender: string;
+
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'author id by article', example: uuidv4() })
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID('4')
+  userId: string
+
+  @Column({ type: 'uuid', nullable: false })
+  @ApiProperty({ description: 'category id by article', example: uuidv4() })
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID('4')
+  categoryId: string
 
   @ManyToOne(() => User, (user) => user.articles)
   user: User;

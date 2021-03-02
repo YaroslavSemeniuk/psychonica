@@ -18,9 +18,8 @@
     "src/shared/config/**/*.ts",
     "src/shared/filters/**/*.ts",
     "src/shared/errors/**/*.ts",
-    "src/shared/middlewares/**/*.ts",
-    "db/migrations/**/*.ts",
-    "src/modules/common/models/**/*.ts",
+    "src/shared/enums/**/*.ts",
+    "src/migration/**/*.ts",
     "src/modules/**/*.ts",
     "tests/**/*.ts"
   ],

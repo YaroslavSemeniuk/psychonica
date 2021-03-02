@@ -60,7 +60,7 @@ export class ArticleController {
     return this.articleService.getArticlesByUserId(query.id);
   }
   @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
-  @ApiOperation({ summary: 'Return articles by category', description: 'Return articles by category name' })
+  @ApiOperation({ summary: 'Return articles by category id', description: 'Return articles by category id' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
@@ -68,7 +68,7 @@ export class ArticleController {
   })
   @UsePipes(new ValidationPipe())
   getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByCategory(query.category);
+    return this.articleService.getArticlesByCategoryId(query.categoryId);
   }
 
   @Get(ROUTES.ARTICLE.GET_BY_GENDER)
@@ -95,7 +95,7 @@ export class ArticleController {
   })
   @UsePipes(new ValidationPipe())
   getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByGenderAndCategory(query.gender, query.category);
+    return this.articleService.getArticlesByGenderAndCategory(query.gender, query.categoryId);
   }
 
   @Post()

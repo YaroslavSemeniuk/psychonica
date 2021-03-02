@@ -41,7 +41,15 @@ export class UpdateAnswerDto {
     @Min(0)
     countUseless?: number;
 
+    @ApiPropertyOptional({ description: 'user who give the answer', example: uuidv4() })
+    @IsOptional()
+    @IsString()
+    @IsUUID('4')
+    userId?: string;
+
     @ApiPropertyOptional({ description: 'the question to which we give the answer', example: uuidv4() })
     @IsOptional()
+    @IsString()
+    @IsUUID('4')
     questionId?: string;
 }
