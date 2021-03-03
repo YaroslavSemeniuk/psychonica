@@ -4,7 +4,7 @@ import {
 } from 'class-validator';
 import { RoleEnum } from '../../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
-import { SocialNetwork } from '../../../database/entities/socialLinks.entity';
+import { SocialLink } from '../../../database/entities/socialLinks.entity';
 
 export class CreateUserDto {
     @ApiProperty({ description: 'user name', example: 'Sam' })
@@ -60,7 +60,7 @@ export class CreateUserDto {
     @IsString()
     descriptionHtml: string;
 
-    @ApiPropertyOptional({ description: 'links to user social networks', type: () => SocialNetwork })
+    @ApiPropertyOptional({ description: 'user\'s social links', type: () => [SocialLink] })
     @IsOptional()
-    socialNetworks: SocialNetwork[]
+    socialLinks: SocialLink[]
 }

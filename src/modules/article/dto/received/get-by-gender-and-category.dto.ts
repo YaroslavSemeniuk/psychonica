@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import {
-  IsEnum, IsNotEmpty, IsString, IsUUID,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
@@ -12,9 +10,7 @@ export class GetByGenderAndCategoryDto {
     @IsEnum(GenderEnum)
     gender: string;
 
-    @ApiProperty({ description: 'category id', example: uuidv4() })
+    @ApiProperty({ description: 'categories ids', example: [uuidv4()] })
     @IsNotEmpty()
-    @IsString()
-    @IsUUID('4')
-    categoryId: string;
+    categoriesIds: string[];
 }

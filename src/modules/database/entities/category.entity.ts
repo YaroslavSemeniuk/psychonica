@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
@@ -38,8 +38,8 @@ export class Category {
   @IsString()
   description: string;
 
-  @OneToMany(() => Article, (article) => article.category)
-  articles: Article[]
+  @ManyToOne(() => Article, (article) => article.categories)
+  article: Article
 
   @OneToMany(() => Question, (question) => question.category)
   questions: Question[]

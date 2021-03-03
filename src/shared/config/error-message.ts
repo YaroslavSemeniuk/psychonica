@@ -49,8 +49,8 @@ export const errorMessagesConfig: {
   'category:notFound': {
     type: 'NotFound',
     httpStatus: HttpStatus.NOT_FOUND,
-    errorMessage: 'category not found',
-    userMessage: 'category not found',
+    errorMessage: 'one of the categories was not found',
+    userMessage: 'one of the categories was not found',
   },
   'category:exist': {
     type: 'Conflict',

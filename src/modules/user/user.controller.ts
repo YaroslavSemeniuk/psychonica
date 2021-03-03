@@ -17,7 +17,7 @@ import { User } from '../database/entities/user.entity';
 import { CreateUserDto } from './dto/received/create-user.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
-// @UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller(ROUTES.USER.MAIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}

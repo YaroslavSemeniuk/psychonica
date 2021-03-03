@@ -11,7 +11,7 @@ import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { Question } from './question.entity';
 import { Article } from './article.entity';
 import { Answer } from './answer.entity';
-import { SocialNetwork } from './socialLinks.entity';
+import { SocialLink } from './socialLinks.entity';
 
 @Entity({ name: 'user' })
 export class User {
@@ -100,9 +100,10 @@ export class User {
   @IsString()
   descriptionHtml: string;
 
-  @OneToMany(() => SocialNetwork, (socialNetworks) => socialNetworks.user)
+  @OneToMany(() => SocialLink, (socialLink) => socialLink.user)
+  @ApiPropertyOptional({ description: 'user\'s social links', type: () => SocialLink })
   @JoinColumn()
-  socialNetworks: SocialNetwork[]
+  socialLinks: SocialLink[]
 
   @OneToMany(() => Article, (article) => article.user)
   articles: Article[]

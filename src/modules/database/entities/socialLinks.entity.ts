@@ -3,11 +3,13 @@ import {
 } from 'typeorm';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 import { User } from './user.entity';
 
 @Entity()
-export class SocialNetwork {
+export class SocialLink {
     @PrimaryGeneratedColumn('uuid')
+    @Exclude()
     readonly id: string;
 
     @Column({ type: 'varchar', length: 300 })
@@ -25,6 +27,6 @@ export class SocialNetwork {
     @IsString()
     link: string;
 
-    @ManyToOne(() => User, (user) => user.answers)
+    @ManyToOne(() => User, (user) => user.answers, { onDelete: 'CASCADE' })
     user: User;
 }

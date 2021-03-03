@@ -12,13 +12,14 @@ import { Category } from '../database/entities/category.entity';
 @Injectable()
 export class ArticleService {
   constructor(
-    @InjectRepository(Article)
-    private readonly articleRepository: Repository<Article>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
-  ) {}
+      @InjectRepository(Article)
+      private readonly articleRepository: Repository<Article>,
+      @InjectRepository(User)
+      private readonly userRepository: Repository<User>,
+      @InjectRepository(Category)
+      private readonly categoryRepository: Repository<Category>,
+  ) {
+  }
 
   async getAll(): Promise<Article[]> {
     return this.articleRepository.find();
@@ -41,8 +42,11 @@ export class ArticleService {
     const existUser = await this.userRepository.findOne({ id: data.userId });
     if (!existUser) throw new MessageCodeError('user:notFound');
 
-    const existCategory = await this.categoryRepository.findOne({ id: data.categoryId });
-    if (!existCategory) throw new MessageCodeError('category:notFound');
+    let categoryId;
+    for (categoryId of data.categoriesIds) {
+      const existCategory = await this.categoryRepository.findOne({ id: categoryId });
+      if (!existCategory) throw new MessageCodeError('category:notFound');
+    }
 
     const newArticle = this.articleRepository.create(data);
     newArticle.seoId = slugify(data.title);
@@ -68,15 +72,27 @@ export class ArticleService {
     });
   }
 
-  async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
+  async getArticlesByCategoryId(categoriesIds: string[]): Promise<Article[]> {
+    if (typeof (categoriesIds) === 'string') {
+      const categoryId = [categoriesIds];
+      return this.articleRepository.find({
+        where: { categoriesIds: categoryId },
+      });
+    }
     return this.articleRepository.find({
-      where: { categoryId },
+      where: { categoriesIds },
     });
   }
 
-  async getArticlesByGenderAndCategory(gender: string, categoryId: string): Promise<Article[]> {
+  async getArticlesByGenderAndCategory(gender: string, categoriesIds: string[]): Promise<Article[]> {
+    if (typeof (categoriesIds) === 'string') {
+      const categoryId = [categoriesIds];
+      return this.articleRepository.find({
+        where: { gender, categoriesIds: categoryId },
+      });
+    }
     return this.articleRepository.find({
-      where: { gender, categoryId },
+      where: { gender, categoriesIds },
     });
   }
 }
