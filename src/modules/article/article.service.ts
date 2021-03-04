@@ -72,7 +72,7 @@ export class ArticleService {
     });
   }
 
-  async getArticlesByCategoryId(categoriesIds: string[]): Promise<Article[]> {
+  async getArticlesByCategoriesIds(categoriesIds: string[]): Promise<Article[]> {
     if (typeof (categoriesIds) === 'string') {
       const categoryId = [categoriesIds];
       return this.articleRepository.find({
@@ -84,7 +84,7 @@ export class ArticleService {
     });
   }
 
-  async getArticlesByGenderAndCategory(gender: string, categoriesIds: string[]): Promise<Article[]> {
+  async getArticlesByGenderAndCategoriesIds(gender: string, categoriesIds: string[]): Promise<Article[]> {
     if (typeof (categoriesIds) === 'string') {
       const categoryId = [categoriesIds];
       return this.articleRepository.find({

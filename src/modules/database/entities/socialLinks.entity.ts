@@ -6,7 +6,7 @@ import { IsOptional, IsString } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import { User } from './user.entity';
 
-@Entity()
+@Entity({ name: 'socialLink' })
 export class SocialLink {
     @PrimaryGeneratedColumn('uuid')
     @Exclude()
@@ -21,7 +21,7 @@ export class SocialLink {
     @Column({ type: 'varchar', length: 300 })
     @ApiPropertyOptional({
       description: 'link to user account',
-      example: 'https://www.instagram.com/userProfile/',
+      example: 'https://www.instagram.com/userProfile',
     })
     @IsOptional()
     @IsString()
