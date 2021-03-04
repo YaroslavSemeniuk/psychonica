@@ -1,5 +1,5 @@
-import { credentials } from './credentials.json';
-import { token } from './token.json';
+import { token } from 'token.json';
+import { credentials } from 'credentials.json';
 
 class ConfigService {
   getGoogleSheetsCredentials() {
