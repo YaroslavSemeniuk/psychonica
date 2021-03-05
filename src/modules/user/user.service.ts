@@ -40,6 +40,12 @@ export class UserService {
   async updateUser(data: UpdateUserDto): Promise<User> {
     const user = await this.userRepository.findOne(data.id);
     if (!user) throw new MessageCodeError('user:notFound');
+    if (data.name) {
+      user.seoId = slugify(data.name);
+    }
+    if (data.socialLinks) {
+      user.socialLinks = await this.socialLinkRepository.save(data.socialLinks);
+    }
     Object.assign(user, data);
     await this.userRepository.save(user);
     return user;

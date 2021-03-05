@@ -56,6 +56,16 @@ export class ArticleService {
   async update(data: UpdateArticleDto): Promise<Article> {
     const article = await this.articleRepository.findOne(data.id);
     if (!article) throw new MessageCodeError('article:notFound');
+    if (data.title) {
+      article.seoId = slugify(data.title);
+    }
+    if (data.categoriesIds) {
+      let categoryId;
+      for (categoryId of data.categoriesIds) {
+        const existCategory = await this.categoryRepository.findOne({ id: categoryId });
+        if (!existCategory) throw new MessageCodeError('category:notFound');
+      }
+    }
     Object.assign(article, data);
     await this.articleRepository.save(article);
     return article;

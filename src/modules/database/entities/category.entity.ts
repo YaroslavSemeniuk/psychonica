@@ -31,7 +31,7 @@ export class Category {
   title: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: false, unique: true,
+    type: 'varchar', length: 300, nullable: false,
   })
   @ApiPropertyOptional({ description: 'category description', example: 'Relationships in the family' })
   @IsOptional()

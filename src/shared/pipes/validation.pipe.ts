@@ -16,7 +16,7 @@ export class ValidationPipe implements PipeTransform<any> {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
-    const object = plainToClass(metatype, value);
+    const object = plainToClass(metatype, value/* , { enableImplicitConversion: true } */);
     const errorsList = await validate(object, { whitelist: true });
     if (errorsList.length > 0) {
       const errors = [];

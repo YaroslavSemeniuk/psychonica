@@ -34,6 +34,9 @@ export class CategoryService {
   async updateCategory(data: UpdateCategoryDto): Promise<Category> {
     const category = await this.categoryRepository.findOne(data.id);
     if (!category) throw new MessageCodeError('category:notFound');
+    if (data.title) {
+      category.seoId = slugify(data.title);
+    }
     Object.assign(category, data);
     await this.categoryRepository.save(category);
     return category;
