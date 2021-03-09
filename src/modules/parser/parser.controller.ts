@@ -5,7 +5,6 @@ import {
 import { ROUTES } from '../../shared/config/routes';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { ParserService } from './parser.service';
-import { SheetsData } from '../database/entities/sheets.entity';
 
 @ApiTags(ROUTES.PARSER.MAIN)
 @Controller(ROUTES.PARSER.MAIN)
@@ -18,19 +17,19 @@ export class ParserController {
       status: HttpStatus.OK,
       description: 'Data obtained',
     })
-  getDataFromTable(): Promise<SheetsData> {
+  getDataFromTable(): Promise<void> {
     return this.parserService.getDataFromTable();
   }
 
-    @Post(ROUTES.PARSER.SAVE_TABLE_DATA_TO_DB)
-    @ApiOperation({ summary: 'Send data to DB from table', description: 'Send data to DB from table' })
-    @ApiResponse({
-      status: HttpStatus.OK,
-      description: 'Data saved',
-      type: Boolean,
-    })
-    @UsePipes(new ValidationPipe())
-    saveDataToDatabase(@Body() data: SheetsData): Promise<void> {
-      return this.parserService.saveDataToDatabase(data);
-    }
+  // @Post(ROUTES.PARSER.SAVE_TABLE_DATA_TO_DB)
+  // @ApiOperation({ summary: 'Send data to DB from table', description: 'Send data to DB from table' })
+  // @ApiResponse({
+  //   status: HttpStatus.OK,
+  //   description: 'Data saved',
+  //   type: Boolean,
+  // })
+  // @UsePipes(new ValidationPipe())
+  // saveDataToDatabase(@Body() data: SheetsData): Promise<void> {
+  //   return this.parserService.saveDataToDatabase(data);
+  // }
 }
