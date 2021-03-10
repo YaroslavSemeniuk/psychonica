@@ -46,8 +46,11 @@ export class CategoryService {
   }
 
   async removeCategory(id: string): Promise<boolean> {
-    const categoryIsUsed = await this.articleRepository.find({ categoriesIds: [id] });
-    if (categoryIsUsed) throw new MessageCodeError('category:isUsed');
+    const categoryExist = await this.categoryRepository.findOne(id);
+    if (!categoryExist) throw new MessageCodeError('category:notFound');
+    const arrayOfIds = [id];
+    const categoryIsUsed = await this.articleRepository.find({ where: { categoriesIds: arrayOfIds } });
+    if (categoryIsUsed.length > 0) throw new MessageCodeError('category:isUsed');
     const deleteResponse = await this.categoryRepository.delete(id);
     return !!deleteResponse.affected;
   }
