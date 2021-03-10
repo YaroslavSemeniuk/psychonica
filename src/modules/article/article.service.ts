@@ -89,12 +89,6 @@ export class ArticleService {
   }
 
   async getArticlesByGenderAndCategoriesIds(gender: string, categoriesIds: string[]): Promise<Article[]> {
-    if (typeof (categoriesIds) === 'string') {
-      const categoryId = [categoriesIds];
-      return this.articleRepository.find({
-        where: { gender, categoriesIds: categoryId },
-      });
-    }
     return this.articleRepository.find({
       where: { gender, categoriesIds },
     });
