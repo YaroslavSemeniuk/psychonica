@@ -6,12 +6,15 @@ import { Category } from '../database/entities/category.entity';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
 import { CreateCategoryDto } from './dto/received/create-category.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
+import { Article } from '../database/entities/article.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(
       @InjectRepository(Category)
       private readonly categoryRepository: Repository<Category>,
+      @InjectRepository(Article)
+      private readonly articleRepository: Repository<Article>,
   ) {
   }
 
@@ -43,6 +46,8 @@ export class CategoryService {
   }
 
   async removeCategory(id: string): Promise<boolean> {
+    const categoryIsUsed = await this.articleRepository.find({ categoriesIds: [id] });
+    if (categoryIsUsed) throw new MessageCodeError('category:isUsed');
     const deleteResponse = await this.categoryRepository.delete(id);
     return !!deleteResponse.affected;
   }

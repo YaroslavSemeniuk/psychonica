@@ -5,7 +5,7 @@ import { QuestionModule } from './modules/question/question.module';
 import { CategoryModule } from './modules/category/category.module';
 import { ArticleModule } from './modules/article/article.module';
 import { DatabaseModule } from './modules/database/database.module';
-import {ParserModule} from "./modules/parser/parser.module";
+import { ParserModule } from './modules/parser/parser.module';
 
 @Module({
   imports: [

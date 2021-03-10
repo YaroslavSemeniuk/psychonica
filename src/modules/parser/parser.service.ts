@@ -16,7 +16,7 @@ import { Category } from '../database/entities/category.entity';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import {
   ARTICLES, AUTHORS, CATEGORIES, GOOGLE_SPREADSHEET_ID,
-} from '../../shared/config/constants/constants';
+} from '../../shared/config/constants/google-spreadsheet';
 
 @Injectable()
 export class ParserService {
@@ -57,7 +57,7 @@ export class ParserService {
         imgSrc,
         gender,
         userId: user.id,
-        categoriesIds: [category1, category2, category3],
+        categoriesIds,
       });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) continue;

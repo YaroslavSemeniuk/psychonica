@@ -58,6 +58,12 @@ export const errorMessagesConfig: {
     errorMessage: 'Cant create category, category with same name already exist',
     userMessage: 'Cant create category, category with same name already exist',
   },
+  'category:isUsed': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant delete category, category is used',
+    userMessage: 'Cant delete category, category is used',
+  },
   /** -----------------------QUESTION ERRORS-----------------------*/
   'question:notFound': {
     type: 'NotFound',
@@ -83,5 +89,18 @@ export const errorMessagesConfig: {
     httpStatus: HttpStatus.CONFLICT,
     errorMessage: 'Cant create answer, answer with same title and description already exist',
     userMessage: 'Cant create answer, answer with same title and description already exist',
+  },
+  /** -----------------------GOOGLE SPREADSHEETS ERRORS-----------------------*/
+  'uploadError:sheetNotFound': {
+    type: 'NotFound',
+    httpStatus: HttpStatus.NOT_FOUND,
+    errorMessage: 'sheet not found',
+    userMessage: 'sheet not found',
+  },
+  'uploadError:sheetUnavailable': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant upload google sheet, sheet unavailable',
+    userMessage: 'Cant upload google sheet, sheet unavailable',
   },
 };

@@ -39,8 +39,8 @@ export class User {
   @Column({
     type: 'varchar', nullable: true,
   })
-  @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ description: 'user email', example: 'Sam@gmail.com' })
+  @IsOptional()
   @IsEmail()
   email: string;
 
