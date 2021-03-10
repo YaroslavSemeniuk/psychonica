@@ -83,12 +83,6 @@ export class ArticleService {
   }
 
   async getArticlesByCategoriesIds(categoriesIds: string[]): Promise<Article[]> {
-    if (typeof (categoriesIds) === 'string') {
-      const categoryId = [categoriesIds];
-      return this.articleRepository.find({
-        where: { categoriesIds: categoryId },
-      });
-    }
     return this.articleRepository.find({
       where: { categoriesIds },
     });
