@@ -12,8 +12,8 @@ export class CreateUserDto {
     @IsString()
     name: string;
 
-    @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
-    @IsNotEmpty()
+    @ApiPropertyOptional({ description: 'user email', example: 'Sam@gmail.com' })
+    @IsOptional()
     @IsEmail()
     email: string;
 
@@ -38,11 +38,6 @@ export class CreateUserDto {
     @ApiPropertyOptional({ description: 'user phone number', example: '+1684546664898' })
     @IsOptional()
     phone: string;
-
-    @ApiProperty({ description: 'title text', example: 'Info about me' })
-    @IsNotEmpty()
-    @IsString()
-    title: string;
 
     @ApiProperty({
       description: 'description text',

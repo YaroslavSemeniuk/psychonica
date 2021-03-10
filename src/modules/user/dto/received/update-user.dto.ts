@@ -50,11 +50,6 @@ export class UpdateUserDto {
     @IsOptional()
     phone?: string;
 
-    @ApiPropertyOptional({ description: 'title text', example: 'Info about me' })
-    @IsOptional()
-    @IsString()
-    title?: string;
-
     @ApiPropertyOptional({
       description: 'description text',
       example: 'I am a psychologist and author of books on psychology',

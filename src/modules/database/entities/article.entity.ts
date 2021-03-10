@@ -18,7 +18,7 @@ export class Article {
   readonly id: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: false, unique: true,
+    type: 'varchar', nullable: false, unique: true,
   })
   @ApiProperty({
     description: 'article id (article title transliteration) for SEO',
@@ -27,7 +27,7 @@ export class Article {
   seoId: string
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false, unique: true,
+    type: 'varchar', default: '', nullable: false, unique: true,
   })
   @ApiProperty({ description: 'title text', example: 'Good relations and mutual understanding' })
   @IsNotEmpty()
@@ -35,7 +35,7 @@ export class Article {
   title: string;
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false,
+    type: 'varchar', default: '', nullable: false,
   })
   @ApiProperty({
     description: 'description text',
@@ -46,7 +46,7 @@ export class Article {
   description: string;
 
   @Column({
-    type: 'varchar', length: 700, nullable: true,
+    type: 'varchar', nullable: true,
   })
   @ApiPropertyOptional({
     description: 'description text in HTML format',

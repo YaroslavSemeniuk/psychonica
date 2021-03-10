@@ -37,7 +37,7 @@ export class User {
   name: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: true,
+    type: 'varchar', nullable: true,
   })
   @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
   @IsNotEmpty()
@@ -71,15 +71,7 @@ export class User {
   phone: string;
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false,
-  })
-  @ApiProperty({ description: 'title text', example: 'Info about me' })
-  @IsNotEmpty()
-  @IsString()
-  title: string;
-
-  @Column({
-    type: 'varchar', length: 700, default: '', nullable: false,
+    type: 'varchar', default: '', nullable: false,
   })
   @ApiProperty({
     description: 'description text',
@@ -90,7 +82,7 @@ export class User {
   description: string;
 
   @Column({
-    type: 'varchar', length: 700, nullable: true,
+    type: 'varchar', nullable: true,
   })
   @ApiPropertyOptional({
     description: 'description text in HTML format',

@@ -14,7 +14,7 @@ export class Category {
   readonly id: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: false, unique: true,
+    type: 'varchar', nullable: false, unique: true,
   })
   @ApiProperty({
     description: 'category id (category title transliteration) for SEO',
@@ -23,7 +23,7 @@ export class Category {
   seoId: string
 
   @Column({
-    type: 'varchar', length: 300, nullable: false, unique: true,
+    type: 'varchar', nullable: false, unique: true,
   })
   @ApiProperty({ description: 'category name', example: 'Relationships' })
   @IsNotEmpty()
@@ -31,7 +31,7 @@ export class Category {
   title: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: false,
+    type: 'varchar', nullable: true,
   })
   @ApiPropertyOptional({ description: 'category description', example: 'Relationships in the family' })
   @IsOptional()

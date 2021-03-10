@@ -31,7 +31,8 @@ export const ROUTES = {
   },
   PARSER: {
     MAIN: '/parser',
-    GET_DATA_FROM_TABLE: '/get_data_from_table',
-    SAVE_TABLE_DATA_TO_DB: '/save_table_data_to_database',
+    GET_ARTICLES_FROM_TABLE: '/getArticlesFromTable',
+    GET_AUTHORS_FROM_TABLE: '/getAuthorsFromTable',
+    GET_CATEGORIES_FROM_TABLE: '/getCategoriesFromTable',
   },
 };

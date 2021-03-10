@@ -1,9 +1,6 @@
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {
-  Body, Controller, Get, HttpStatus, Post, UsePipes,
-} from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ROUTES } from '../../shared/config/routes';
-import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { ParserService } from './parser.service';
 
 @ApiTags(ROUTES.PARSER.MAIN)
@@ -11,25 +8,42 @@ import { ParserService } from './parser.service';
 export class ParserController {
   constructor(private readonly parserService: ParserService) {}
 
-    @Get(ROUTES.PARSER.GET_DATA_FROM_TABLE)
-    @ApiOperation({ summary: 'Get data from table', description: 'titleText: Article name' })
+    @Get(ROUTES.PARSER.GET_ARTICLES_FROM_TABLE)
+    @ApiOperation({
+      summary: 'Get articles from table',
+      description: 'Save articles from Google SpreadSheets to DB',
+    })
     @ApiResponse({
       status: HttpStatus.OK,
       description: 'Data obtained',
     })
-  getDataFromTable(): Promise<void> {
-    return this.parserService.getDataFromTable();
+  getArticlesFromTable(): Promise<void> {
+    return this.parserService.getArticlesFromTable();
   }
 
-  // @Post(ROUTES.PARSER.SAVE_TABLE_DATA_TO_DB)
-  // @ApiOperation({ summary: 'Send data to DB from table', description: 'Send data to DB from table' })
-  // @ApiResponse({
-  //   status: HttpStatus.OK,
-  //   description: 'Data saved',
-  //   type: Boolean,
-  // })
-  // @UsePipes(new ValidationPipe())
-  // saveDataToDatabase(@Body() data: SheetsData): Promise<void> {
-  //   return this.parserService.saveDataToDatabase(data);
-  // }
+  @Get(ROUTES.PARSER.GET_AUTHORS_FROM_TABLE)
+  @ApiOperation({
+    summary: 'Get authors from table',
+    description: 'Save authors from Google SpreadSheets to DB',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Data obtained',
+  })
+    getAuthorsFromTable(): Promise<void> {
+      return this.parserService.getAuthorsFromTable();
+    }
+
+  @Get(ROUTES.PARSER.GET_CATEGORIES_FROM_TABLE)
+  @ApiOperation({
+    summary: 'Get categories from table',
+    description: 'Save categories from Google SpreadSheets to DB',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Data obtained',
+  })
+  getCategoriesFromTable(): Promise<void> {
+    return this.parserService.getCategoriesFromTable();
+  }
 }
