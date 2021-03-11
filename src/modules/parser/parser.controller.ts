@@ -30,7 +30,7 @@ export class ParserController {
     status: HttpStatus.OK,
     description: 'Data obtained',
   })
-    getAuthorsFromTable(): Promise<void> {
+    getAuthorsFromTable(): Promise<any> {
       return this.parserService.getAuthors();
     }
 

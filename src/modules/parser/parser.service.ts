@@ -29,7 +29,7 @@ export class ParserService {
   ) {
   }
 
-  async getArticles(): Promise<any[]> {
+  async getArticles(): Promise<any> {
     const unsavedArticles = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), ARTICLES);
     sheetData = _.slice(sheetData, 2, sheetData.length);
@@ -39,26 +39,15 @@ export class ParserService {
         category1, category2, category3, gender, , , authorSeoId,
       ] = row;
       const user = await this.userRepository.findOne({ where: { seoId: authorSeoId } });
-      if (!user) {
-        unsavedArticles.push(_.compact(row)[0]);
-        continue;
-      }
+      if (!user) continue;
 
-      const categoriesSeoIds = _.compact([category1, category2, category3]);
+      const categoriesIds = _.compact([category1, category2, category3]);
+      let categoryId;
       const categories = [];
-      let checkSuccess;
-      for (const categoryId of categoriesSeoIds) {
-        const existCategory = await this.categoryRepository.findOne({ seoId: categoryId });
-        categories.push(existCategory);
-        checkSuccess = true;
-        if (!existCategory) {
-          checkSuccess = false;
-        }
-      }
-
-      if (checkSuccess) {
-        unsavedArticles.push(row[0]);
-        continue;
+      for (categoryId of categoriesIds) {
+        const category = await this.categoryRepository.findOne({ seoId: categoryId });
+        categories.push(category);
+        if (!category) break;
       }
 
       const object = plainToClass(CreateArticleDto, {
@@ -68,18 +57,20 @@ export class ParserService {
         imgSrc,
         gender,
         userId: user.id,
+        categoriesIds,
       });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) continue;
-      const existArticle = await this.articleRepository.findOne({ seoId: ToTranslit(title) });
-      if (!existArticle) {
+      const article = await this.articleRepository.findOne({ seoId: ToTranslit(title) });
+      if (!article) {
         await this.articleRepository.save({ ...object, seoId: ToTranslit(title), categories });
-      }
+      } else unsavedArticles.push(article.seoId);
     }
     return unsavedArticles;
   }
 
-  async getAuthors(): Promise<void> {
+  async getAuthors(): Promise<any> {
+    const unsavedAuthors = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), AUTHORS);
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
@@ -91,14 +82,16 @@ export class ParserService {
       });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) continue;
-      const existAuthor = await this.userRepository.findOne({ seoId: ToTranslit(name) });
-      if (!existAuthor) {
+      const author = await this.userRepository.findOne({ seoId: ToTranslit(name) });
+      if (!author) {
         await this.userRepository.save({ ...object, seoId: ToTranslit(name) });
-      }
+      } else unsavedAuthors.push(author.seoId);
     }
+    return unsavedAuthors;
   }
 
-  async getCategories(): Promise<void> {
+  async getCategories(): Promise<any> {
+    const unsavedCategories = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), CATEGORIES);
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
@@ -108,10 +101,11 @@ export class ParserService {
       const object = plainToClass(CreateCategoryDto, { title, description });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) continue;
-      const existCategory = await this.categoryRepository.findOne({ seoId: ToTranslit(title) });
-      if (!existCategory) {
+      const category = await this.categoryRepository.findOne({ seoId: ToTranslit(title) });
+      if (!category) {
         await this.categoryRepository.save({ ...object, seoId: ToTranslit(title) });
-      }
+      } else unsavedCategories.push(category.seoId);
     }
+    return unsavedCategories;
   }
 }
