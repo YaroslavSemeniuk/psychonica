@@ -27,6 +27,6 @@ export class SocialLink {
     @IsString()
     link: string;
 
-    @ManyToOne(() => User, (user) => user.answers, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.socialLinks, { onDelete: 'CASCADE' })
     user: User;
 }

@@ -1,10 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn, JoinColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray,
   IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
@@ -78,15 +77,10 @@ export class Article {
   @IsUUID('4')
   userId: string
 
-  @Column({ type: 'text', array: true, nullable: false })
-  @ApiProperty({ description: 'categories ids by article', example: [uuidv4()] })
-  @IsNotEmpty()
-  @IsArray()
-  categoriesIds: string[]
-
   @ManyToOne(() => User, (user) => user.articles)
   user: User;
 
-  @OneToMany(() => Category, (category) => category.article)
+  @ManyToMany(() => Category, (category) => category.articles, { cascade: true })
+  @JoinTable()
   categories: Category[];
 }

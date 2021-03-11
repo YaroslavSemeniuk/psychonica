@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { slugify } from 'transliteration';
 import { Article } from '../database/entities/article.entity';
 import { CreateArticleDto } from './dto/received/create-article.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
 import { User } from '../database/entities/user.entity';
 import { Category } from '../database/entities/category.entity';
+import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
 
 @Injectable()
 export class ArticleService {
@@ -22,34 +22,35 @@ export class ArticleService {
   }
 
   async getAll(): Promise<Article[]> {
-    return this.articleRepository.find();
+    return this.articleRepository.find({ relations: ['categories'] });
   }
 
   async getById(id: string): Promise<Article> {
-    return this.articleRepository.findOne(id);
+    return this.articleRepository.findOne(id, { relations: ['categories'] });
   }
 
   async getArticlesByUserId(userId: string): Promise<Article[]> {
-    return this.articleRepository.find({
-      where: { userId },
-    });
+    return this.articleRepository.find({ userId });
   }
 
   async createOne(data: CreateArticleDto): Promise<Article> {
-    const existArticle = await this.articleRepository.findOne({ title: data.title });
-    if (existArticle) throw new MessageCodeError('article:exist');
+    const article = await this.articleRepository.findOne({ title: data.title });
+    if (article) throw new MessageCodeError('article:exist');
 
-    const existUser = await this.userRepository.findOne({ id: data.userId });
-    if (!existUser) throw new MessageCodeError('user:notFound');
+    const user = await this.userRepository.findOne({ id: data.userId });
+    if (!user) throw new MessageCodeError('user:notFound');
 
+    const categories = [];
     let categoryId;
     for (categoryId of data.categoriesIds) {
-      const existCategory = await this.categoryRepository.findOne({ id: categoryId });
-      if (!existCategory) throw new MessageCodeError('category:notFound');
+      const category = await this.categoryRepository.findOne({ id: categoryId });
+      if (!category) throw new MessageCodeError('category:notFound');
+      categories.push(category);
     }
 
     const newArticle = this.articleRepository.create(data);
-    newArticle.seoId = slugify(data.title);
+    newArticle.seoId = ToTranslit(data.title);
+    newArticle.categories = categories;
     return this.articleRepository.save(newArticle);
   }
 
@@ -57,7 +58,7 @@ export class ArticleService {
     const article = await this.articleRepository.findOne(data.id);
     if (!article) throw new MessageCodeError('article:notFound');
     if (data.title) {
-      article.seoId = slugify(data.title);
+      article.seoId = ToTranslit(data.title);
     }
     if (data.categoriesIds) {
       let categoryId;

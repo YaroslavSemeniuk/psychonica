@@ -17,8 +17,8 @@ export class ParserController {
       status: HttpStatus.OK,
       description: 'Data obtained',
     })
-  getArticlesFromTable(): Promise<void> {
-    return this.parserService.getArticlesFromTable();
+  getArticlesFromTable(): Promise<any> {
+    return this.parserService.getArticles();
   }
 
   @Get(ROUTES.PARSER.GET_AUTHORS_FROM_TABLE)
@@ -31,7 +31,7 @@ export class ParserController {
     description: 'Data obtained',
   })
     getAuthorsFromTable(): Promise<void> {
-      return this.parserService.getAuthorsFromTable();
+      return this.parserService.getAuthors();
     }
 
   @Get(ROUTES.PARSER.GET_CATEGORIES_FROM_TABLE)
@@ -44,6 +44,6 @@ export class ParserController {
     description: 'Data obtained',
   })
   getCategoriesFromTable(): Promise<void> {
-    return this.parserService.getCategoriesFromTable();
+    return this.parserService.getCategories();
   }
 }

@@ -74,7 +74,7 @@ export class Question {
   @ManyToOne(() => User, (user) => user.questions)
   user: User
 
-  @ManyToOne(() => Category, (category) => category.article)
+  @ManyToOne(() => Category, (category) => category.articles)
   category: Category
 
   @OneToMany(() => Answer, (answer) => answer.question)

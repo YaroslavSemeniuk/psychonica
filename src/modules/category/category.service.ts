@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { slugify } from 'transliteration';
 import { Category } from '../database/entities/category.entity';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
 import { CreateCategoryDto } from './dto/received/create-category.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { Article } from '../database/entities/article.entity';
+import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
 
 @Injectable()
 export class CategoryService {
@@ -30,7 +30,7 @@ export class CategoryService {
     const existCategory = await this.categoryRepository.findOne({ title: data.title });
     if (existCategory) throw new MessageCodeError('category:exist');
     const newCategory = this.categoryRepository.create(data);
-    newCategory.seoId = slugify(data.title);
+    newCategory.seoId = ToTranslit(data.title);
     return this.categoryRepository.save(newCategory);
   }
 
@@ -38,7 +38,9 @@ export class CategoryService {
     const category = await this.categoryRepository.findOne(data.id);
     if (!category) throw new MessageCodeError('category:notFound');
     if (data.title) {
-      category.seoId = slugify(data.title);
+      const categoryExist = !!await this.categoryRepository.findOne({ title: data.title });
+      if (categoryExist) throw new MessageCodeError('category:exist');
+      category.seoId = ToTranslit(data.title);
     }
     Object.assign(category, data);
     await this.categoryRepository.save(category);

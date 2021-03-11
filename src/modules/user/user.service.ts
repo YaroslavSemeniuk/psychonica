@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { slugify } from 'transliteration';
 import { User } from '../database/entities/user.entity';
 import { CreateUserDto } from './dto/received/create-user.dto';
 import { MessageCodeError } from '../../shared/errors/message-code-error';
 import { UpdateUserDto } from './dto/received/update-user.dto';
 import { SocialLink } from '../database/entities/socialLinks.entity';
+import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
 
 @Injectable()
 export class UserService {
@@ -26,11 +26,16 @@ export class UserService {
   }
 
   async createUser(data: CreateUserDto): Promise<User> {
-    const existUser = await this.userRepository.findOne({ name: data.name });
-    if (existUser) throw new MessageCodeError('user:exist');
+    const seoId = ToTranslit(data.name);
+    const user = await this.userRepository.findOne({
+      where: [
+        { name: data.name }, { seoId },
+      ],
+    });
+    if (user) throw new MessageCodeError('user:exist');
 
     const newUser = this.userRepository.create(data);
-    newUser.seoId = slugify(data.name);
+    newUser.seoId = seoId;
     if (data.socialLinks) {
       newUser.socialLinks = await this.socialLinkRepository.save(data.socialLinks);
     }
@@ -41,7 +46,10 @@ export class UserService {
     const user = await this.userRepository.findOne(data.id);
     if (!user) throw new MessageCodeError('user:notFound');
     if (data.name) {
-      user.seoId = slugify(data.name);
+      const seoId = ToTranslit(data.name);
+      const userExist = !!await this.userRepository.findOne({ seoId });
+      if (userExist) throw new MessageCodeError('user:exist');
+      user.seoId = seoId;
     }
     if (data.socialLinks) {
       user.socialLinks = await this.socialLinkRepository.save(data.socialLinks);

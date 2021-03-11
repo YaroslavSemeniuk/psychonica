@@ -3,7 +3,7 @@ import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
-import { toArray } from '../../../../shared/config/decorators/toArray.decorator';
+import { toArray } from '../../../../shared/helpers/to-array.helper';
 
 export class GetByGenderAndCategoryDto {
     @ApiProperty({ description: 'user gender', example: GenderEnum.MALE, enum: Object.values(GenderEnum) })
