@@ -43,7 +43,7 @@ export class ParserController {
     status: HttpStatus.OK,
     description: 'Data obtained',
   })
-  getCategoriesFromTable(): Promise<void> {
+  getCategoriesFromTable(): Promise<any> {
     return this.parserService.getCategories();
   }
 }

@@ -38,7 +38,7 @@ export class Category {
   @IsString()
   description: string;
 
-  @ManyToMany(() => Article, (article) => article.categories)
+  @ManyToMany(() => Article, (article) => article.categories, { cascade: false })
   articles: Article[]
 
   @OneToMany(() => Question, (question) => question.category)

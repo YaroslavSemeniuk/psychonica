@@ -30,11 +30,14 @@ export class ArticleService {
   }
 
   async getArticlesByUserId(userId: string): Promise<Article[]> {
-    return this.articleRepository.find({ userId });
+    return this.articleRepository.find({ where: { userId }, relations: ['categories'] });
   }
 
   async createOne(data: CreateArticleDto): Promise<Article> {
-    const article = await this.articleRepository.findOne({ title: data.title });
+    const seoId = ToTranslit(data.title);
+    const article = await this.articleRepository.findOne({
+      where: [{ title: data.title }, { seoId }],
+    });
     if (article) throw new MessageCodeError('article:exist');
 
     const user = await this.userRepository.findOne({ id: data.userId });
@@ -49,7 +52,7 @@ export class ArticleService {
     }
 
     const newArticle = this.articleRepository.create(data);
-    newArticle.seoId = ToTranslit(data.title);
+    newArticle.seoId = seoId;
     newArticle.categories = categories;
     return this.articleRepository.save(newArticle);
   }
@@ -58,7 +61,10 @@ export class ArticleService {
     const article = await this.articleRepository.findOne(data.id);
     if (!article) throw new MessageCodeError('article:notFound');
     if (data.title) {
-      article.seoId = ToTranslit(data.title);
+      const seoId = ToTranslit(data.title);
+      const articleExist = !!await this.articleRepository.findOne({ seoId });
+      if (articleExist) throw new MessageCodeError('article:exist');
+      article.seoId = seoId;
     }
     if (data.categoriesIds) {
       let categoryId;
@@ -79,19 +85,19 @@ export class ArticleService {
 
   async getArticlesByGender(gender: string): Promise<Article[]> {
     return this.articleRepository.find({
-      where: { gender },
+      where: { gender }, relations: ['categories'],
     });
   }
 
   async getArticlesByCategoriesIds(categoriesIds: string[]): Promise<Article[]> {
     return this.articleRepository.find({
-      where: { categoriesIds },
+      where: { categoriesIds }, relations: ['categories'],
     });
   }
 
   async getArticlesByGenderAndCategoriesIds(gender: string, categoriesIds: string[]): Promise<Article[]> {
     return this.articleRepository.find({
-      where: { gender, categoriesIds },
+      where: { gender, categoriesIds }, relations: ['categories'],
     });
   }
 }

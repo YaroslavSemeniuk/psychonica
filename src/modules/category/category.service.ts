@@ -27,10 +27,13 @@ export class CategoryService {
   }
 
   async createCategory(data: CreateCategoryDto): Promise<Category> {
-    const existCategory = await this.categoryRepository.findOne({ title: data.title });
+    const seoId = ToTranslit(data.title);
+    const existCategory = await this.categoryRepository.findOne({
+      where: [{ name: data.title }, { seoId }],
+    });
     if (existCategory) throw new MessageCodeError('category:exist');
     const newCategory = this.categoryRepository.create(data);
-    newCategory.seoId = ToTranslit(data.title);
+    newCategory.seoId = seoId;
     return this.categoryRepository.save(newCategory);
   }
 
@@ -38,9 +41,10 @@ export class CategoryService {
     const category = await this.categoryRepository.findOne(data.id);
     if (!category) throw new MessageCodeError('category:notFound');
     if (data.title) {
-      const categoryExist = !!await this.categoryRepository.findOne({ title: data.title });
+      const seoId = ToTranslit(data.title);
+      const categoryExist = !!await this.categoryRepository.findOne({ seoId });
       if (categoryExist) throw new MessageCodeError('category:exist');
-      category.seoId = ToTranslit(data.title);
+      category.seoId = seoId;
     }
     Object.assign(category, data);
     await this.categoryRepository.save(category);
@@ -48,11 +52,16 @@ export class CategoryService {
   }
 
   async removeCategory(id: string): Promise<boolean> {
-    const categoryExist = await this.categoryRepository.findOne(id);
-    if (!categoryExist) throw new MessageCodeError('category:notFound');
-    const arrayOfIds = [id];
-    const categoryIsUsed = await this.articleRepository.find({ where: { categoriesIds: arrayOfIds } });
-    if (categoryIsUsed.length > 0) throw new MessageCodeError('category:isUsed');
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) throw new MessageCodeError('category:notFound');
+    // const categoryIsUsed = await this.articleRepository.find({ where: category });
+    const categoryIsUsed = await this.articleRepository.createQueryBuilder('category')
+      .where({ id })
+      .leftJoinAndSelect('category.articles', 'articles')
+      .select(['article.id as id']);
+    if (categoryIsUsed) throw new MessageCodeError('category:isUsed');
+
+    // if (categoryIsUsed.length > 0) throw new MessageCodeError('category:isUsed');
     const deleteResponse = await this.categoryRepository.delete(id);
     return !!deleteResponse.affected;
   }
