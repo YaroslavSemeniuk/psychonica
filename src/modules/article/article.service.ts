@@ -87,10 +87,9 @@ export class ArticleService {
   }
 
   async getArticlesByGender(gender: string): Promise<Article[]> {
-    return this.articleRepository.find({
-      // #TODO: add "both" to search params "gender: 'param',  gender : 'both' "
-      where: { gender }, relations: ['categories'],
-    });
+    return this.articleRepository.createQueryBuilder('article')
+      .leftJoinAndSelect('article.categories', 'category')
+      .where('article.gender IN (:...genders)', { genders: [gender, 'female both male'] }).getMany();
   }
 
   async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
@@ -105,7 +104,7 @@ export class ArticleService {
     return this.articleRepository.createQueryBuilder('article')
       .leftJoinAndSelect('article.categories', 'category')
       .where('category.id = :id', { id: categoryId })
-      .andWhere('article.gender = :gender', { gender })
+      .andWhere('article.gender IN (:...genders)', { genders: [gender, 'female both male'] })
       .getMany();
   }
 }
