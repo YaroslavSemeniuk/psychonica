@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
+  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
@@ -81,6 +82,6 @@ export class Article {
 
   @ManyToMany(() => Category, (category) => category.articles, { cascade: true })
   @ApiProperty({ description: 'articles\'s categories', type: () => Category })
-  @JoinTable()
+  @JoinTable({ name: 'articleCategoriesCategory' })
   categories: Category[];
 }

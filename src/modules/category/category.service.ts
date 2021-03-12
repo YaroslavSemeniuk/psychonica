@@ -29,7 +29,7 @@ export class CategoryService {
   async createCategory(data: CreateCategoryDto): Promise<Category> {
     const seoId = ToTranslit(data.title);
     const existCategory = await this.categoryRepository.findOne({
-      where: [{ name: data.title }, { seoId }],
+      where: [{ title: data.title }, { seoId }],
     });
     if (existCategory) throw new MessageCodeError('category:exist');
     const newCategory = this.categoryRepository.create(data);
@@ -52,17 +52,16 @@ export class CategoryService {
   }
 
   async removeCategory(id: string): Promise<boolean> {
-    const category = await this.categoryRepository.findOne(id);
-    if (!category) throw new MessageCodeError('category:notFound');
-    // const categoryIsUsed = await this.articleRepository.find({ where: category });
-    const categoryIsUsed = await this.articleRepository.createQueryBuilder('category')
-      .where({ id })
-      .leftJoinAndSelect('category.articles', 'articles')
-      .select(['article.id as id']);
-    if (categoryIsUsed) throw new MessageCodeError('category:isUsed');
-
-    // if (categoryIsUsed.length > 0) throw new MessageCodeError('category:isUsed');
-    const deleteResponse = await this.categoryRepository.delete(id);
+    const articles = await this.articleRepository.createQueryBuilder('article')
+      .leftJoinAndSelect('article.categories', 'category')
+      .where('category.id = :id', { id })
+      .getMany();
+    if (articles.length > 0) throw new MessageCodeError('category:isUsed');
+    const deleteResponse = await this.categoryRepository.createQueryBuilder()
+      .delete()
+      .from(Category)
+      .where('id = :id', { id })
+      .execute();
     return !!deleteResponse.affected;
   }
 }

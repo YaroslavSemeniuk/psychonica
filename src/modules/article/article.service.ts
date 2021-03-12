@@ -18,8 +18,7 @@ export class ArticleService {
       private readonly userRepository: Repository<User>,
       @InjectRepository(Category)
       private readonly categoryRepository: Repository<Category>,
-  ) {
-  }
+  ) {}
 
   async getAll(): Promise<Article[]> {
     return this.articleRepository.find({ relations: ['categories'] });
@@ -79,25 +78,34 @@ export class ArticleService {
   }
 
   async remove(id: string): Promise<boolean> {
-    const deleteResponse = await this.articleRepository.delete(id);
+    const deleteResponse = await this.articleRepository.createQueryBuilder()
+      .delete()
+      .from(Article)
+      .where('id = :id', { id })
+      .execute();
     return !!deleteResponse.affected;
   }
 
   async getArticlesByGender(gender: string): Promise<Article[]> {
     return this.articleRepository.find({
+      // #TODO: add "both" to search params "gender: 'param',  gender : 'both' "
       where: { gender }, relations: ['categories'],
     });
   }
 
-  async getArticlesByCategoriesIds(categoriesIds: string[]): Promise<Article[]> {
-    return this.articleRepository.find({
-      where: { categoriesIds }, relations: ['categories'],
-    });
+  async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
+    // #TODO: not displayed all categories to which the article belongs
+    return this.articleRepository.createQueryBuilder('article')
+      .leftJoinAndSelect('article.categories', 'category')
+      .where('category.id = :id', { id: categoryId })
+      .getMany();
   }
 
-  async getArticlesByGenderAndCategoriesIds(gender: string, categoriesIds: string[]): Promise<Article[]> {
-    return this.articleRepository.find({
-      where: { gender, categoriesIds }, relations: ['categories'],
-    });
+  async getArticlesByGenderAndCategoryId(gender: string, categoryId: string): Promise<Article[]> {
+    return this.articleRepository.createQueryBuilder('article')
+      .leftJoinAndSelect('article.categories', 'category')
+      .where('category.id = :id', { id: categoryId })
+      .andWhere('article.gender = :gender', { gender })
+      .getMany();
   }
 }

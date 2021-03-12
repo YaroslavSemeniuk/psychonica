@@ -59,10 +59,10 @@ export class ArticleController {
   getArticlesByUserId(@Query() query: GetByIdDto): Promise<Article[]> {
     return this.articleService.getArticlesByUserId(query.id);
   }
-  @Get(ROUTES.ARTICLE.GET_BY_CATEGORIES)
+  @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
   @ApiOperation({
-    summary: 'Return articles by categories ids',
-    description: 'Return articles by categories ids',
+    summary: 'Return articles by category id',
+    description: 'Return articles by category id',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -70,8 +70,8 @@ export class ArticleController {
     type: Article,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByCategories(@Query() query: GetByCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByCategoriesIds(query.categoriesIds);
+  getArticlesByCategoryId(@Query() query: GetByCategoryDto): Promise<Article[]> {
+    return this.articleService.getArticlesByCategoryId(query.categoryId);
   }
 
   @Get(ROUTES.ARTICLE.GET_BY_GENDER)
@@ -86,10 +86,10 @@ export class ArticleController {
     return this.articleService.getArticlesByGender(query.gender);
   }
 
-  @Get(ROUTES.ARTICLE.GET_BY_GENDER_AND_CATEGORIES)
+  @Get(ROUTES.ARTICLE.GET_BY_GENDER_AND_CATEGORY)
   @ApiOperation({
     summary: 'Return articles by gender and category',
-    description: 'Return articles by gender enum and category name',
+    description: 'Return articles by gender enum and category id',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -97,8 +97,8 @@ export class ArticleController {
     type: Article,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByGenderAndCategories(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByGenderAndCategoriesIds(query.gender, query.categoriesIds);
+  getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
+    return this.articleService.getArticlesByGenderAndCategoryId(query.gender, query.categoryId);
   }
 
   @Post()

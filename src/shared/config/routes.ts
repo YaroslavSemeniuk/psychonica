@@ -23,11 +23,11 @@ export const ROUTES = {
   ARTICLE: {
     MAIN: '/articles',
     GET_ALL: '',
-    GET_BY_CATEGORIES: '/getByCategories',
+    GET_BY_CATEGORY: '/getByCategory',
     GET_BY_ID: '/getById',
     GET_BY_USER_ID: '/getByUserId',
     GET_BY_GENDER: '/getByGender',
-    GET_BY_GENDER_AND_CATEGORIES: '/getByGenderAndCategories',
+    GET_BY_GENDER_AND_CATEGORY: '/getByGenderAndCategory',
   },
   PARSER: {
     MAIN: '/parser',
