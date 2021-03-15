@@ -47,10 +47,10 @@ export class ParserService {
         continue;
       }
 
-      const categoriesIds = _.compact([category1, category2, category3]);
+      const categoriesSeoIds = _.compact([category1, category2, category3]);
       const categories = await this.categoryRepository.createQueryBuilder('category')
-        .where('category.id IN (:...categoriesIds)', { categoriesIds }).getMany();
-      if (categories.length !== categoriesIds.length) {
+        .where('category.seoId IN (:...categoriesSeoIds)', { categoriesSeoIds }).getMany();
+      if (categories.length !== categoriesSeoIds.length) {
         unsavedArticles.push({
           seoId: clientSeoId, reason: ReasonEnum.CATEGORY_NOT_FOUND,
         });
@@ -63,7 +63,7 @@ export class ParserService {
         imgSrc,
         gender,
         userId: user.id,
-        categoriesIds,
+        categoriesIds: categories.map((category) => category.id),
       });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
@@ -72,9 +72,10 @@ export class ParserService {
         });
         continue;
       }
-      const article = await this.articleRepository.findOne({ seoId: ToTranslit(title) });
+      const seoId = ToTranslit(title);
+      const article = await this.articleRepository.findOne({ seoId });
       if (!article) {
-        await this.articleRepository.save({ ...object, seoId: ToTranslit(title), categories });
+        await this.articleRepository.save({ ...object, seoId, categories });
       } else {
         unsavedArticles.push({
           seoId: clientSeoId, reason: ReasonEnum.ARTICLE_EXIST,
@@ -140,7 +141,7 @@ export class ParserService {
           seoID: clientSeoId, reason: ReasonEnum.CATEGORY_EXIST,
         });
       }
-      return unsavedCategories;
     }
+    return unsavedCategories;
   }
 }

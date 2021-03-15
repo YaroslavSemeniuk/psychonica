@@ -32,6 +32,12 @@ export const errorMessagesConfig: {
     errorMessage: 'Cant create user, user with same name already exist',
     userMessage: 'Cant create user, user with same name already exist',
   },
+  'user:isAuthor': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant delete user, user is the author of several articles',
+    userMessage: 'Cant create user, user is the author of several articles',
+  },
   /** -----------------------ARTICLE ERRORS-----------------------*/
   'article:notFound': {
     type: 'NotFound',

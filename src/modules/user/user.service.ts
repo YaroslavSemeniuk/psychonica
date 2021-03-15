@@ -60,7 +60,16 @@ export class UserService {
   }
 
   async removeUser(id: string): Promise<boolean> {
-    const deleteResponse = await this.userRepository.delete(id);
+    const author = await this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.articles', 'article')
+      .where('article.userId = :id', { id }).execute();
+    if (author.length > 0) throw new MessageCodeError('user:isAuthor');
+
+    const deleteResponse = await this.userRepository.createQueryBuilder()
+      .delete()
+      .from(User)
+      .where('id = :id', { id })
+      .execute();
     return !!deleteResponse.affected;
   }
 }
