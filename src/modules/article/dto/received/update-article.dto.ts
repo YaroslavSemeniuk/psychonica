@@ -53,6 +53,6 @@ export class UpdateArticleDto {
     @IsOptional()
     @IsArray()
     @IsUUID('4', { each: true })
-    @MinLength(1, { each: true })
+    @MinLength(1)
     categoriesIds?: string[]
 }

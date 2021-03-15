@@ -2,7 +2,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ROUTES } from '../../shared/config/routes';
 import { ParserService } from './parser.service';
-import { ValidationResponse } from '../../types/parser-service/validation-response.type';
+import { validationResponseType } from '../../types/parser-service/validation-response.type';
 
 @ApiTags(ROUTES.PARSER.MAIN)
 @Controller(ROUTES.PARSER.MAIN)
@@ -18,7 +18,7 @@ export class ParserController {
       status: HttpStatus.OK,
       description: 'Data obtained',
     })
-  getArticlesFromTable(): Promise<ValidationResponse[]> {
+  getArticlesFromTable(): Promise<validationResponseType[]> {
     return this.parserService.getArticles();
   }
 
@@ -31,7 +31,7 @@ export class ParserController {
     status: HttpStatus.OK,
     description: 'Data obtained',
   })
-    getAuthorsFromTable(): Promise<ValidationResponse[]> {
+    getAuthorsFromTable(): Promise<validationResponseType[]> {
       return this.parserService.getAuthors();
     }
 
@@ -44,7 +44,7 @@ export class ParserController {
     status: HttpStatus.OK,
     description: 'Data obtained',
   })
-  getCategoriesFromTable(): Promise<ValidationResponse[]> {
+  getCategoriesFromTable(): Promise<validationResponseType[]> {
     return this.parserService.getCategories();
   }
 }

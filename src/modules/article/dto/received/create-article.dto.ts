@@ -47,6 +47,6 @@ export class CreateArticleDto {
     @IsNotEmpty()
     @IsArray()
     @IsUUID('4', { each: true })
-    @MinLength(1, { each: true })
+    @MinLength(1)
     categoriesIds: string[]
 }

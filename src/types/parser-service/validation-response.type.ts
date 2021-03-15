@@ -1,6 +1,6 @@
 import { ValidationError } from 'class-validator';
 
-export type ValidationResponse = {
+export type validationResponseType = {
     seoId: string,
     reason: string | ValidationError[]
 }

@@ -18,7 +18,7 @@ import {
 import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
 import { RoleEnum } from '../../shared/enums/role.enum';
 import { ReasonEnum } from '../../shared/enums/reason.enum';
-import { ValidationResponse } from '../../types/parser-service/validation-response.type';
+import { validationResponseType } from '../../types/parser-service/validation-response.type';
 
 @Injectable()
 export class ParserService {
@@ -32,18 +32,20 @@ export class ParserService {
   ) {
   }
 
-  async getArticles(): Promise<ValidationResponse[]> {
+  async getArticles(): Promise<validationResponseType[]> {
     const unsavedArticles = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), ARTICLES);
 
     sheetData = _.slice(sheetData, 2, sheetData.length);
     for (const row of sheetData) {
-      const [clientSeoId, title, description, descriptionHtml, imgSrc,
+      const [titleSeoId, title, description, descriptionHtml, imgSrc,
         category1, category2, category3, gender, , , authorSeoId,
       ] = row;
+      if (!authorSeoId) continue;
+
       const user = await this.userRepository.findOne({ where: { seoId: authorSeoId } });
       if (!user) {
-        unsavedArticles.push({ seoId: clientSeoId, reason: ReasonEnum.USER_NOT_FOUND });
+        unsavedArticles.push({ seoId: titleSeoId, reason: ReasonEnum.USER_NOT_FOUND });
         continue;
       }
 
@@ -52,7 +54,7 @@ export class ParserService {
         .where('category.seoId IN (:...categoriesSeoIds)', { categoriesSeoIds }).getMany();
       if (categories.length !== categoriesSeoIds.length) {
         unsavedArticles.push({
-          seoId: clientSeoId, reason: ReasonEnum.CATEGORY_NOT_FOUND,
+          seoId: titleSeoId, reason: ReasonEnum.CATEGORY_NOT_FOUND,
         });
       }
 
@@ -68,7 +70,7 @@ export class ParserService {
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
         unsavedArticles.push({
-          seoId: clientSeoId, reason: errorsList,
+          seoId: titleSeoId, reason: errorsList,
         });
         continue;
       }
@@ -78,14 +80,14 @@ export class ParserService {
         await this.articleRepository.save({ ...object, seoId, categories });
       } else {
         unsavedArticles.push({
-          seoId: clientSeoId, reason: ReasonEnum.ARTICLE_EXIST,
+          seoId: titleSeoId, reason: ReasonEnum.ARTICLE_EXIST,
         });
       }
     }
     return unsavedArticles;
   }
 
-  async getAuthors(): Promise<ValidationResponse[]> {
+  async getAuthors(): Promise<validationResponseType[]> {
     const unsavedAuthors = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), AUTHORS);
     sheetData = _.slice(sheetData, 2, sheetData.length);
@@ -116,7 +118,7 @@ export class ParserService {
     return unsavedAuthors;
   }
 
-  async getCategories(): Promise<ValidationResponse[]> {
+  async getCategories(): Promise<validationResponseType[]> {
     const unsavedCategories = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), CATEGORIES);
     sheetData = _.slice(sheetData, 2, sheetData.length);
