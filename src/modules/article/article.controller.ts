@@ -60,14 +60,17 @@ export class ArticleController {
     return this.articleService.getArticlesByUserId(query.id);
   }
   @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
-  @ApiOperation({ summary: 'Return articles by category id', description: 'Return articles by category id' })
+  @ApiOperation({
+    summary: 'Return articles by category id',
+    description: 'Return articles by category id',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Articles was found',
     type: Article,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesByCategory(@Query() query: GetByCategoryDto): Promise<Article[]> {
+  getArticlesByCategoryId(@Query() query: GetByCategoryDto): Promise<Article[]> {
     return this.articleService.getArticlesByCategoryId(query.categoryId);
   }
 
@@ -86,7 +89,7 @@ export class ArticleController {
   @Get(ROUTES.ARTICLE.GET_BY_GENDER_AND_CATEGORY)
   @ApiOperation({
     summary: 'Return articles by gender and category',
-    description: 'Return articles by gender enum and category name',
+    description: 'Return articles by gender enum and category id',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -95,7 +98,7 @@ export class ArticleController {
   })
   @UsePipes(new ValidationPipe())
   getArticlesByGenderAndCategory(@Query() query: GetByGenderAndCategoryDto): Promise<Article[]> {
-    return this.articleService.getArticlesByGenderAndCategory(query.gender, query.categoryId);
+    return this.articleService.getArticlesByGenderAndCategoryId(query.gender, query.categoryId);
   }
 
   @Post()

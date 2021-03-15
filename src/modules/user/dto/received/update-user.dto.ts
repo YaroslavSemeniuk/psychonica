@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID,
+  IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { RoleEnum } from '../../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
+import { SocialLink } from '../../../database/entities/socialLinks.entity';
 
 export class UpdateUserDto {
     @ApiProperty({ description: 'user id to update', example: uuidv4() })
@@ -41,36 +42,31 @@ export class UpdateUserDto {
     @IsEnum(GenderEnum)
     gender?: string;
 
-    @ApiPropertyOptional({
-      description: 'link to the user\'s instagram',
-      example: 'https://www.instagram.com/',
-    })
+    @ApiPropertyOptional({ description: 'path to the user image', example: 'temp\\image.jpg' })
     @IsOptional()
-    @IsUrl()
-    @Contains('instagram.com')
-    instagram?: string;
+    imgSrc?: string;
+
+    @ApiPropertyOptional({ description: 'user phone number', example: '+1684546664898' })
+    @IsOptional()
+    phone?: string;
 
     @ApiPropertyOptional({
-      description: 'link to the user\'s telegram',
-      example: 'https://web.telegram.org/',
+      description: 'description text',
+      example: 'I am a psychologist and author of books on psychology',
     })
     @IsOptional()
-    @IsUrl()
-    @Contains('web.telegram.org')
-    telegram?: string;
-
-    @ApiPropertyOptional({ description: 'link to the user\'s vk', example: 'https://www.vk.com/' })
-    @IsOptional()
-    @IsUrl()
-    @Contains('vk.com')
-    vk?: string;
+    @IsString()
+    description?: string;
 
     @ApiPropertyOptional({
-      description: 'link to the user\'s facebook',
-      example: 'https://www.facebook.com/',
+      description: 'description text in HTML format',
+      example: '<\h1>I am a psychologist and author of books on psychology</h1>',
     })
     @IsOptional()
-    @IsUrl()
-    @Contains('facebook.com')
-    facebook?: string;
+    @IsString()
+    descriptionHtml?: string;
+
+    @ApiPropertyOptional({ description: 'user\'s social links', type: () => [SocialLink] })
+    @IsOptional()
+    socialLinks?: SocialLink[]
 }

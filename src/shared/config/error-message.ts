@@ -5,7 +5,6 @@ export const errorMessagesConfig: {
   [messageCode: string]: IErrorMessages;
 } = {
 
-
   'request:unauthorized': {
     type: 'unauthorized',
     httpStatus: HttpStatus.UNAUTHORIZED,
@@ -30,8 +29,14 @@ export const errorMessagesConfig: {
   'user:exist': {
     type: 'Conflict',
     httpStatus: HttpStatus.CONFLICT,
-    errorMessage: 'Cant create user, user with same email already exist',
-    userMessage: 'Cant create user, user with same email already exist',
+    errorMessage: 'Cant create user, user with same name already exist',
+    userMessage: 'Cant create user, user with same name already exist',
+  },
+  'user:isAuthor': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant delete user, user is the author of several articles',
+    userMessage: 'Cant create user, user is the author of several articles',
   },
   /** -----------------------ARTICLE ERRORS-----------------------*/
   'article:notFound': {
@@ -50,14 +55,20 @@ export const errorMessagesConfig: {
   'category:notFound': {
     type: 'NotFound',
     httpStatus: HttpStatus.NOT_FOUND,
-    errorMessage: 'category not found',
-    userMessage: 'category not found',
+    errorMessage: 'one of the categories was not found',
+    userMessage: 'one of the categories was not found',
   },
   'category:exist': {
     type: 'Conflict',
     httpStatus: HttpStatus.CONFLICT,
-    errorMessage: 'Cant create category, category with same name already exist',
-    userMessage: 'Cant create category, category with same name already exist',
+    errorMessage: 'Cant create category, category with same title already exist',
+    userMessage: 'Cant create category, category with same title already exist',
+  },
+  'category:isUsed': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant delete category, category is used',
+    userMessage: 'Cant delete category, category is used',
   },
   /** -----------------------QUESTION ERRORS-----------------------*/
   'question:notFound': {
@@ -84,5 +95,18 @@ export const errorMessagesConfig: {
     httpStatus: HttpStatus.CONFLICT,
     errorMessage: 'Cant create answer, answer with same title and description already exist',
     userMessage: 'Cant create answer, answer with same title and description already exist',
+  },
+  /** -----------------------GOOGLE SPREADSHEETS ERRORS-----------------------*/
+  'uploadError:sheetNotFound': {
+    type: 'NotFound',
+    httpStatus: HttpStatus.NOT_FOUND,
+    errorMessage: 'sheet not found',
+    userMessage: 'sheet not found',
+  },
+  'uploadError:sheetUnavailable': {
+    type: 'Conflict',
+    httpStatus: HttpStatus.CONFLICT,
+    errorMessage: 'Cant upload google sheet, sheet unavailable',
+    userMessage: 'Cant upload google sheet, sheet unavailable',
   },
 };

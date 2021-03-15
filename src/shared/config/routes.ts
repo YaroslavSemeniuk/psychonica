@@ -29,4 +29,10 @@ export const ROUTES = {
     GET_BY_GENDER: '/getByGender',
     GET_BY_GENDER_AND_CATEGORY: '/getByGenderAndCategory',
   },
+  PARSER: {
+    MAIN: '/parser',
+    GET_ARTICLES_FROM_TABLE: '/getArticlesFromTable',
+    GET_AUTHORS_FROM_TABLE: '/getAuthorsFromTable',
+    GET_CATEGORIES_FROM_TABLE: '/getCategoriesFromTable',
+  },
 };

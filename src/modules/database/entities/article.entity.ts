@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, ManyToOne, PrimaryGeneratedColumn,
+  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
@@ -17,29 +17,43 @@ export class Article {
   readonly id: string;
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false, unique: true,
+    type: 'varchar', nullable: false, unique: true,
   })
-  @ApiProperty({ description: 'title text', example: 'Love and relationships' })
+  @ApiProperty({
+    description: 'article id (article title transliteration) for SEO',
+    example: 'good-relations-and-mutual-understanding',
+  })
+  seoId: string
+
+  @Column({
+    type: 'varchar', default: '', nullable: false, unique: true,
+  })
+  @ApiProperty({ description: 'title text', example: 'Good relations and mutual understanding' })
   @IsNotEmpty()
   @IsString()
   title: string;
 
   @Column({
-    type: 'varchar', length: 300, default: '', nullable: false,
+    type: 'varchar', default: '', nullable: false,
   })
-  @ApiProperty({ description: 'description text', example: 'Ways to improve relationships' })
+  @ApiProperty({
+    description: 'description text',
+    example: 'Improving relationships and mutual understanding',
+  })
   @IsNotEmpty()
   @IsString()
   description: string;
 
-  @Column({ type: 'varchar', default: '', nullable: false })
-  @ApiProperty({
-    description: 'main text',
-    example: 'In this article, we will look at some ways to improve relationships',
+  @Column({
+    type: 'varchar', nullable: true,
   })
-  @IsNotEmpty()
+  @ApiPropertyOptional({
+    description: 'description text in HTML format',
+    example: '<\h1>Improving relationships and mutual understanding</h1>',
+  })
+  @IsOptional()
   @IsString()
-  text: string;
+  descriptionHtml: string;
 
   @Column({ type: 'varchar', length: 700, nullable: true })
   @ApiPropertyOptional({ description: 'path to the article image', example: 'temp\\image.jpg' })
@@ -63,16 +77,11 @@ export class Article {
   @IsUUID('4')
   userId: string
 
-  @Column({ type: 'uuid', nullable: false })
-  @ApiProperty({ description: 'category id by article', example: uuidv4() })
-  @IsNotEmpty()
-  @IsString()
-  @IsUUID('4')
-  categoryId: string
-
   @ManyToOne(() => User, (user) => user.articles)
   user: User;
 
-  @ManyToOne(() => Category, (category) => category.articles)
-  category: Category;
+  @ManyToMany(() => Category, (category) => category.articles, { cascade: true })
+  @ApiProperty({ description: 'articles\'s categories', type: () => Category })
+  @JoinTable({ name: 'articleCategoriesCategory' })
+  categories: Category[];
 }

@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { MessageCodeError } from '../errors/message-code-error';
+import { AuthCredentialsInterface, IGoogleSheets } from './interfaces/google-auth.interface';
 
 dotenv.config({ path: `env/${process.env.NODE_ENV || 'development'}.env` });
 
@@ -29,16 +30,24 @@ class ConfigService {
     return mode !== 'DEV';
   }
 
-  public getSentryDSN() {
-    return this.getValue('SENTRY_DSN', true);
+  public getGoogleSheetsCredentials():IGoogleSheets {
+    return {
+      access_token: this.getValue('GOOGLE_ACCESS_TOKEN'),
+      refresh_token: this.getValue('GOOGLE_REFRESH_TOKEN'),
+      scope: this.getValue('GOOGLE_SCOPE'),
+      token_type: 'Bearer',
+    };
   }
 
-  public getCustomEnvVar(name: string) {
-    return this.getValue(name, true);
+  getCustomKey(key:string):string {
+    return this.getValue(key, true);
   }
 
-  public getENV() {
-    return this.getValue('NODE_ENV', true);
+  public getGoogleOAuthCredentials(): AuthCredentialsInterface {
+    return {
+      clientID: this.getValue('GOOGLE_CLIENT_ID'),
+      clientSecret: this.getValue('GOOGLE_CLIENT_SECRET'),
+    };
   }
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {

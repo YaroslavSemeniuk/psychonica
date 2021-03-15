@@ -1,16 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  Contains, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl,
+  IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
 import { RoleEnum } from '../../../shared/enums/role.enum';
 import { GenderEnum } from '../../../shared/enums/gender.enum';
 import { Question } from './question.entity';
 import { Article } from './article.entity';
 import { Answer } from './answer.entity';
+import { SocialLink } from './socialLinks.entity';
 
 @Entity({ name: 'user' })
 export class User {
@@ -18,17 +19,28 @@ export class User {
   @ApiProperty({ description: 'user id', example: uuidv4() })
   readonly id: string;
 
-  @Column({ type: 'varchar', length: 300, nullable: false })
-  @ApiProperty({ description: 'user name', example: 'Sam' })
+  @Column({
+    type: 'varchar', length: 300, nullable: false, unique: true,
+  })
+  @ApiProperty({
+    description: 'user id (name & surname transliteration) for SEO',
+    example: 'vyacheslav-prakh',
+  })
+  seoId: string
+
+  @Column({
+    type: 'varchar', length: 300, nullable: false, unique: true,
+  })
+  @ApiProperty({ description: 'user name & surname', example: 'Vyacheslav Prakh' })
   @IsNotEmpty()
   @IsString()
   name: string;
 
   @Column({
-    type: 'varchar', length: 300, nullable: true, unique: true,
+    type: 'varchar', nullable: true,
   })
-  @ApiProperty({ description: 'user email', example: 'Sam@gmail.com' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ description: 'user email', example: 'Sam@gmail.com' })
+  @IsOptional()
   @IsEmail()
   email: string;
 
@@ -48,42 +60,42 @@ export class User {
   @IsEnum(GenderEnum)
   gender: string;
 
-  @Column({ type: 'varchar', length: 300, nullable: true })
+  @Column({ type: 'varchar', length: 700, nullable: true })
+  @ApiPropertyOptional({ description: 'path to the user image', example: 'temp\\image.jpg' })
+  @IsOptional()
+  imgSrc: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  @ApiPropertyOptional({ description: 'user phone number', example: '+1684546664898' })
+  @IsOptional()
+  phone: string;
+
+  @Column({
+    type: 'varchar', default: '', nullable: false,
+  })
+  @ApiProperty({
+    description: 'description text',
+    example: 'I am a psychologist and author of books on psychology',
+  })
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @Column({
+    type: 'varchar', nullable: true,
+  })
   @ApiPropertyOptional({
-    description: 'link to the user\'s instagram',
-    example: 'https://www.instagram.com/',
+    description: 'description text in HTML format',
+    example: '<\h1>I am a psychologist and author of books on psychology</h1>',
   })
   @IsOptional()
-  @IsUrl()
-  @Contains('instagram.com')
-  instagram: string;
+  @IsString()
+  descriptionHtml: string;
 
-  @Column({ type: 'varchar', length: 300, nullable: true })
-  @ApiPropertyOptional({
-    description: 'link to the user\'s telegram',
-    example: 'https://web.telegram.org/',
-  })
-  @IsOptional()
-  @IsUrl()
-  @Contains('web.telegram.org')
-  telegram: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: true })
-  @ApiPropertyOptional({ description: 'link to the user\'s vk', example: 'https://www.vk.com/' })
-  @IsOptional()
-  @IsUrl()
-  @Contains('vk.com')
-  vk: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: true })
-  @ApiPropertyOptional({
-    description: 'link to the user\'s facebook',
-    example: 'https://www.facebook.com/',
-  })
-  @IsOptional()
-  @IsUrl()
-  @Contains('facebook.com')
-  facebook: string;
+  @OneToMany(() => SocialLink, (socialLink) => socialLink.user)
+  @ApiPropertyOptional({ description: 'user\'s social links', type: () => SocialLink })
+  @JoinColumn()
+  socialLinks: SocialLink[]
 
   @OneToMany(() => Article, (article) => article.user)
   articles: Article[]

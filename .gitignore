@@ -27,6 +27,7 @@ lerna-debug.log*
 *.sublime-workspace
 
 ormconfig.json
+package-lock.json
 
 # IDE - VSCode
 .vscode/*
@@ -37,5 +38,4 @@ ormconfig.json
 
 # enviroment
 /env
-#migration
-src/migration/
+

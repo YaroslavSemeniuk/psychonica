@@ -6,10 +6,11 @@ import { Category } from './entities/category.entity';
 import { User } from './entities/user.entity';
 import { Answer } from './entities/answer.entity';
 import { Article } from './entities/article.entity';
+import { SocialLink } from './entities/socialLinks.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([Question, Category, User, Answer, Article])],
-  exports: [TypeOrmModule.forFeature([Question, Category, User, Answer, Article])],
+    TypeOrmModule.forFeature([Question, Category, User, Answer, Article, SocialLink])],
+  exports: [TypeOrmModule.forFeature([Question, Category, User, Answer, Article, SocialLink])],
 })
 export class DatabaseModule {}
