@@ -25,7 +25,7 @@ export class Category {
   @Column({
     type: 'varchar', nullable: false, unique: true,
   })
-  @ApiProperty({ description: 'category name', example: 'Relationships' })
+  @ApiProperty({ description: 'category title', example: 'Relationships' })
   @IsNotEmpty()
   @IsString()
   title: string;

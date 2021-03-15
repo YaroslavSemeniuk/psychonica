@@ -55,8 +55,8 @@ export const errorMessagesConfig: {
   'category:exist': {
     type: 'Conflict',
     httpStatus: HttpStatus.CONFLICT,
-    errorMessage: 'Cant create category, category with same name already exist',
-    userMessage: 'Cant create category, category with same name already exist',
+    errorMessage: 'Cant create category, category with same title already exist',
+    userMessage: 'Cant create category, category with same title already exist',
   },
   'category:isUsed': {
     type: 'Conflict',

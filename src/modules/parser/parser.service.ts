@@ -16,45 +16,44 @@ import {
   ARTICLES, AUTHORS, CATEGORIES, GOOGLE_SPREADSHEET_ID,
 } from '../../shared/config/constants/google-spreadsheet';
 import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
+import { RoleEnum } from '../../shared/enums/role.enum';
+import { ReasonEnum } from '../../shared/enums/reason.enum';
+import { ValidationResponse } from '../../types/parser-service/validation-response.type';
 
 @Injectable()
 export class ParserService {
   constructor(
-        @InjectRepository(Article)
-        private readonly articleRepository: Repository<Article>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
-        @InjectRepository(Category)
-        private readonly categoryRepository: Repository<Category>,
+      @InjectRepository(Article)
+      private readonly articleRepository: Repository<Article>,
+      @InjectRepository(User)
+      private readonly userRepository: Repository<User>,
+      @InjectRepository(Category)
+      private readonly categoryRepository: Repository<Category>,
   ) {
   }
 
-  async getArticles(): Promise<any> {
+  async getArticles(): Promise<ValidationResponse[]> {
     const unsavedArticles = [];
-    const userNotFound = [];
-    const categoryNotFound = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), ARTICLES);
 
     sheetData = _.slice(sheetData, 2, sheetData.length);
     for (const row of sheetData) {
-      const [, title, description, descriptionHtml, imgSrc,
+      const [clientSeoId, title, description, descriptionHtml, imgSrc,
         category1, category2, category3, gender, , , authorSeoId,
       ] = row;
       const user = await this.userRepository.findOne({ where: { seoId: authorSeoId } });
       if (!user) {
-        userNotFound.push(authorSeoId);
+        unsavedArticles.push({ seoId: clientSeoId, reason: ReasonEnum.USER_NOT_FOUND });
         continue;
       }
 
       const categoriesIds = _.compact([category1, category2, category3]);
-      const categories = [];
-      let categoryId;
-      for (categoryId of categoriesIds) {
-        const category = await this.categoryRepository.findOne({ seoId: categoryId });
-        categories.push(category);
-        if (!category) {
-          categoryNotFound.push(categoryId);
-        }
+      const categories = await this.categoryRepository.createQueryBuilder('category')
+        .where('category.id IN (:...categoriesIds)', { categoriesIds }).getMany();
+      if (categories.length !== categoriesIds.length) {
+        unsavedArticles.push({
+          seoId: clientSeoId, reason: ReasonEnum.CATEGORY_NOT_FOUND,
+        });
       }
 
       const object = plainToClass(CreateArticleDto, {
@@ -67,65 +66,81 @@ export class ParserService {
         categoriesIds,
       });
       const errorsList = await validate(object, { whitelist: true });
-      if (errorsList.length) continue;
+      if (errorsList.length) {
+        unsavedArticles.push({
+          seoId: clientSeoId, reason: errorsList,
+        });
+        continue;
+      }
       const article = await this.articleRepository.findOne({ seoId: ToTranslit(title) });
       if (!article) {
         await this.articleRepository.save({ ...object, seoId: ToTranslit(title), categories });
-      } else unsavedArticles.push(article.seoId);
+      } else {
+        unsavedArticles.push({
+          seoId: clientSeoId, reason: ReasonEnum.ARTICLE_EXIST,
+        });
+      }
     }
-    unsavedArticles.push(_.compact(userNotFound), _.compact(categoryNotFound));
     return unsavedArticles;
   }
 
-  async getAuthors(): Promise<any> {
+  async getAuthors(): Promise<ValidationResponse[]> {
     const unsavedAuthors = [];
-    const validationError = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), AUTHORS);
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
     for (const row of sheetData) {
-      const [, name, description, descriptionHtml, imgSrc, socialLinks, gender] = row;
+      const [clientSeoId, name, description, descriptionHtml, imgSrc, socialLinks, gender] = row;
 
       const object = plainToClass(CreateUserDto, {
-        name, role: 'author', gender, imgSrc, description, descriptionHtml,
+        name, role: RoleEnum.AUTHOR, gender, imgSrc, description, descriptionHtml,
       });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
-        validationError.push(ToTranslit(object.name));
+        unsavedAuthors.push({
+          seoId: clientSeoId, reason: errorsList,
+        });
         continue;
       }
       const seoId = ToTranslit(name);
       const author = await this.userRepository.findOne({ seoId });
       if (!author) {
         await this.userRepository.save({ ...object, seoId });
-      } else unsavedAuthors.push(author.seoId);
+      } else {
+        unsavedAuthors.push({
+          seoId: clientSeoId, reason: ReasonEnum.USER_EXIST,
+        });
+      }
     }
-    unsavedAuthors.push(_.compact(validationError));
     return unsavedAuthors;
   }
 
-  async getCategories(): Promise<any> {
+  async getCategories(): Promise<ValidationResponse[]> {
     const unsavedCategories = [];
-    const validationError = [];
     let sheetData = await getSheet(configService.getCustomKey(GOOGLE_SPREADSHEET_ID), CATEGORIES);
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
     for (const row of sheetData) {
-      const [, title, description] = row;
+      const [clientSeoId, title, description] = row;
 
       const object = plainToClass(CreateCategoryDto, { title, description });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
-        validationError.push(ToTranslit(object.title));
+        unsavedCategories.push({
+          seoId: clientSeoId, reason: errorsList,
+        });
         continue;
       }
       const seoId = ToTranslit(title);
       const category = await this.categoryRepository.findOne({ seoId });
       if (!category) {
         await this.categoryRepository.save({ ...object, seoId });
-      } else unsavedCategories.push(category.seoId);
+      } else {
+        unsavedCategories.push({
+          seoID: clientSeoId, reason: ReasonEnum.CATEGORY_EXIST,
+        });
+      }
+      return unsavedCategories;
     }
-    unsavedCategories.push(_.compact(validationError));
-    return unsavedCategories;
   }
 }

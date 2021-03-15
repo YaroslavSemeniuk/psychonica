@@ -8,6 +8,7 @@ import { UpdateArticleDto } from './dto/received/update-article.dto';
 import { User } from '../database/entities/user.entity';
 import { Category } from '../database/entities/category.entity';
 import { ToTranslit } from '../../shared/config/constants/transliterator.helper';
+import { GenderEnum } from '../../shared/enums/gender.enum';
 
 @Injectable()
 export class ArticleService {
@@ -42,13 +43,9 @@ export class ArticleService {
     const user = await this.userRepository.findOne({ id: data.userId });
     if (!user) throw new MessageCodeError('user:notFound');
 
-    const categories = [];
-    let categoryId;
-    for (categoryId of data.categoriesIds) {
-      const category = await this.categoryRepository.findOne({ id: categoryId });
-      if (!category) throw new MessageCodeError('category:notFound');
-      categories.push(category);
-    }
+    const categories = await this.categoryRepository.createQueryBuilder('category')
+      .where('category.id IN (:...categoriesIds)', { categoriesIds: data.categoriesIds }).getMany();
+    if (categories.length !== data.categoriesIds.length) throw new MessageCodeError('category:notFound');
 
     const newArticle = this.articleRepository.create(data);
     newArticle.seoId = seoId;
@@ -66,11 +63,10 @@ export class ArticleService {
       article.seoId = seoId;
     }
     if (data.categoriesIds) {
-      let categoryId;
-      for (categoryId of data.categoriesIds) {
-        const existCategory = await this.categoryRepository.findOne({ id: categoryId });
-        if (!existCategory) throw new MessageCodeError('category:notFound');
-      }
+      const categories = await this.categoryRepository.createQueryBuilder('category')
+        .where('category.id IN (:...categoriesIds)', { categoriesIds: data.categoriesIds }).getMany();
+      if (categories.length !== data.categoriesIds.length) throw new MessageCodeError('category:notFound');
+      article.categories = categories;
     }
     Object.assign(article, data);
     await this.articleRepository.save(article);
@@ -89,11 +85,10 @@ export class ArticleService {
   async getArticlesByGender(gender: string): Promise<Article[]> {
     return this.articleRepository.createQueryBuilder('article')
       .leftJoinAndSelect('article.categories', 'category')
-      .where('article.gender IN (:...genders)', { genders: [gender, 'female both male'] }).getMany();
+      .where('article.gender IN (:...genders)', { genders: [gender, GenderEnum.BOTH] }).getMany();
   }
 
   async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
-    // #TODO: not displayed all categories to which the article belongs
     return this.articleRepository.createQueryBuilder('article')
       .leftJoinAndSelect('article.categories', 'category')
       .where('category.id = :id', { id: categoryId })
@@ -104,7 +99,7 @@ export class ArticleService {
     return this.articleRepository.createQueryBuilder('article')
       .leftJoinAndSelect('article.categories', 'category')
       .where('category.id = :id', { id: categoryId })
-      .andWhere('article.gender IN (:...genders)', { genders: [gender, 'female both male'] })
+      .andWhere('article.gender IN (:...genders)', { genders: [gender, GenderEnum.BOTH] })
       .getMany();
   }
 }
