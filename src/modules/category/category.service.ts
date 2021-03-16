@@ -26,6 +26,10 @@ export class CategoryService {
     return this.categoryRepository.findOne(id);
   }
 
+  async getCategoryBySeoId(seoId: string): Promise<Category> {
+    return this.categoryRepository.findOne({ seoId });
+  }
+
   async createCategory(data: CreateCategoryDto): Promise<Category> {
     const seoId = ToTranslit(data.title);
     const existCategory = await this.categoryRepository.findOne({

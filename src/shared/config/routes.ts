@@ -3,6 +3,7 @@ export const ROUTES = {
     MAIN: '/users',
     GET_ALL: '',
     GET_BY_ID: '/getById',
+    GET_BY_SEO_ID: '/getBySeoId',
   },
   ANSWER: {
     MAIN: '/answers',
@@ -19,6 +20,7 @@ export const ROUTES = {
     MAIN: '/categories',
     GET_ALL: '',
     GET_BY_ID: '/getById',
+    GET_BY_SEO_ID: '/getBySeoId',
   },
   ARTICLE: {
     MAIN: '/articles',
@@ -26,6 +28,7 @@ export const ROUTES = {
     GET_BY_CATEGORY: '/getByCategory',
     GET_BY_ID: '/getById',
     GET_BY_USER_ID: '/getByUserId',
+    GET_BY_SEO_ID: '/getBySeoId',
     GET_BY_GENDER: '/getByGender',
     GET_BY_GENDER_AND_CATEGORY: '/getByGenderAndCategory',
   },
