@@ -72,7 +72,7 @@ export class ArticleController {
     type: Article,
   })
   @UsePipes(new ValidationPipe())
-  getArticlesBySeoId(@Query() query: GetBySeoIdDto): Promise<Article[]> {
+  getArticlesBySeoId(@Query() query: GetBySeoIdDto): Promise<Article> {
     return this.articleService.getArticlesBySeoId(query.seoId);
   }
 

@@ -33,8 +33,8 @@ export class ArticleService {
     return this.articleRepository.find({ where: { userId }, relations: ['categories'] });
   }
 
-  async getArticlesBySeoId(seoId: string): Promise<Article[]> {
-    return this.articleRepository.find({ where: { seoId }, relations: ['categories'] });
+  async getArticlesBySeoId(seoId: string): Promise<Article> {
+    return this.articleRepository.findOne({ where: { seoId }, relations: ['categories'] });
   }
 
   async createOne(data: CreateArticleDto): Promise<Article> {
