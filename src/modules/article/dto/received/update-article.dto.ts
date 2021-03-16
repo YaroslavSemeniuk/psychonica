@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength,
+  ArrayMinSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength,
 } from 'class-validator';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 
@@ -53,6 +53,6 @@ export class UpdateArticleDto {
     @IsOptional()
     @IsArray()
     @IsUUID('4', { each: true })
-    @MinLength(1)
+    @ArrayMinSize(1)
     categoriesIds?: string[]
 }

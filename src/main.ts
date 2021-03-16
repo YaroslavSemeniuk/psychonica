@@ -6,6 +6,13 @@ import { DispatchError } from './shared/filters/dispatch-error';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept',
+  });
+
   app.useGlobalFilters(new DispatchError());
   const config = new DocumentBuilder()
     .setTitle('Psychonica Project REST Docs')
