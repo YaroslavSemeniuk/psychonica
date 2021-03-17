@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn,
+  Column, Entity, ManyToMany, ManyToOne, JoinTable, PrimaryGeneratedColumn, Index,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
@@ -19,6 +19,7 @@ export class Article {
   @Column({
     type: 'varchar', nullable: false, unique: true,
   })
+  @Index({ unique: true })
   @ApiProperty({
     description: 'article id (article title transliteration) for SEO',
     example: 'good-relations-and-mutual-understanding',

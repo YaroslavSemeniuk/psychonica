@@ -18,6 +18,7 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateArticleDto } from './dto/received/update-article.dto';
 import { CreateArticleDto } from './dto/received/create-article.dto';
 import { Article } from '../database/entities/article.entity';
+import { GetBySeoIdDto } from '../../shared/dto/get-by-seo-id.dto';
 
 @ApiTags(ROUTES.ARTICLE.MAIN)
 @Controller(ROUTES.ARTICLE.MAIN)
@@ -59,6 +60,22 @@ export class ArticleController {
   getArticlesByUserId(@Query() query: GetByIdDto): Promise<Article[]> {
     return this.articleService.getArticlesByUserId(query.id);
   }
+
+  @Get(ROUTES.ARTICLE.GET_BY_SEO_ID)
+  @ApiOperation({
+    summary: 'Return articles by seo id',
+    description: 'Return articles by seo id',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Articles was found',
+    type: Article,
+  })
+  @UsePipes(new ValidationPipe())
+  getArticlesBySeoId(@Query() query: GetBySeoIdDto): Promise<Article> {
+    return this.articleService.getArticlesBySeoId(query.seoId);
+  }
+
   @Get(ROUTES.ARTICLE.GET_BY_CATEGORY)
   @ApiOperation({
     summary: 'Return articles by category id',

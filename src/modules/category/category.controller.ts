@@ -15,6 +15,7 @@ import { GetByIdDto } from '../../shared/dto/get-by-id.dto';
 import { UpdateCategoryDto } from './dto/received/update-category.dto';
 import { Category } from '../database/entities/category.entity';
 import { CreateCategoryDto } from './dto/received/create-category.dto';
+import { GetBySeoIdDto } from '../../shared/dto/get-by-seo-id.dto';
 
 @ApiTags(ROUTES.CATEGORY.MAIN)
 @Controller(ROUTES.CATEGORY.MAIN)
@@ -42,6 +43,18 @@ export class CategoryController {
   @UsePipes(new ValidationPipe())
   getCategoryById(@Query() query: GetByIdDto): Promise<Category> {
     return this.categoryService.getCategoryById(query.id);
+  }
+
+  @Get(ROUTES.CATEGORY.GET_BY_SEO_ID)
+  @ApiOperation({ summary: 'Return category by seo id', description: 'Return category by seo id' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Category was found',
+    type: Category,
+  })
+  @UsePipes(new ValidationPipe())
+  getCategoryBySeoId(@Query() query: GetBySeoIdDto): Promise<Category> {
+    return this.categoryService.getCategoryBySeoId(query.seoId);
   }
 
   @Post()
