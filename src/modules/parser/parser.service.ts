@@ -38,14 +38,14 @@ export class ParserService {
 
     sheetData = _.slice(sheetData, 2, sheetData.length);
     for (const row of sheetData) {
-      const [titleSeoId, title, description, descriptionHtml, imgSrc,
+      const [title, description, descriptionHtml, imgSrc,
         category1, category2, category3, gender, , , authorSeoId,
       ] = row;
       if (!authorSeoId) continue;
 
       const user = await this.userRepository.findOne({ where: { seoId: authorSeoId } });
       if (!user) {
-        unsavedArticles.push({ seoId: titleSeoId, reason: ReasonEnum.USER_NOT_FOUND });
+        unsavedArticles.push({ title, reason: ReasonEnum.USER_NOT_FOUND });
         continue;
       }
 
@@ -54,7 +54,7 @@ export class ParserService {
         .where('category.seoId IN (:...categoriesSeoIds)', { categoriesSeoIds }).getMany();
       if (categories.length !== categoriesSeoIds.length) {
         unsavedArticles.push({
-          seoId: titleSeoId, reason: ReasonEnum.CATEGORY_NOT_FOUND,
+          title, reason: ReasonEnum.CATEGORY_NOT_FOUND,
         });
       }
 
@@ -70,7 +70,7 @@ export class ParserService {
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
         unsavedArticles.push({
-          seoId: titleSeoId, reason: errorsList,
+          title, reason: errorsList,
         });
         continue;
       }
@@ -79,9 +79,12 @@ export class ParserService {
       if (!article) {
         await this.articleRepository.save({ ...object, seoId, categories });
       } else {
-        unsavedArticles.push({
-          seoId: titleSeoId, reason: ReasonEnum.ARTICLE_EXIST,
-        });
+        // #TODO: not work
+        await this.articleRepository.createQueryBuilder()
+          .update(Article)
+          .set({ ..._.omit(object, ['categoriesIds']), seoId, categories })
+          .where('id = :id', { id: article.id })
+          .execute();
       }
     }
     return unsavedArticles;
@@ -93,7 +96,7 @@ export class ParserService {
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
     for (const row of sheetData) {
-      const [clientSeoId, name, description, descriptionHtml, imgSrc, socialLinks, gender] = row;
+      const [name, description, descriptionHtml, imgSrc, socialLinks, gender] = row;
 
       const object = plainToClass(CreateUserDto, {
         name, role: RoleEnum.AUTHOR, gender, imgSrc, description, descriptionHtml,
@@ -101,7 +104,7 @@ export class ParserService {
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
         unsavedAuthors.push({
-          seoId: clientSeoId, reason: errorsList,
+          name, reason: errorsList,
         });
         continue;
       }
@@ -110,9 +113,10 @@ export class ParserService {
       if (!author) {
         await this.userRepository.save({ ...object, seoId });
       } else {
-        unsavedAuthors.push({
-          seoId: clientSeoId, reason: ReasonEnum.USER_EXIST,
-        });
+        await this.userRepository.createQueryBuilder()
+          .update(User)
+          .set({ ...object, seoId }).where({ id: author.id })
+          .execute();
       }
     }
     return unsavedAuthors;
@@ -124,13 +128,13 @@ export class ParserService {
     sheetData = _.slice(sheetData, 2, sheetData.length);
 
     for (const row of sheetData) {
-      const [clientSeoId, title, description] = row;
+      const [title, description] = row;
 
       const object = plainToClass(CreateCategoryDto, { title, description });
       const errorsList = await validate(object, { whitelist: true });
       if (errorsList.length) {
         unsavedCategories.push({
-          seoId: clientSeoId, reason: errorsList,
+          title, reason: errorsList,
         });
         continue;
       }
@@ -140,7 +144,7 @@ export class ParserService {
         await this.categoryRepository.save({ ...object, seoId });
       } else {
         unsavedCategories.push({
-          seoID: clientSeoId, reason: ReasonEnum.CATEGORY_EXIST,
+          title, reason: ReasonEnum.CATEGORY_EXIST,
         });
       }
     }
