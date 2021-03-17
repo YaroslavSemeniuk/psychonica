@@ -50,6 +50,10 @@ export class ParserService {
       }
 
       const categoriesSeoIds = _.compact([category1, category2, category3]);
+      if (_.isEmpty(categoriesSeoIds)) {
+        unsavedArticles.push({ title, reason: ReasonEnum.CATEGORY_NOT_FOUND });
+        continue;
+      }
       const categories = await this.categoryRepository.createQueryBuilder('category')
         .where('category.seoId IN (:...categoriesSeoIds)', { categoriesSeoIds }).getMany();
       if (categories.length !== categoriesSeoIds.length) {
@@ -79,12 +83,9 @@ export class ParserService {
       if (!article) {
         await this.articleRepository.save({ ...object, seoId, categories });
       } else {
-        // #TODO: not work
-        await this.articleRepository.createQueryBuilder()
-          .update(Article)
-          .set({ ..._.omit(object, ['categoriesIds']), seoId, categories })
-          .where('id = :id', { id: article.id })
-          .execute();
+        await this.articleRepository.save({
+          id: article.id, ...object, seoId, categories,
+        });
       }
     }
     return unsavedArticles;
