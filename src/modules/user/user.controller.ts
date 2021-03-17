@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/received/update-user.dto';
 import { ValidationPipe } from '../../shared/pipes/validation.pipe';
 import { User } from '../database/entities/user.entity';
 import { CreateUserDto } from './dto/received/create-user.dto';
+import { GetBySeoIdDto } from '../../shared/dto/get-by-seo-id.dto';
 
 @ApiTags(ROUTES.USER.MAIN)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -43,6 +44,18 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   getUserById(@Query() query: GetByIdDto): Promise<User> {
     return this.userService.getUserById(query.id);
+  }
+
+  @Get(ROUTES.USER.GET_BY_SEO_ID)
+  @ApiOperation({ summary: 'Return user by seo id', description: 'Return user by seo id' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User was found',
+    type: User,
+  })
+  @UsePipes(new ValidationPipe())
+  getUserBySeoId(@Query() query: GetBySeoIdDto): Promise<User> {
+    return this.userService.getUserBySeoId(query.seoId);
   }
 
   @Post()

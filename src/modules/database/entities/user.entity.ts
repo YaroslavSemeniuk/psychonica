@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
@@ -22,6 +22,7 @@ export class User {
   @Column({
     type: 'varchar', length: 300, nullable: false, unique: true,
   })
+  @Index({ unique: true })
   @ApiProperty({
     description: 'user id (name & surname transliteration) for SEO',
     example: 'vyacheslav-prakh',

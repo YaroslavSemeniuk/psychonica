@@ -25,6 +25,10 @@ export class UserService {
     return this.userRepository.findOne(id, { relations: ['socialLinks'] });
   }
 
+  async getUserBySeoId(seoId: string): Promise<User> {
+    return this.userRepository.findOne({ where: { seoId }, relations: ['socialLinks'] });
+  }
+
   async createUser(data: CreateUserDto): Promise<User> {
     const seoId = ToTranslit(data.name);
     const user = await this.userRepository.findOne({

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  ArrayMinSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID
+  ArrayMinSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID,
 } from 'class-validator';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 

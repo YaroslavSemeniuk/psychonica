@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn,
+  Column, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
@@ -16,6 +16,7 @@ export class Category {
   @Column({
     type: 'varchar', nullable: false, unique: true,
   })
+  @Index({ unique: true })
   @ApiProperty({
     description: 'category id (category title transliteration) for SEO',
     example: 'relationships',
